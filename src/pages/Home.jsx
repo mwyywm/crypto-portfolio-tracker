@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Home.css";
+import Coinrow from "../components/Coinrow.jsx";
 
 function App() {
   const [coindata, setCoindata] = useState([]);
@@ -15,14 +16,7 @@ function App() {
     <div className="Home">
       <h1> Hello World!</h1>
       <table>
-        <tbody>
-          <tr>
-            <td>#</td>
-            <td>Name</td>
-            <td>Price</td>
-            <td>1D Change</td>
-          </tr>
-        </tbody>
+        <Coinrow data={coindata} />
       </table>
     </div>
   );
