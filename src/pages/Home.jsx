@@ -13,11 +13,23 @@ function App() {
   }, []);
 
   return (
-    <div className="Home">
-      <h1> Hello World!</h1>
-      <table>
-        <Coinrow data={coindata} />
-      </table>
+    <div className="home">
+      <h1>hello</h1>
+      <p>paragraph</p>
+      <p>We will also need a navbar 😀</p>
+      <div className="content">
+        <table>
+          <thead>
+            <tr className="coinrow">
+              <th>#</th>
+              <th>Coin</th>
+              <th>Price</th>
+              <th>Change</th>
+            </tr>
+          </thead>
+          <Coinrow data={coindata} />
+        </table>
+      </div>
     </div>
   );
 }

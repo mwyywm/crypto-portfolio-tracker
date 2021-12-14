@@ -1,3 +1,11 @@
-.Home {
+.home {
   text-align: center;
+}
+.home .content {
+  background: rgb(255, 255, 255);
+}
+. table {
+  border-collapse: separate;
+  max-width: 100%;
+  width: 700px;
 }
