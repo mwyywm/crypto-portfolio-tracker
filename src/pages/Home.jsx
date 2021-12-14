@@ -20,11 +20,12 @@ function App() {
       <div className="content">
         <table>
           <thead>
-            <tr className="coinrow">
+            <tr className="headerrow">
               <th>#</th>
               <th>Coin</th>
               <th>Price</th>
               <th>Change</th>
+              <th>Market Cap</th>
             </tr>
           </thead>
           <Coinrow data={coindata} />
