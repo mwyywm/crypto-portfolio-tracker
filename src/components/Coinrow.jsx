@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./coinrow.css";
 
 function CoinRow({ coindata, setCoindata }) {
-  const [currentSort, setSort] = useState("market_cap_desc");
+  const [sort, setSort] = useState("market_cap_desc");
   // market_cap_desc, market_cap_asc, price_desc, price_asc, Alphabetical a-z, Alphabetical z-a
 
   // create a function that adds comma and dot to the number and returns it
