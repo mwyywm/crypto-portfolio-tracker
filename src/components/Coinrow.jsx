@@ -1,18 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./coinrow.css";
 
-function CoinRow({ sort }) {
-  const [coindata, setCoindata] = useState([]);
-  // take data from JSON file and put it into an array
-
-  useEffect(() => {
-    //fetch data from temporary_data.json
-    fetch(
-      "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false"
-    )
-      .then((res) => res.json())
-      .then((data) => setCoindata(data));
-  }, []);
+function CoinRow({ coindata, setCoindata }) {
+  const [currentSort, setSort] = useState("market_cap_desc");
+  // market_cap_desc, market_cap_asc, price_desc, price_asc, Alphabetical a-z, Alphabetical z-a
 
   // create a function that adds comma and dot to the number and returns it
   const addComma = (num) => {
@@ -39,20 +30,32 @@ function CoinRow({ sort }) {
     setCoindata(sortData(sort));
   }, [sort]);
   return (
-    <>
-      <tbody className="coinbody">
-        {coindata &&
-          coindata.map((coin) => (
-            <tr className="cointr" key={coin.name}>
-              <td>{coin.market_cap_rank}</td>
-              <td>{coin.name}</td>
-              <td>{coin.current_price}</td>
-              <td>{coin.price_change_percentage_24h}</td>
-              <td>{addComma(coin.market_cap)}</td>
-            </tr>
-          ))}
-      </tbody>
-    </>
+    coindata.length > 0 && (
+      <table>
+        <thead>
+          <tr className="headerrow">
+            {/*when <th> is clicked, the sort function will be called and the data will be sorted*/}
+            <th onClick={() => setSort("market_cap_asc")}>#</th>
+            <th onClick={() => setSort("Alphabetical a-z")}>Coin</th>
+            <th onClick={() => setSort("price_desc")}>Price</th>
+            <th>Change</th>
+            <th>Market Cap</th>
+          </tr>
+        </thead>
+        <tbody className="coinbody">
+          {coindata &&
+            coindata.map((coin) => (
+              <tr className="cointr" key={coin.name}>
+                <td>{coin.market_cap_rank}</td>
+                <td>{coin.name}</td>
+                <td>{coin.current_price}</td>
+                <td>{coin.price_change_percentage_24h}</td>
+                <td>{addComma(coin.market_cap)}</td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+    )
   );
 }
 
