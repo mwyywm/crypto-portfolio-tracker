@@ -1,16 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./Home.css";
 import Coinrow from "../components/Coinrow.jsx";
 
 function App() {
-  const [coindata, setCoindata] = useState([]);
-  useEffect(() => {
-    //fetch data from temporary_data.json
-    fetch("temporary_data.json")
-      .then((res) => res.json())
-      .then((data) => setCoindata(data));
-    console.log(coindata);
-  }, []);
+  const [sort, setSort] = useState("");
+  // market_cap_desc, market_cap_asc, price_desc, price_asc, Alphabetical a-z, Alphabetical z-a
 
   return (
     <div className="home">
@@ -21,14 +15,15 @@ function App() {
         <table>
           <thead>
             <tr className="headerrow">
-              <th>#</th>
-              <th>Coin</th>
-              <th>Price</th>
+              {/*when <th> is clicked, the sort function will be called and the data will be sorted*/}
+              <th onClick={() => setSort("market_cap_asc")}>#</th>
+              <th onClick={() => setSort("Alphabetical a-z")}>Coin</th>
+              <th onClick={() => setSort("price_desc")}>Price</th>
               <th>Change</th>
               <th>Market Cap</th>
             </tr>
           </thead>
-          <Coinrow data={coindata} />
+          <Coinrow sort={sort} />
         </table>
       </div>
     </div>
