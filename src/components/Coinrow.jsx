@@ -35,7 +35,6 @@ function CoinRow({ coindata, setCoindata }) {
       <table>
         <thead>
           <tr className="headerrow">
-            {/*when <th> is clicked, the sort function will be called and the data will be sorted*/}
             <th onClick={() => setSort("market_cap_asc")}>#</th>
             <th onClick={() => setSort("Alphabetical a-z")}>Coin</th>
             <th onClick={() => setSort("price_desc")}>Price</th>
@@ -48,10 +47,9 @@ function CoinRow({ coindata, setCoindata }) {
             coindata.map((coin) => (
               <tr className="cointr" key={coin.name}>
                 <td>{coin.market_cap_rank}</td>
-                <Link to={coin.id}>
-                  <td>{coin.name}</td>{" "}
-                </Link>
-                {/*!TODO: Add a link to the coin page link should <Link> to "/coin.name" */}
+                <td style={{ color: "blue" }}>
+                  <Link to={coin.id}>{coin.name}</Link>
+                </td>
                 <td>{coin.current_price}</td>
                 <td>{coin.price_change_percentage_24h}</td>
                 <td>{addComma(coin.market_cap)}</td>

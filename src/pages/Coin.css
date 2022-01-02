@@ -1,14 +1,37 @@
-.coin {
-  margin-top: 100px;
+.coinsection {
+  background-color: rgb(164, 173, 192);
+  max-width: 500 px;
   display: flex;
+  margin: 0 auto;
+  height: 100vh;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-content: center;
   justify-content: center;
   align-items: center;
 }
-.coin button {
+button {
   width: 100px;
   height: 100px;
-  border-radius: 5%;
+  border: 1px solid black;
+  border-radius: 5px;
 }
-.coin button:hover {
+button:hover {
   background-color: #d3d3d3;
+  border: 1px solid black;
+}
+.coin h1 {
+  margin-left: 5px;
+  text-align: center;
+  font-size: 48px;
+}
+.symbol {
+  font-size: 20px;
+}
+.symbol b {
+  padding-left: 20px;
+  color: rgb(19, 19, 19);
+}
+.coininfo {
+  margin-left: 37px;
 }

@@ -9,8 +9,7 @@ ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <div className="header">
-        <h1>hello</h1>
-        <p>paragraph</p>
+        <h1>Crypto Tracker</h1>
       </div>
       <Routes>
         <Route path="/" element={<Home />} />
