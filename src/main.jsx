@@ -1,11 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./pages/Home";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Coin from "./pages/Coin";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <div className="header">
+        <h1>hello</h1>
+        <p>paragraph</p>
+      </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path=":coin" element={<Coin />} />
+      </Routes>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")
 );

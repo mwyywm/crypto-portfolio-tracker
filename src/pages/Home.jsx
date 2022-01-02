@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Home.css";
 import Coinrow from "../components/Coinrow.jsx";
 
-function App() {
+function Home() {
   const [coindata, setCoindata] = useState([]);
   useEffect(() => {
     //fetch data from temporary_data.json
@@ -15,9 +15,6 @@ function App() {
 
   return (
     <div className="home">
-      <h1>hello</h1>
-      <p>paragraph</p>
-      <p>We will also need a navbar 😀</p>
       <div className="content">
         <Coinrow coindata={coindata} setCoindata={setCoindata} />
       </div>
@@ -25,4 +22,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;

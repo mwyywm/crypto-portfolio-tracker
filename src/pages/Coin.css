@@ -1,0 +1,14 @@
+.coin {
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.coin button {
+  width: 100px;
+  height: 100px;
+  border-radius: 5%;
+}
+.coin button:hover {
+  background-color: #d3d3d3;
+}

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./coinrow.css";
+import { Link } from "react-router-dom";
 
 function CoinRow({ coindata, setCoindata }) {
   const [sort, setSort] = useState("market_cap_desc");
@@ -9,7 +10,7 @@ function CoinRow({ coindata, setCoindata }) {
   const addComma = (num) => {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
-
+  // !TODO: Fix the sorting. It is not working properly at the moment...
   const sortData = (sort) => {
     if (sort === "market_cap_desc") {
       return coindata.sort((a, b) => b.market_cap - a.market_cap);
@@ -47,7 +48,10 @@ function CoinRow({ coindata, setCoindata }) {
             coindata.map((coin) => (
               <tr className="cointr" key={coin.name}>
                 <td>{coin.market_cap_rank}</td>
-                <td>{coin.name}</td>
+                <Link to={coin.id}>
+                  <td>{coin.name}</td>{" "}
+                </Link>
+                {/*!TODO: Add a link to the coin page link should <Link> to "/coin.name" */}
                 <td>{coin.current_price}</td>
                 <td>{coin.price_change_percentage_24h}</td>
                 <td>{addComma(coin.market_cap)}</td>
