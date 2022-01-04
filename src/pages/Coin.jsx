@@ -1,4 +1,3 @@
-import { Axios } from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
@@ -42,6 +41,16 @@ function Coin() {
             <div className="coininfo">
               {coin.market_data && (
                 <div className="price">
+                  <h2
+                    style={{
+                      color:
+                        coin.market_data.price_change_percentage_24h > 0
+                          ? "green"
+                          : "red",
+                    }}
+                  >
+                    {coin.market_data.price_change_percentage_24h}
+                  </h2>
                   <p>
                     <b>Price:</b> {coin.market_data.current_price.usd} USD
                   </p>

@@ -1,62 +1,90 @@
 import React, { useEffect, useState } from "react";
 import "./coinrow.css";
 import { Link } from "react-router-dom";
+import DataTable from "react-data-table-component";
 
-function CoinRow({ coindata, setCoindata }) {
-  const [sort, setSort] = useState("market_cap_desc");
-  // market_cap_desc, market_cap_asc, price_desc, price_asc, Alphabetical a-z, Alphabetical z-a
-
-  // create a function that adds comma and dot to the number and returns it
-  const addComma = (num) => {
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  };
-  // !TODO: Fix the sorting. It is not working properly at the moment...
-  const sortData = (sort) => {
-    if (sort === "market_cap_desc") {
-      return coindata.sort((a, b) => b.market_cap - a.market_cap);
-    } else if (sort === "market_cap_asc") {
-      return coindata.sort((a, b) => a.market_cap - b.market_cap);
-    } else if (sort === "price_desc") {
-      return coindata.sort((a, b) => b.current_price - a.current_price);
-    } else if (sort === "price_asc") {
-      return coindata.sort((a, b) => a.current_price - b.current_price);
-    } else if (sort === "Alphabetical a-z") {
-      return coindata.sort((a, b) => a.name.localeCompare(b.name));
-    } else if (sort === "Alphabetical z-a") {
-      return coindata.sort((a, b) => b.name.localeCompare(a.name));
-    }
-  };
-
+function CoinRow() {
+  const [coindata, setCoindata] = useState([]);
   useEffect(() => {
-    setCoindata(sortData(sort));
-  }, [sort]);
+    fetch(
+      "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false"
+    )
+      .then((res) => res.json())
+      .then((data) => setCoindata(data));
+  }, []);
+  // addComma needs a refactor with another function from mdn to add commas to big numbers
+
+  const columns = [
+    {
+      name: "Name",
+      selector: "name",
+      sortable: true,
+      cell: (row) => <Link to={`/${row.id}`}>{row.name}</Link>,
+    },
+    {
+      name: "Price",
+      selector: "current_price",
+      sortable: true,
+      cell: (row) => `${new Intl.NumberFormat().format(row.current_price)}`,
+    },
+    {
+      name: "Market Cap",
+      selector: "market_cap",
+      sortable: true,
+      className: "wow",
+      cell: (row) => `${new Intl.NumberFormat().format(row.market_cap)}`,
+    },
+    {
+      name: "24h Volume",
+      selector: "total_volume",
+      sortable: true,
+      cell: (row) => `${new Intl.NumberFormat().format(row.total_volume)}`,
+    },
+    {
+      name: "24h Change",
+      selector: "price_change_percentage_24h",
+      sortable: true,
+      cell: (row) => `${row.price_change_percentage_24h.toFixed(2)}%`,
+      conditionalCellStyles: [
+        {
+          when: (row) => row.price_change_percentage_24h < 0,
+          style: {
+            color: "red",
+          },
+        },
+        {
+          when: (row) => row.price_change_percentage_24h > 0,
+          style: {
+            color: "green",
+          },
+        },
+      ],
+    },
+  ];
+  const customStyles = {
+    rows: {
+      style: {
+        fontSize: "18px",
+      },
+    },
+    headCells: {
+      style: {
+        fontSize: "18px",
+      },
+    },
+    cells: {
+      style: {},
+    },
+  };
   return (
     coindata.length > 0 && (
-      <table>
-        <thead>
-          <tr className="headerrow">
-            <th onClick={() => setSort("market_cap_asc")}>#</th>
-            <th onClick={() => setSort("Alphabetical a-z")}>Coin</th>
-            <th onClick={() => setSort("price_desc")}>Price</th>
-            <th>Change</th>
-            <th>Market Cap</th>
-          </tr>
-        </thead>
-        <tbody className="coinbody">
-          {coindata &&
-            coindata.map((coin) => (
-              <tr className="cointr" key={coin.name}>
-                <td>{coin.market_cap_rank}</td>
-                <td style={{ color: "blue" }}>
-                  <Link to={coin.id}>{coin.name}</Link>
-                </td>
-                <td>{coin.current_price}</td>
-                <td>{coin.price_change_percentage_24h}</td>
-                <td>{addComma(coin.market_cap)}</td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
+      <div className="coinlist">
+        <DataTable
+          columns={columns}
+          data={coindata}
+          customStyles={customStyles}
+        />
+      </div>
     )
   );
 }
