@@ -12,7 +12,6 @@ function CoinRow() {
       .then((res) => res.json())
       .then((data) => setCoindata(data));
   }, []);
-  // addComma needs a refactor with another function from mdn to add commas to big numbers
 
   const columns = [
     {
@@ -25,7 +24,8 @@ function CoinRow() {
       name: "Price",
       selector: "current_price",
       sortable: true,
-      cell: (row) => `${new Intl.NumberFormat().format(row.current_price)}`,
+      // no formating because we need a very accurate number
+      cell: (row) => `${row.current_price}`,
     },
     {
       name: "Market Cap",
@@ -44,6 +44,7 @@ function CoinRow() {
       name: "24h Change",
       selector: "price_change_percentage_24h",
       sortable: true,
+      // only allowing 2 decimals after the period sign (.)
       cell: (row) => `${row.price_change_percentage_24h.toFixed(2)}%`,
       conditionalCellStyles: [
         {
