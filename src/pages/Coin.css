@@ -1,8 +1,9 @@
 .coinsection {
   max-height: 100vh;
+  background-color: rgb(171, 187, 219);
 }
 .coin {
-  background-color: rgb(164, 173, 192);
+  background-color: rgb(255, 255, 255);
   display: flex;
   margin: 0 auto;
   flex-wrap: wrap;

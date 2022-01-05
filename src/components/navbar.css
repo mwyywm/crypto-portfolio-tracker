@@ -8,13 +8,15 @@
 }
 .nav-logo {
   width: auto;
-  height: 100%;
+  height: auto;
   display: flex;
 }
-.nav-logo h1 {
-  font-size: 50px;
-  color: #000000;
+.nav-logo h1 a {
+  font-size: 44px;
   margin: auto;
+}
+.nav-logo h1 a:active {
+  color: #000000;
 }
 .nav-wrapper {
   display: flex;
@@ -44,7 +46,7 @@
   overflow: hidden;
 }
 .nav-links li a {
-  height: 38px;
+  height: 30px;
   background-color: #642eec;
   display: block;
   color: white;

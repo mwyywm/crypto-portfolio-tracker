@@ -1,20 +1,25 @@
 import React from "react";
 import "./navbar.css";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
     <nav className="header">
       <div className="nav-wrapper">
         <div className="nav-logo">
-          <h1>CRYPTO</h1>
+          <h1>
+            <Link to="/" style={{ textDecoration: "none" }}>
+              CRYPTO
+            </Link>
+          </h1>
         </div>
         <div className="nav-links">
           <ul>
             <li>
-              <a href="#">Home</a>
+              <Link to="/">Home</Link>
             </li>
             <li>
-              <a href="#">Portfolio tracker</a>
+              <Link to="tracker">Portfolio tracker</Link>
             </li>
           </ul>
         </div>
