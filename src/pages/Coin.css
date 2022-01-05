@@ -1,9 +1,10 @@
 .coinsection {
+  max-height: 100vh;
+}
+.coin {
   background-color: rgb(164, 173, 192);
-  max-width: 500 px;
   display: flex;
   margin: 0 auto;
-  height: 100vh;
   flex-wrap: wrap;
   flex-direction: row;
   align-content: center;
@@ -11,8 +12,8 @@
   align-items: center;
 }
 button {
-  width: 100px;
-  height: 100px;
+  margin-top: 20px;
+  padding: 20px 18px;
   border: 1px solid black;
   border-radius: 5px;
 }

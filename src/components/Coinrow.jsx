@@ -71,10 +71,13 @@ function CoinRow() {
     headCells: {
       style: {
         fontSize: "18px",
+        color: "black",
       },
     },
     cells: {
-      style: {},
+      style: {
+        color: "black",
+      },
     },
   };
   return (

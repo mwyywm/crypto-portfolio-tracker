@@ -1,26 +1,14 @@
 .home {
-  margin-top: 100px;
   text-align: center;
+  background-color: #642eec;
 }
-.home .content {
-  background: rgb(255, 255, 255);
+.content {
   /* table should be centered */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
-  background-color: rgb(164, 173, 192);
-}
-table {
-  border-collapse: separate;
-  max-width: 100%;
-  padding-top: 20px;
-  width: 900px;
-}
-th {
-  background: rgb(255, 255, 255);
-  color: rgb(0, 0, 0);
-  font-weight: bold;
-  text-align: left;
+  padding-top: 40px;
+  padding-bottom: 20px;
 }

@@ -1,8 +1,12 @@
 .coinlist {
-  border: 0px solid #000000;
-  width: 1200px;
-  max-width: 100%;
+  width: 950px;
+  max-width: 99%;
   height: auto;
   text-align: left;
-  border-collapse: collapse;
+}
+.coinlist a {
+  color: black;
+}
+.coinlist a:hover {
+  color: #555555;
 }
