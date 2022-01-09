@@ -3,6 +3,8 @@
   max-width: 99%;
   height: auto;
   text-align: left;
+  padding-top: 40px;
+  padding-bottom: 40px;
 }
 .coinlist a {
   color: black;

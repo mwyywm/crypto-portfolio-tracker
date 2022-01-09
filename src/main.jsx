@@ -18,8 +18,7 @@ ReactDOM.render(
         <Route path="/coin">
           <Route path=":coin" element={<Coin />} />
         </Route>
-        <Route path="*" element={<NotFound />} /> // TODO:404 page "home for
-        now"
+        <Route path="*" element={<NotFound />} /> // 404 page
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,

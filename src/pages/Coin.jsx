@@ -7,6 +7,7 @@ import "./Coin.css";
 function Coin() {
   let params = useParams();
   const [coin, setCoin] = useState({});
+  const [converter, setConverter] = useState({ coin: 0, currency: 0 });
   useEffect(() => {
     fetch(`https://api.coingecko.com/api/v3/coins/${params.coin}`) // fetching the current URL parameter
       // handle 404 error
@@ -15,11 +16,24 @@ function Coin() {
           return response.json();
         } else {
           setCoin({ error: "404" });
-          throw new Error("Something went wrong");
+          throw new Error("Could not find coin with the given id");
         }
       })
       .then((data) => setCoin(data));
   }, [params.coin]);
+
+  // TODO: should probably use a form library to handle the form
+  // function handleChange(e) {
+  //   e.preventDefault();
+  //   const { name, value } = e.target;
+  //   console.log(converter);
+  //   setConverter({
+  //     ...converter,
+  //     coin: Number(value),
+  //     currency: converter.coin * coin.market_data.current_price.usd,
+  //   });
+  // }
+
   return (
     <section className="coinsection">
       <Link to="/">
@@ -84,6 +98,20 @@ function Coin() {
               </Link>
             </div>
           </div>
+          {/* <div>
+            <input
+              name="coin"
+              type="number"
+              min={0}
+              value={converter.coin}
+              onChange={handleChange}
+            />
+            <input
+              name="currency"
+              value={converter.currency}
+              onChange={handleChange}
+            />
+          </div> */}
         </div>
       )}
     </section>
