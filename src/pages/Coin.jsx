@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import NotFound from "../components/NotFound";
 
 import "./Coin.css";
 
@@ -8,17 +9,25 @@ function Coin() {
   const [coin, setCoin] = useState({});
   useEffect(() => {
     fetch(`https://api.coingecko.com/api/v3/coins/${params.coin}`) // fetching the current URL parameter
-      .then((res) => res.json())
+      // handle 404 error
+      .then((response) => {
+        if (response.status >= 200 && response.status <= 299) {
+          return response.json();
+        } else {
+          setCoin({ error: "404" });
+          throw new Error("Something went wrong");
+        }
+      })
       .then((data) => setCoin(data));
-    console.log(coin);
-  }, []);
+  }, [params.coin]);
   return (
     <section className="coinsection">
       <Link to="/">
         <button>Go back!</button>
       </Link>
-      <div className="coin">
-        {coin.name && (
+      {coin.error == "404" && <NotFound />}
+      {coin.name && (
+        <div className="coin">
           <div>
             <div
               style={{
@@ -75,8 +84,8 @@ function Coin() {
               </Link>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </section>
   );
 }

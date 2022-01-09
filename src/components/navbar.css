@@ -14,6 +14,7 @@
 .nav-logo h1 a {
   font-size: 44px;
   margin: auto;
+  color: #642eec;
 }
 .nav-logo h1 a:active {
   color: #000000;

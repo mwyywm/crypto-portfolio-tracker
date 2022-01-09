@@ -8,8 +8,8 @@ body {
 
 body {
   margin: 0;
-  background-color: rgb(95, 87, 116);
   font-family: "Heebo", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(171, 187, 219);
 }

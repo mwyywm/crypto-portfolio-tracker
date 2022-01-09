@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Coin from "./pages/Coin";
 import Navbar from "./components/Navbar";
 import Tracker from "./pages/Tracker";
+import NotFound from "./components/NotFound.jsx";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -13,11 +14,12 @@ ReactDOM.render(
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="tracker" element={<Tracker />} />
-        <Route path="coin">
+        <Route path="/tracker" element={<Tracker />} />
+        <Route path="/coin">
           <Route path=":coin" element={<Coin />} />
         </Route>
-        <Route path="*" element={<Home />} /> // TODO:404 page "home for now"
+        <Route path="*" element={<NotFound />} /> // TODO:404 page "home for
+        now"
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,
