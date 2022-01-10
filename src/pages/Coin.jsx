@@ -1,46 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import NotFound from "../components/NotFound";
-
+import useSWR from "swr";
+import fetcher from "../utils/fetcher";
 import "./Coin.css";
 
 function Coin() {
   let params = useParams();
-  const [coin, setCoin] = useState({});
-  const [converter, setConverter] = useState({ coin: 0, currency: 0 });
-  useEffect(() => {
-    fetch(`https://api.coingecko.com/api/v3/coins/${params.coin}`) // fetching the current URL parameter
-      // handle 404 error
-      .then((response) => {
-        if (response.status >= 200 && response.status <= 299) {
-          return response.json();
-        } else {
-          setCoin({ error: "404" });
-          throw new Error("Could not find coin with the given id");
-        }
-      })
-      .then((data) => setCoin(data));
-  }, [params.coin]);
-
-  // TODO: should probably use a form library to handle the form
-  // function handleChange(e) {
-  //   e.preventDefault();
-  //   const { name, value } = e.target;
-  //   console.log(converter);
-  //   setConverter({
-  //     ...converter,
-  //     coin: Number(value),
-  //     currency: converter.coin * coin.market_data.current_price.usd,
-  //   });
-  // }
-
+  const { data, error } = useSWR(
+    `https://api.coingecko.com/api/v3/coins/${params.coin}`,
+    fetcher
+  );
+  if (!data) return <div>loading...</div>;
+  if (error) return <div>failed to load</div>;
   return (
     <section className="coinsection">
       <Link to="/">
         <button>Go back!</button>
       </Link>
-      {coin.error == "404" && <NotFound />}
-      {coin.name && (
+      {data.name && (
         <div className="coin">
           <div>
             <div
@@ -51,59 +29,59 @@ function Coin() {
               }}
             >
               <img
-                src={coin.image.small}
-                alt={coin.name}
+                src={data.image.small}
+                alt={data.name}
                 width={32}
                 height={32}
               />
-              <h1>{coin.name}</h1>
+              <h1>{data.name}</h1>
               <p className="symbol">
-                <b>{coin.symbol.toUpperCase()}</b>
+                <b>{data.symbol.toUpperCase()}</b>
               </p>
             </div>
             <div className="coininfo">
-              {coin.market_data && (
+              {data.market_data && (
                 <div className="price">
                   <h2
                     style={{
                       color:
-                        coin.market_data.price_change_percentage_24h > 0
+                        data.market_data.price_change_percentage_24h > 0
                           ? "green"
                           : "red",
                     }}
                   >
-                    {coin.market_data.price_change_percentage_24h}
+                    {data.market_data.price_change_percentage_24h}
                   </h2>
                   <p>
-                    <b>Price:</b> {coin.market_data.current_price.usd} USD
+                    <b>Price:</b> {data.market_data.current_price.usd} USD
                   </p>
                   <p>
-                    <b>Price:</b> {coin.market_data.current_price.eur} EUR
+                    <b>Price:</b> {data.market_data.current_price.eur} EUR
                   </p>
                   <p>
-                    <b>Price:</b> {coin.market_data.current_price.sek} SEK
+                    <b>Price:</b> {data.market_data.current_price.sek} SEK
                   </p>
                   <p>
-                    <b>Price:</b> {coin.market_data.current_price.gbp} GBP
+                    <b>Price:</b> {data.market_data.current_price.gbp} GBP
                   </p>
                 </div>
               )}
-              {coin.contract_address && (
+              {data.contract_address && (
                 <p style={{ maxWidth: "300px" }}>
-                  Contract address: {coin.contract_address}
+                  Contract address: {data.contract_address}
                 </p>
               )}
-              <Link to={coin.links.blockchain_site[0]}>
-                {coin.links.blockchain_site[0]}
+              <Link to={data.links.blockchain_site[0]}>
+                {data.links.blockchain_site[0]}
               </Link>
             </div>
           </div>
           {/* <div>
             <input
-              name="coin"
+              name="data"
               type="number"
               min={0}
-              value={converter.coin}
+              value={converter.data}
               onChange={handleChange}
             />
             <input
