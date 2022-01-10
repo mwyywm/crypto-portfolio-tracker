@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import NotFound from "../components/NotFound";
 import useSWR from "swr";
 import fetcher from "../utils/fetcher";
 import "./Coin.css";
