@@ -1,5 +1,6 @@
 import React from "react";
 import "./tracker.css";
+import SearchInput from "../components/SearchInput";
 
 function Tracker() {
   return (
@@ -10,7 +11,7 @@ function Tracker() {
       <p>the information should be saved in localstorage</p>
       <div>
         <p>Add coin:</p>
-        <input placeholder="Search..." />
+        <SearchInput />
       </div>
     </section>
   );
