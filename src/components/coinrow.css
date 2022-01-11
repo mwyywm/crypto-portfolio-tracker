@@ -11,3 +11,13 @@
 .coinlist a:hover {
   color: #555555;
 }
+.pagination {
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+  /* table should be centered */
+}
+.pagination ul {
+  background-color: #ffffff;
+  border-radius: 8px;
+}

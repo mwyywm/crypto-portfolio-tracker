@@ -14,6 +14,7 @@ function CoinRow() {
     fetcher
   );
   const handleChange = (event, value) => {
+    scrollTo(top);
     setPage(value);
   };
 

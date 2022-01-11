@@ -1,16 +1,17 @@
 import React from "react";
 import "./Home.css";
 import Coinrow from "../components/Coinrow.jsx";
-import Pagination from "@mui/material/Pagination";
+import { AiOutlineArrowUp } from "react-icons/ai";
 
 function Home() {
   return (
     <div className="home">
-      <div className="content">
+      <div className="content" style={{ minHeight: "100vh" }}>
         <Coinrow />
-        {/* can put a go to top icon with text below table */}
-        {/* Pagination component would go here */}
-        {/*  */}
+      </div>
+      <div className="scroll-to-top" onClick={() => scrollTo(top)}>
+        <AiOutlineArrowUp />
+        <p>Scroll to top of page </p>
       </div>
     </div>
   );
