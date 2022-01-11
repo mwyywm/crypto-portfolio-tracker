@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useParams, Link } from "react-router-dom";
 import useSWR from "swr";
 import fetcher from "../utils/fetcher";
 import "./Coin.css";
+import { AiOutlineRight } from "react-icons/ai";
 
 function Coin() {
   let params = useParams();
@@ -10,13 +11,34 @@ function Coin() {
     `https://api.coingecko.com/api/v3/coins/${params.coin}`,
     fetcher
   );
-  if (!data) return <div>loading...</div>;
-  if (error) return <div>failed to load</div>;
+
+  // will eventually be replaced with loading spinner
+  if (!data)
+    return (
+      <section className="coinsection">
+        <div style={{ textAlign: "center" }}>
+          <p>loading...</p>
+        </div>
+      </section>
+    );
+  if (error)
+    return (
+      <section className="coinsection">
+        <div style={{ textAlign: "center" }}>
+          <p>Failed to load...</p>
+        </div>
+      </section>
+    );
   return (
     <section className="coinsection">
-      <Link to="/">
-        <button>Go back!</button>
-      </Link>
+      <div className="breadcrumb">
+        <p className="breadcrumb-text">
+          <Link to="/" className="breadcrumb-coins">
+            Coins
+          </Link>{" "}
+          <AiOutlineRight /> {data.name}
+        </p>
+      </div>
       {data.name && (
         <div className="coin">
           <div>

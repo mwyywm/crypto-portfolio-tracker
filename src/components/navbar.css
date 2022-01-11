@@ -3,7 +3,7 @@
   left: 0;
   width: 100%;
   height: 90px;
-  background-color: #fff;
+  background-color: #354055;
   text-align: center;
 }
 .nav-logo {
@@ -14,10 +14,13 @@
 .nav-logo h1 a {
   font-size: 44px;
   margin: auto;
-  color: #642eec;
+  color: #ffffff;
+}
+.nav-logo h1 a:hover {
+  color: #dddde2;
 }
 .nav-logo h1 a:active {
-  color: #000000;
+  color: #dddde2;
 }
 .nav-wrapper {
   display: flex;
@@ -48,19 +51,19 @@
 }
 .nav-links li a {
   height: 30px;
-  background-color: #642eec;
+  background-color: #ffffff;
   display: block;
-  color: white;
+  color: rgb(0, 0, 0);
   margin-left: 20px;
   text-align: center;
   padding: 20px 20px;
   font-size: 20px;
   text-decoration: none;
+  border-radius: 8px;
   /* centering text */
   display: flex;
   align-items: center;
 }
 .nav-links li a:hover {
-  background-color: #642eec;
-  color: white;
+  background-color: #dddde2;
 }

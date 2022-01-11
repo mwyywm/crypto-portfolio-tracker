@@ -1,12 +1,10 @@
 .home {
-  text-align: center;
-  background-color: rgb(171, 187, 219);
+  margin-top: 40px;
 }
 .content {
+  text-align: center;
+  margin: 0 auto;
+  max-width: 100%;
+  width: 1200px;
   /* table should be centered */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
 }
