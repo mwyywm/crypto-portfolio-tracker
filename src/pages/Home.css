@@ -8,3 +8,13 @@
   width: 1200px;
   /* table should be centered */
 }
+.pagination {
+  margin: 10px auto;
+  display: flex;
+  justify-content: center;
+  /* table should be centered */
+}
+.pagination ul {
+  background-color: #ffffff;
+  border-radius: 8px;
+}

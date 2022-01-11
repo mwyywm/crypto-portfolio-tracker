@@ -92,9 +92,9 @@ function Coin() {
                   Contract address: {data.contract_address}
                 </p>
               )}
-              <Link to={data.links.blockchain_site[0]}>
+              <a href={data.links.blockchain_site[0]}>
                 {data.links.blockchain_site[0]}
-              </Link>
+              </a>
             </div>
           </div>
           {/* <div>

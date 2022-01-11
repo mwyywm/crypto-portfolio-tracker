@@ -67,3 +67,12 @@
 .nav-links li a:hover {
   background-color: #dddde2;
 }
+/*  TODO: Need to add hamburger to navbar */
+@media only screen and (max-width: 960px) {
+  .nav-wrapper {
+    width: 100%;
+  }
+  .nav-links {
+    display: none;
+  }
+}

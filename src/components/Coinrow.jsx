@@ -1,15 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./coinrow.css";
 import { Link } from "react-router-dom";
 import DataTable from "react-data-table-component";
 import useSWR from "swr";
 import fetcher from "../utils/fetcher";
+import Pagination from "@mui/material/Pagination";
 
+// Table and pagination component
 function CoinRow() {
+  const [page, setPage] = React.useState(1);
   const { data, error } = useSWR(
-    "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false",
+    `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=${page}&sparkline=false`,
     fetcher
   );
+  const handleChange = (event, value) => {
+    setPage(value);
+  };
 
   const columns = [
     {
@@ -43,7 +49,11 @@ function CoinRow() {
       selector: "price_change_percentage_24h",
       sortable: true,
       // only allowing 2 decimals after the period sign (.)
-      cell: (row) => `${row.price_change_percentage_24h.toFixed(2)}%`,
+      // needed to have ternary operator to handle null values
+      cell: (row) =>
+        row.price_change_percentage_24h
+          ? `${row.price_change_percentage_24h.toFixed(2)}%`
+          : "",
       conditionalCellStyles: [
         {
           when: (row) => row.price_change_percentage_24h < 0,
@@ -82,9 +92,18 @@ function CoinRow() {
   if (!data) return <div>loading...</div>;
   return (
     data.length > 0 && (
-      <div className="coinlist">
-        <DataTable columns={columns} data={data} customStyles={customStyles} />
-      </div>
+      <>
+        <div className="coinlist">
+          <DataTable
+            columns={columns}
+            data={data}
+            customStyles={customStyles}
+          />
+        </div>
+        <div className="pagination">
+          <Pagination count={100} page={page} onChange={handleChange} />
+        </div>
+      </>
     )
   );
 }
