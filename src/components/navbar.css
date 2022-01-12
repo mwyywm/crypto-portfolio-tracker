@@ -38,6 +38,9 @@
   justify-content: space-between;
   align-items: center;
 }
+.mobile-nav-links {
+  display: none;
+}
 .nav-links ul {
   display: flex;
   width: 100%;
@@ -67,6 +70,9 @@
 .nav-links li a:hover {
   background-color: #dddde2;
 }
+.hamburger {
+  display: none;
+}
 /*  TODO: Need to add hamburger to navbar */
 @media only screen and (max-width: 960px) {
   .nav-wrapper {
@@ -74,5 +80,17 @@
   }
   .nav-links {
     display: none;
+  }
+  .mobile-nav-links {
+    display: block;
+  }
+  .mobile-nav-links li {
+    list-style: none;
+  }
+  .mobile-nav-links li a {
+    color: red;
+  }
+  .hamburger {
+    display: block;
   }
 }
