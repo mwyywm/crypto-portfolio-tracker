@@ -1,8 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./navbar.css";
 import { Link } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { GrClose } from "react-icons/gr";
+
+function useWindowWidth() {
+  const [windowWidth, setWindowWidth] = useState({
+    width: undefined,
+  });
+  useEffect(() => {
+    // Set innerwidth
+    function handleResize() {
+      setWindowWidth(window.innerWidth);
+    }
+    // only calling the function onresize
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    // Cleanup function
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  return windowWidth;
+}
 
 const menuLinks = [
   { path: "/", text: "Home" },
@@ -11,6 +29,7 @@ const menuLinks = [
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const windowWidth = useWindowWidth();
   return (
     <nav className="header">
       <div className="nav-wrapper">
@@ -36,11 +55,17 @@ function Navbar() {
       </div>
       <div
         className="mobile-nav-links"
-        style={isOpen ? { display: "block" } : { display: "none" }}
+        style={
+          isOpen && windowWidth <= 960
+            ? { display: "block" }
+            : { display: "none" }
+        }
       >
         {menuLinks.map((link) => (
           <li key={link.path}>
-            <Link to={link.path}>{link.text}</Link>
+            <Link to={link.path} onClick={() => setIsOpen(!isOpen)}>
+              {link.text}
+            </Link>
           </li>
         ))}
       </div>
