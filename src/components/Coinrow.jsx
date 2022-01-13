@@ -50,11 +50,8 @@ function CoinRow() {
       selector: "price_change_percentage_24h",
       sortable: true,
       // only allowing 2 decimals after the period sign (.)
-      // needed to have ternary operator to handle null values
-      cell: (row) =>
-        row.price_change_percentage_24h
-          ? `${row.price_change_percentage_24h.toFixed(2)}%`
-          : "",
+      // to handle null values we use optional chaining ?.
+      cell: (row) => row.price_change_percentage_24h?.toFixed(2),
       conditionalCellStyles: [
         {
           when: (row) => row.price_change_percentage_24h < 0,
