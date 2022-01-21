@@ -12,23 +12,24 @@ function Coin() {
     fetcher
   );
 
-  // will eventually be replaced with loading spinner
-  if (!data)
-    return (
+  {
+    !data && (
       <section className="coinsection">
         <div style={{ textAlign: "center" }}>
           <p>loading...</p>
         </div>
       </section>
     );
-  if (error)
-    return (
+  }
+  {
+    error && (
       <section className="coinsection">
         <div style={{ textAlign: "center" }}>
           <p>Failed to load...</p>
         </div>
       </section>
     );
+  }
   return (
     <section className="coinsection">
       <div className="breadcrumb">
@@ -36,10 +37,10 @@ function Coin() {
           <Link to="/" className="breadcrumb-coins">
             Coins
           </Link>{" "}
-          <AiOutlineRight /> {data.name}
+          <AiOutlineRight /> {data ? data?.name : "..."}
         </p>
       </div>
-      {data.name && (
+      {data && (
         <div className="coin">
           <div>
             <div
@@ -57,7 +58,7 @@ function Coin() {
               />
               <h1>{data.name}</h1>
               <p className="symbol">
-                <b>{data.symbol.toUpperCase()}</b>
+                <b>{data.symbol?.toUpperCase()}</b>
               </p>
             </div>
             <div className="coininfo">
@@ -92,25 +93,16 @@ function Coin() {
                   Contract address: {data.contract_address}
                 </p>
               )}
-              <a href={data.links.blockchain_site[0]}>
-                {data.links.blockchain_site[0]}
-              </a>
+              {data.links.blockchain_site[0] && (
+                <p>
+                  Explorer:{" "}
+                  <a href={data.links.blockchain_site[0]}>
+                    {data.links.blockchain_site[0]}
+                  </a>
+                </p>
+              )}
             </div>
           </div>
-          {/* <div>
-            <input
-              name="data"
-              type="number"
-              min={0}
-              value={converter.data}
-              onChange={handleChange}
-            />
-            <input
-              name="currency"
-              value={converter.currency}
-              onChange={handleChange}
-            />
-          </div> */}
         </div>
       )}
     </section>
