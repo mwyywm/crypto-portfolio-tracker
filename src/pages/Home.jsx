@@ -11,7 +11,7 @@ function Home() {
       </div>
       <div className="scroll-to-top" onClick={() => scrollTo(top)}>
         <AiOutlineArrowUp />
-        <p>Scroll to top of page </p>
+        <p>Scroll to top!</p>
       </div>
     </div>
   );
