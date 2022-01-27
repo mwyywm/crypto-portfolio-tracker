@@ -16,7 +16,6 @@ function CoinRow() {
   const handleChange = (event, value) => {
     scrollTo(top);
     setPage(value);
-    console.log("value", value);
   };
 
   const columns = [
