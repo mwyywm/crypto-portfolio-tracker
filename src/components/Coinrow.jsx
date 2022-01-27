@@ -21,33 +21,33 @@ function CoinRow() {
   const columns = [
     {
       name: "Name",
-      selector: "name",
+      selector: (row) => row[name],
       sortable: true,
       cell: (row) => <Link to={`/coin/${row.id}`}>{row.name}</Link>,
     },
     {
       name: "Price",
-      selector: "current_price",
+      selector: (row) => row[current_price],
       sortable: true,
       // no formating because we need a very accurate number
       cell: (row) => `${row.current_price}`,
     },
     {
       name: "Market Cap",
-      selector: "market_cap",
+      selector: (row) => row[market_cap],
       sortable: true,
       className: "wow",
       cell: (row) => `${new Intl.NumberFormat().format(row.market_cap)}`,
     },
     {
       name: "24h Volume",
-      selector: "total_volume",
+      selector: (row) => row[total_volume],
       sortable: true,
       cell: (row) => `${new Intl.NumberFormat().format(row.total_volume)}`,
     },
     {
       name: "24h Change",
-      selector: "price_change_percentage_24h",
+      selector: (row) => row[price_change_percentage_24h],
       sortable: true,
       // only allowing 2 decimals after the period sign (.)
       // to handle null values we use optional chaining ?.
