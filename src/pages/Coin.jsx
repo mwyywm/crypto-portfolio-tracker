@@ -72,7 +72,9 @@ function Coin() {
                           : "red",
                     }}
                   >
-                    {data.market_data.price_change_percentage_24h}
+                    {`${data.market_data.price_change_percentage_24h?.toFixed(
+                      2
+                    )}%`}
                   </h2>
                   <p>
                     <b>Price:</b> {data.market_data.current_price.usd} USD
