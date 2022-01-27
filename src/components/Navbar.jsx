@@ -3,24 +3,7 @@ import "./navbar.css";
 import { Link } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { GrClose } from "react-icons/gr";
-
-function useWindowWidth() {
-  const [windowWidth, setWindowWidth] = useState({
-    width: undefined,
-  });
-  useEffect(() => {
-    // Set innerwidth
-    function handleResize() {
-      setWindowWidth(window.innerWidth);
-    }
-    // only calling the function onresize
-    window.addEventListener("resize", handleResize);
-    handleResize();
-    // Cleanup function
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-  return windowWidth;
-}
+import { useWindowWidth } from "../hooks/useWindowWidth";
 
 const menuLinks = [
   { path: "/", text: "Home" },
@@ -53,6 +36,7 @@ function Navbar() {
           {isOpen ? <GrClose size={30} /> : <GiHamburgerMenu size={30} />}
         </div>
       </div>
+
       <div
         className="mobile-nav-links"
         style={
