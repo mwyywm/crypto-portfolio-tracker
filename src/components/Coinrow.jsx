@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./coinrow.css";
 import { Link } from "react-router-dom";
 import DataTable from "react-data-table-component";
@@ -8,7 +8,7 @@ import Pagination from "@mui/material/Pagination";
 
 // Table and pagination component
 function CoinRow() {
-  const [page, setPage] = React.useState(1);
+  const [page, setPage] = useState(1);
   const { data, error } = useSWR(
     `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=${page}&sparkline=false`,
     fetcher
@@ -16,6 +16,7 @@ function CoinRow() {
   const handleChange = (event, value) => {
     scrollTo(top);
     setPage(value);
+    console.log("value", value);
   };
 
   const columns = [
@@ -51,7 +52,7 @@ function CoinRow() {
       sortable: true,
       // only allowing 2 decimals after the period sign (.)
       // to handle null values we use optional chaining ?.
-      cell: (row) => row.price_change_percentage_24h?.toFixed(2),
+      cell: (row) => `${row.price_change_percentage_24h?.toFixed(2)}%`,
       conditionalCellStyles: [
         {
           when: (row) => row.price_change_percentage_24h < 0,
