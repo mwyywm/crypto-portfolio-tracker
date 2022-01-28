@@ -11,7 +11,10 @@ function Tracker() {
 
   function handleInputChange(event) {
     event.preventDefault();
-    if (event.target.value.length > 2) {
+    if (
+      event.target.value.length > 2 &&
+      event.target.value.match(/^[a-zA-Z0-9]+$/)
+    ) {
       setSearchTerm(event.target.value);
       console.log("event.target.value:", event.target.value);
     }
@@ -24,13 +27,13 @@ function Tracker() {
           `https://api.coingecko.com/api/v3/search?query=${debouncedSearchTerm}`
         )
         .then((res) => {
-          console.log(res.data.coins);
-          setResults(res.data.coins);
+          // console.log(res.data.coins.slice(0, 15)); // only want first 15 results
+          setResults(res.data.coins.slice(0, 15));
         });
     } else {
     }
   }, [debouncedSearchTerm]);
-  console.log(debouncedSearchTerm);
+  console.log(results);
   return (
     <section className="tracker">
       <h1>Portfolio tracker</h1>
@@ -43,15 +46,14 @@ function Tracker() {
         <p>Add coin:</p>
         <div className="search">
           <SearchInput onInput={handleInputChange} />
-          <div>
-            <ul>
-              {results.map((result) => (
-                <li key={result.id}>
-                  <p>{result.symbol}</p>
-                  <p>{result.name}</p>
-                </li>
-              ))}
-            </ul>
+          <div className="coin-results">
+            {results.map((result) => (
+              <div key={result.id} className="coin-search-result">
+                <img src={result.thumb} alt={result.name} />
+                <p>{result.symbol}</p>
+                <p>{result.name}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
