@@ -1,5 +1,9 @@
 import React from "react";
 
-export default function SearchInput() {
-  return <input placeholder="hello" />;
+export default function SearchInput({ onInput }) {
+  return (
+    <>
+      <input placeholder="Search..." onInput={onInput} />
+    </>
+  );
 }
