@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./tracker.css";
 import SearchInput from "../components/SearchInput";
+import SearchResults from "../components/SearchResults";
 import axios from "axios";
 import useDebounce from "../hooks/useDebounce.jsx";
 
@@ -46,15 +47,7 @@ function Tracker() {
         <p>Add coin:</p>
         <div className="search">
           <SearchInput onInput={handleInputChange} />
-          <div className="coin-results">
-            {results.map((result) => (
-              <div key={result.id} className="coin-search-result">
-                <img src={result.thumb} alt={result.name} />
-                <p>{result.symbol}</p>
-                <p>{result.name}</p>
-              </div>
-            ))}
-          </div>
+          <SearchResults data={results} />
         </div>
       </div>
     </section>

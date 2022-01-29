@@ -1,0 +1,19 @@
+.results-container {
+  background-color: rgb(255, 255, 255);
+  width: 200px;
+  max-height: 400px;
+  overflow-y: scroll;
+  border-radius: 5px;
+}
+.coin-search-result {
+  padding: 10px;
+  border-bottom: 1px solid rgb(230, 230, 230);
+  height: auto;
+  max-height: 80px;
+  cursor: pointer;
+  display: flex;
+}
+.coin-search-result img {
+  width: 32px;
+  height: 32px;
+}
