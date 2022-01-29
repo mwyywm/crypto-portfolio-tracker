@@ -1,35 +1,52 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./tracker.css";
 import SearchInput from "../components/SearchInput";
 import SearchResults from "../components/SearchResults";
 import axios from "axios";
 import useDebounce from "../hooks/useDebounce.jsx";
+import { useOnClickOutside } from "../hooks/useOnClickOutside";
 
 function Tracker() {
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 450);
   const [results, setResults] = useState([]);
+  const [showResults, setShowResults] = useState(false);
   const [portfolio, setPortfolio] = useState([]);
+  const ref = useRef();
 
   function handleInputChange(event) {
     event.preventDefault();
+    setSearchTerm(event.target.value);
+    setShowResults(true);
+    if (event.target.value.length === 0) {
+      setResults([]);
+    }
     if (
       event.target.value.length > 2 &&
       event.target.value.match(/^[a-zA-Z0-9]+$/)
     ) {
       setSearchTerm(event.target.value);
-      console.log("event.target.value:", event.target.value);
+      // console.log("event.target.value:", event.target.value);
     }
   }
-  function handleClick(event) {
+
+  function handleSearchClick(event) {
+    event.preventDefault();
+    setShowResults(true); // show results div
     if (event.target.tagName === "IMG") {
       console.log(event.target.alt);
+      setPortfolio([...portfolio, event.target.alt]);
       portfolio.push(event.target.alt);
     } else {
       console.log(event.target.innerText);
       portfolio.push(event.target.innerText);
     }
-    console.log("portfolio", portfolio);
+    setSearchTerm("");
+    setResults([]);
+  }
+  function handleClickOutside(event) {
+    // hide results div when clicking outside of it
+    setShowResults(false);
   }
 
   useEffect(() => {
@@ -45,6 +62,8 @@ function Tracker() {
     } else {
     }
   }, [debouncedSearchTerm]);
+
+  useOnClickOutside(ref, handleClickOutside);
   return (
     <section className="tracker">
       <h1>Portfolio tracker</h1>
@@ -55,9 +74,18 @@ function Tracker() {
       </p>
       <div>
         <p>Add coin:</p>
-        <div className="search">
-          <SearchInput onInput={handleInputChange} />
-          <SearchResults data={results} onClick={handleClick} />
+        <div className="search-div" style={{ background: "red" }}>
+          <SearchInput
+            onInput={handleInputChange}
+            value={searchTerm}
+            onClick={() => setShowResults(true)}
+          />
+          <SearchResults
+            data={results}
+            onClick={handleSearchClick}
+            ref={ref}
+            showResults={showResults}
+          />
         </div>
         <div>
           <p>Portfolio:</p>
