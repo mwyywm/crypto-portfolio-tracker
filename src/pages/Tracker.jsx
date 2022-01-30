@@ -15,20 +15,20 @@ function Tracker() {
   const [portfolio, setPortfolio] = useState([
     {
       name: "Bitcoin",
-      holdings: 2.5,
-      price: 40000,
+      holdings: 0,
+      price: 38000,
       uuid: "eae3r9h69rqe1k5hnmxuo",
     },
     {
       name: "Ethereum",
-      holdings: 223,
+      holdings: 2,
       price: 3400,
       uuid: "1vewwxhrfdbnrjkynoyxf",
     },
   ]); // TODO: get this from local storage.
   const ref = useRef();
   // TODO: on page load get the portfolio from local storage.
-  // TODO: After we got the portfolio, we fetch the prices for each coin.
+  // TODO: After we add a coin to the portfolio, we fetch the price of the coin added.
   function handleInputChange(event) {
     event.preventDefault();
     setSearchTerm(event.target.value);
@@ -46,12 +46,22 @@ function Tracker() {
   function handleSearchClick(event) {
     event.preventDefault();
     setShowResults(true);
+    // If the coin we click already exists in the portfolio, we don't want to add it again.
+    if (
+      [...portfolio].some(
+        (coin) =>
+          coin.name === event.target.alt || coin.name === event.target.innerText
+      )
+    ) {
+      return;
+    }
+
     if (event.target.tagName === "IMG") {
       setPortfolio([
         ...portfolio,
         { name: event.target.alt, holdings: 0, price: 0, uuid: uuid() },
       ]);
-    } else {
+    } else if (event.target.tagName === "P") {
       setPortfolio([
         ...portfolio,
         { name: event.target.innerText, holdings: 0, price: 0, uuid: uuid() },
@@ -67,9 +77,17 @@ function Tracker() {
   }
   function handleRemoveCoin(coinToRemove) {
     // remove coin from portfolio
-    console.log(coinToRemove);
     const newPortfolio = portfolio.filter((coin) => coin.name !== coinToRemove);
     setPortfolio(newPortfolio);
+  }
+  function handleHoldingsChange(event, inputCoin) {
+    // update holdings for a coin
+    const indexOfCoin = portfolio.findIndex((coin) => coin.name === inputCoin);
+    console.log(indexOfCoin);
+    setPortfolio(
+      [...portfolio],
+      (portfolio[indexOfCoin].holdings = event.target.value)
+    );
   }
   useEffect(() => {
     if (debouncedSearchTerm.length > 1) {
@@ -121,8 +139,13 @@ function Tracker() {
                 maxWidth: "100%",
               }}
             >
-              <p>{coin.name}</p> <p>{coin.holdings}</p>
-              <button>edit holdings</button>
+              <p>{coin.name}</p>
+              {/* we want to set coin.price to xxxx*/}
+              <input
+                type="number"
+                onChange={(event) => handleHoldingsChange(event, coin.name)}
+              />
+              <button>Edit holdings</button>
               <p>{coin.holdings * coin.price} $</p>
               <button
                 style={{ backgroundColor: "red" }}
