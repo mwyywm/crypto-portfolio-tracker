@@ -54,7 +54,7 @@
   overflow: hidden;
 }
 .nav-links li a {
-  height: 30px;
+  height: 60px;
   background-color: #ffffff;
   display: block;
   color: rgb(0, 0, 0);
@@ -74,7 +74,6 @@
 .hamburger {
   display: none;
 }
-/*  TODO: Need to add hamburger to navbar */
 @media only screen and (max-width: 960px) {
   .header {
     border-bottom: 1px solid #354055;

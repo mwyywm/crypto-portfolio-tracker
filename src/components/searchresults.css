@@ -1,6 +1,7 @@
 .results-container {
   background-color: rgb(255, 255, 255);
   width: 200px;
+  position: absolute;
   max-height: 400px;
   overflow-y: scroll;
   border-radius: 5px;

@@ -16,6 +16,7 @@ const SearchResults = React.forwardRef(
             onClick={onClick}
           >
             <img src={result.thumb} alt={result.name} />
+            <p>{result.name}</p>
           </div>
         ))}
       </div>

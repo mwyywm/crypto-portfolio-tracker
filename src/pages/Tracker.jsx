@@ -74,7 +74,7 @@ function Tracker() {
       </p>
       <div>
         <p>Add coin:</p>
-        <div className="search-div" style={{ background: "red" }}>
+        <div className="search-div">
           <SearchInput
             onInput={handleInputChange}
             value={searchTerm}
@@ -87,18 +87,25 @@ function Tracker() {
             showResults={showResults}
           />
         </div>
-        <div>
-          <p>Portfolio:</p>
-          <ul className="portfolio">
-            {portfolio.map((coin) => (
-              <li key={coin}>
-                <p>{coin}</p>
-                <p>Holdings: localstorage</p>
-                <button>edit holdings</button>
-                <button style={{ backgroundColor: "red" }}>X</button>
-              </li>
-            ))}
-          </ul>
+        <div className="portfolio">
+          <p>Holdings:</p>
+          {portfolio.map((coin) => (
+            <div
+              key={coin}
+              style={{
+                display: "flex",
+                justifyContent: "space-around",
+                alignItems: "center",
+                width: "450px",
+                maxWidth: "100%",
+              }}
+            >
+              <p>{coin}</p> <p>10.220</p>
+              <button>edit holdings</button>
+              <p>20000 $</p>
+              <button style={{ backgroundColor: "red" }}>X</button>
+            </div>
+          ))}
         </div>
       </div>
     </section>
