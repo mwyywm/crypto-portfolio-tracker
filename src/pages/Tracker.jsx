@@ -5,15 +5,30 @@ import SearchResults from "../components/SearchResults";
 import axios from "axios";
 import useDebounce from "../hooks/useDebounce.jsx";
 import { useOnClickOutside } from "../hooks/useOnClickOutside";
+import uuid from "../utils/uuid";
 
 function Tracker() {
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 450);
   const [results, setResults] = useState([]);
   const [showResults, setShowResults] = useState(false);
-  const [portfolio, setPortfolio] = useState([]);
+  const [portfolio, setPortfolio] = useState([
+    {
+      name: "Bitcoin",
+      holdings: 2.5,
+      price: 40000,
+      uuid: "eae3r9h69rqe1k5hnmxuo",
+    },
+    {
+      name: "Ethereum",
+      holdings: 223,
+      price: 3400,
+      uuid: "1vewwxhrfdbnrjkynoyxf",
+    },
+  ]); // TODO: get this from local storage.
   const ref = useRef();
-
+  // TODO: on page load get the portfolio from local storage.
+  // TODO: After we got the portfolio, we fetch the prices for each coin.
   function handleInputChange(event) {
     event.preventDefault();
     setSearchTerm(event.target.value);
@@ -26,37 +41,43 @@ function Tracker() {
       event.target.value.match(/^[a-zA-Z0-9]+$/)
     ) {
       setSearchTerm(event.target.value);
-      // console.log("event.target.value:", event.target.value);
     }
   }
-
   function handleSearchClick(event) {
     event.preventDefault();
-    setShowResults(true); // show results div
+    setShowResults(true);
     if (event.target.tagName === "IMG") {
-      console.log(event.target.alt);
-      setPortfolio([...portfolio, event.target.alt]);
-      portfolio.push(event.target.alt);
+      setPortfolio([
+        ...portfolio,
+        { name: event.target.alt, holdings: 0, price: 0, uuid: uuid() },
+      ]);
     } else {
-      console.log(event.target.innerText);
-      portfolio.push(event.target.innerText);
+      setPortfolio([
+        ...portfolio,
+        { name: event.target.innerText, holdings: 0, price: 0, uuid: uuid() },
+      ]);
     }
     setSearchTerm("");
     setResults([]);
+    console.log(portfolio);
   }
-  function handleClickOutside(event) {
-    // hide results div when clicking outside of it
+  function handleClickOutside(e) {
+    // hide results div when clicking outside of search results div
     setShowResults(false);
   }
-
+  function handleRemoveCoin(coinToRemove) {
+    // remove coin from portfolio
+    console.log(coinToRemove);
+    const newPortfolio = portfolio.filter((coin) => coin.name !== coinToRemove);
+    setPortfolio(newPortfolio);
+  }
   useEffect(() => {
-    if (debouncedSearchTerm.length > 2) {
+    if (debouncedSearchTerm.length > 1) {
       axios
         .get(
           `https://api.coingecko.com/api/v3/search?query=${debouncedSearchTerm}`
         )
         .then((res) => {
-          // console.log(res.data.coins.slice(0, 15)); // only want first 15 results
           setResults(res.data.coins.slice(0, 15));
         });
     } else {
@@ -91,7 +112,7 @@ function Tracker() {
           <p>Holdings:</p>
           {portfolio.map((coin) => (
             <div
-              key={coin}
+              key={coin.uuid}
               style={{
                 display: "flex",
                 justifyContent: "space-around",
@@ -100,10 +121,15 @@ function Tracker() {
                 maxWidth: "100%",
               }}
             >
-              <p>{coin}</p> <p>10.220</p>
+              <p>{coin.name}</p> <p>{coin.holdings}</p>
               <button>edit holdings</button>
-              <p>20000 $</p>
-              <button style={{ backgroundColor: "red" }}>X</button>
+              <p>{coin.holdings * coin.price} $</p>
+              <button
+                style={{ backgroundColor: "red" }}
+                onClick={() => handleRemoveCoin(coin.name)}
+              >
+                X
+              </button>
             </div>
           ))}
         </div>
