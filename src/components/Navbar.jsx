@@ -46,11 +46,9 @@ function Navbar() {
         }
       >
         {menuLinks.map((link) => (
-          <li key={link.path}>
-            <Link to={link.path} onClick={() => setIsOpen(!isOpen)}>
-              {link.text}
-            </Link>
-          </li>
+          <Link to={link.path} onClick={() => setIsOpen(!isOpen)}>
+            <li key={link.path}>{link.text}</li>
+          </Link>
         ))}
       </div>
     </nav>

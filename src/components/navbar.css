@@ -3,8 +3,7 @@
   left: 0;
   width: 100%;
   height: 90px;
-  background-color: #354055;
-  border-bottom: 1px solid #354055;
+  background-color: #303949;
   text-align: center;
 }
 .nav-logo {
@@ -76,7 +75,6 @@
 }
 @media only screen and (max-width: 960px) {
   .header {
-    border-bottom: 1px solid #354055;
   }
   .nav-wrapper {
     width: 100%;
@@ -87,7 +85,7 @@
   .mobile-nav-links {
     position: relative;
     z-index: 2;
-    background-color: #354055;
+    background-color: #303949;
   }
   .mobile-nav-links li {
     display: flex;
@@ -96,10 +94,15 @@
     list-style: none;
     height: 40px;
   }
-  .mobile-nav-links li a {
+  .mobile-nav-links li {
     font-size: 24px;
     color: rgb(255, 255, 255);
     text-decoration: none;
+  }
+  .mobile-nav-links a {
+    text-decoration: none;
+    padding: 0;
+    margin: 0;
   }
   .hamburger {
     display: block;
