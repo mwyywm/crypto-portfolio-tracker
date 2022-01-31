@@ -86,7 +86,14 @@ function Coin() {
               )}
             </div>
             {data.market_data && (
-              <CoinConverter priceOfCoin={data.market_data.current_price.usd} />
+              <>
+                <img src={data.image.small} />
+                <CoinConverter
+                  priceOfCoin={data.market_data.current_price.usd}
+                  image={data.image.small}
+                  symbol={data.symbol}
+                />
+              </>
             )}
           </div>
         </div>

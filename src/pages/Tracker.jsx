@@ -69,7 +69,7 @@ function Tracker() {
     }
     setSearchTerm("");
     setResults([]);
-    console.log(portfolio);
+    //console.log(portfolio);
   }
   function handleClickOutside(e) {
     // hide results div when clicking outside of search results div
@@ -83,7 +83,7 @@ function Tracker() {
   function handleHoldingsChange(event, inputCoin) {
     // update holdings for a coin
     const indexOfCoin = portfolio.findIndex((coin) => coin.name === inputCoin);
-    console.log(indexOfCoin);
+    //console.log(indexOfCoin);
     setPortfolio(
       [...portfolio],
       (portfolio[indexOfCoin].holdings = event.target.value)

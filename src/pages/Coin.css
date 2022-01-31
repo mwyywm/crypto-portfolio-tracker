@@ -1,5 +1,6 @@
 .coinsection {
   width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
   margin-top: 40px;
 }
@@ -15,8 +16,7 @@
 p {
   font-size: 18px;
 }
-.breadcrumb-text {
-}
+
 .breadcrumb-coins {
   color: rgb(0, 0, 0);
   text-decoration: none;
@@ -45,7 +45,4 @@ p {
 }
 .price {
   font-size: 32px;
-}
-.coininfo {
-  margin-left: 37px;
 }
