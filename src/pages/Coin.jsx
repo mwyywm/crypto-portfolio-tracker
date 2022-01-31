@@ -4,6 +4,7 @@ import useSWR from "swr";
 import fetcher from "../utils/fetcher";
 import "./Coin.css";
 import { AiOutlineRight } from "react-icons/ai";
+import CoinConverter from "../components/CoinConverter";
 
 function Coin() {
   let params = useParams();
@@ -57,53 +58,36 @@ function Coin() {
                 height={32}
               />
               <h1>{data.name}</h1>
-              <p className="symbol">
-                <b>{data.symbol?.toUpperCase()}</b>
-              </p>
+              <p className="symbol">{data.symbol?.toUpperCase()}</p>
             </div>
             <div className="coininfo">
               {data.market_data && (
-                <div className="price">
-                  <h2
-                    style={{
-                      color:
-                        data.market_data.price_change_percentage_24h > 0
-                          ? "green"
-                          : "red",
-                    }}
-                  >
-                    {`${data.market_data.price_change_percentage_24h?.toFixed(
-                      2
-                    )}%`}
-                  </h2>
+                <>
                   <p>
-                    <b>Price:</b> {data.market_data.current_price.usd} USD
+                    {data.symbol?.toUpperCase()} price:{" "}
+                    <span className="price">
+                      ${data.market_data.current_price.usd}{" "}
+                      <span
+                        style={{
+                          color:
+                            data.market_data.price_change_percentage_24h > 0
+                              ? "green"
+                              : "red",
+                          fontSize: "24px",
+                        }}
+                      >
+                        {`${data.market_data.price_change_percentage_24h?.toFixed(
+                          2
+                        )}%`}
+                      </span>
+                    </span>
                   </p>
-                  <p>
-                    <b>Price:</b> {data.market_data.current_price.eur} EUR
-                  </p>
-                  <p>
-                    <b>Price:</b> {data.market_data.current_price.sek} SEK
-                  </p>
-                  <p>
-                    <b>Price:</b> {data.market_data.current_price.gbp} GBP
-                  </p>
-                </div>
-              )}
-              {data.contract_address && (
-                <p style={{ maxWidth: "300px" }}>
-                  Contract address: {data.contract_address}
-                </p>
-              )}
-              {data.links.blockchain_site[0] && (
-                <p>
-                  Explorer:{" "}
-                  <a href={data.links.blockchain_site[0]}>
-                    {data.links.blockchain_site[0]}
-                  </a>
-                </p>
+                </>
               )}
             </div>
+            {data.market_data && (
+              <CoinConverter priceOfCoin={data.market_data.current_price.usd} />
+            )}
           </div>
         </div>
       )}

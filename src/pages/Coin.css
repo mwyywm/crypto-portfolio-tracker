@@ -28,14 +28,23 @@ p {
 .coin h1 {
   margin-left: 5px;
   text-align: center;
-  font-size: 48px;
+  font-size: 42px;
 }
 .symbol {
   font-size: 20px;
+  background-color: white;
+  border: 1px solid rgb(78, 78, 78);
+  font-weight: bold;
+  margin-left: 5px;
+  padding: 4px;
+  border-radius: 6px;
 }
 .symbol b {
   padding-left: 20px;
   color: rgb(19, 19, 19);
+}
+.price {
+  font-size: 32px;
 }
 .coininfo {
   margin-left: 37px;
