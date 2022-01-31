@@ -57,7 +57,7 @@ function Coin() {
                 width={32}
                 height={32}
               />
-              <h1>{data.name}</h1>
+              <h1 className="coin-title">{data.name}</h1>
               <p className="symbol">{data.symbol?.toUpperCase()}</p>
             </div>
             <div className="coininfo">
@@ -87,11 +87,10 @@ function Coin() {
             </div>
             {data.market_data && (
               <>
-                <img src={data.image.small} />
                 <CoinConverter
                   priceOfCoin={data.market_data.current_price.usd}
-                  image={data.image.small}
                   symbol={data.symbol}
+                  coinImage={data.image.small}
                 />
               </>
             )}

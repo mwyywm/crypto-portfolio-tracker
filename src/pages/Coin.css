@@ -25,7 +25,7 @@ p {
   color: rgb(49, 49, 49);
   text-decoration: none;
 }
-.coin h1 {
+.coin .coin-title {
   margin-left: 5px;
   text-align: center;
   font-size: 42px;
