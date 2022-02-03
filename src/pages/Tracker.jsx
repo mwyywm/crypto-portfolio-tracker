@@ -12,20 +12,8 @@ function Tracker() {
   const debouncedSearchTerm = useDebounce(searchTerm, 450);
   const [results, setResults] = useState([]);
   const [showResults, setShowResults] = useState(false);
-  const [portfolio, setPortfolio] = useState([
-    {
-      name: "Bitcoin",
-      holdings: 0,
-      price: 38000,
-      uuid: "eae3r9h69rqe1k5hnmxuo",
-    },
-    {
-      name: "Ethereum",
-      holdings: 2,
-      price: 3400,
-      uuid: "1vewwxhrfdbnrjkynoyxf",
-    },
-  ]); // TODO: get this from local storage.
+  const [portfolio, setPortfolio] = useState([]); // name, holdings, price, uuid
+  // TODO: get this from local storage.
   const ref = useRef();
   // TODO: on page load get the portfolio from local storage.
   // TODO: After we add a coin to the portfolio, we fetch the price of the coin added.
@@ -33,6 +21,7 @@ function Tracker() {
     event.preventDefault();
     setSearchTerm(event.target.value);
     setShowResults(true);
+    // when to show results
     if (event.target.value.length === 0) {
       setResults([]);
     }
@@ -45,6 +34,7 @@ function Tracker() {
   }
   function handleSearchClick(event) {
     event.preventDefault();
+    console.log(event.target.tagName);
     setShowResults(true);
     // If the coin we click already exists in the portfolio, we don't want to add it again.
     if (
@@ -62,6 +52,11 @@ function Tracker() {
         { name: event.target.alt, holdings: 0, price: 0, uuid: uuid() },
       ]);
     } else if (event.target.tagName === "P") {
+      setPortfolio([
+        ...portfolio,
+        { name: event.target.innerText, holdings: 0, price: 0, uuid: uuid() },
+      ]);
+    } else if (event.target.tagName === "DIV") {
       setPortfolio([
         ...portfolio,
         { name: event.target.innerText, holdings: 0, price: 0, uuid: uuid() },
