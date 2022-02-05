@@ -1,4 +1,4 @@
-import react, { useEffect, useState } from "react";
+import react, { useEffect, useState, useRef } from "react";
 import styled from "@emotion/styled";
 import { IoIosSwap } from "react-icons/io";
 import dollarSign from "../images/dollarSign.png";
@@ -22,31 +22,34 @@ const ConverterTitle = styled.h1`
   font-weight: bold;
   margin-bottom: 10px;
 `;
-
 export default function CoinConverter({ priceOfCoin, symbol, coinImage }) {
   const [amount, setAmount] = useState(1);
   const [stable, setStable] = useState(priceOfCoin);
+  const coinRef = useRef(null);
+  const stableRef = useRef(null);
 
-  function handleCoinChange(e) {
-    // if "coin" input is last changed then input2 is changed
+  function handleInputChange(e) {
     e.preventDefault();
-    if (e.target.value >= 0) {
+    if (e.target.value >= 0 && document.activeElement === coinRef.current) {
+      // coin input focused and over 0
       setAmount(e.target.value);
-      setStable(priceOfCoin * amount);
-    }
-  }
-  function handleUSDChange(e) {
-    e.preventDefault();
-    // if "USD" input is last changed then input1 is changed
-    if (e.target.value >= 0) {
+    } else if (
+      e.target.value >= 0 &&
+      document.activeElement === stableRef.current
+    ) {
+      // usd input focused and over 0
       setStable(e.target.value);
-      setAmount(e.target.value / priceOfCoin);
     }
   }
 
   useEffect(() => {
-    setStable(priceOfCoin * amount);
-  }, [amount]);
+    // handling the alternate input number change
+    if (document.activeElement === coinRef.current) {
+      setStable(parseFloat(priceOfCoin * amount));
+    } else if (document.activeElement === stableRef.current) {
+      setAmount((stable / priceOfCoin).toFixed(8));
+    }
+  }, [amount, stable]);
   return (
     <ConverterBox>
       <ConverterTitle>{symbol?.toUpperCase()} to USD Converter</ConverterTitle>
@@ -65,8 +68,9 @@ export default function CoinConverter({ priceOfCoin, symbol, coinImage }) {
             style={{ margin: "2px" }}
           />
           <Input
+            ref={coinRef}
             value={amount}
-            onInput={handleCoinChange}
+            onInput={handleInputChange}
             name="coin"
             type="number"
             step="0.10"
@@ -81,8 +85,9 @@ export default function CoinConverter({ priceOfCoin, symbol, coinImage }) {
             style={{ margin: "2px" }}
           />
           <Input
+            ref={stableRef}
             value={stable}
-            onInput={handleUSDChange}
+            onInput={handleInputChange}
             name="USD"
             type="number"
             step="0.10"
