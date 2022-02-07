@@ -1,7 +1,7 @@
-import react, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import styled from "@emotion/styled";
 import { IoIosSwap } from "react-icons/io";
-import dollarSign from "../images/dollarSign.png";
+import dollarSign from "../images/dollarsign.png";
 
 const Input = styled.input`
   height: 50px;
