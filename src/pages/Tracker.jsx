@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "./tracker.css";
 import SearchInput from "../components/SearchInput";
 import SearchResults from "../components/SearchResults";
+import Modal from "../components/Modal";
 import axios from "axios";
 import useDebounce from "../hooks/useDebounce.jsx";
 import { useOnClickOutside } from "../hooks/useOnClickOutside";
@@ -16,7 +17,7 @@ function Tracker() {
   // TODO: get this from local storage.
   const ref = useRef();
   // TODO: on page load get the portfolio from local storage.
-  // TODO: After we add a coin to the portfolio, we fetch the price of the coin added.
+  // TODO: After we add a coin to the portfolio, we fetch the new prices for the coins.
   function handleInputChange(event) {
     event.preventDefault();
     setSearchTerm(event.target.value);
@@ -34,18 +35,17 @@ function Tracker() {
   }
   function handleSearchClick(event) {
     event.preventDefault();
-    console.log(event.target.tagName);
-    setShowResults(true);
     // If the coin we click already exists in the portfolio, we don't want to add it again.
+    //TODO: error handling should be shown above search input???
     if (
       [...portfolio].some(
         (coin) =>
           coin.name === event.target.alt || coin.name === event.target.innerText
       )
     ) {
-      return;
+      return; //TODO: we should handle error here.
     }
-
+    //TODO: modal should trigger on click of search results.
     if (event.target.tagName === "IMG") {
       setPortfolio([
         ...portfolio,
@@ -64,7 +64,6 @@ function Tracker() {
     }
     setSearchTerm("");
     setResults([]);
-    //console.log(portfolio);
   }
   function handleClickOutside(e) {
     // hide results div when clicking outside of search results div
@@ -78,7 +77,6 @@ function Tracker() {
   function handleHoldingsChange(event, inputCoin) {
     // update holdings for a coin
     const indexOfCoin = portfolio.findIndex((coin) => coin.name === inputCoin);
-    //console.log(indexOfCoin);
     setPortfolio(
       [...portfolio],
       (portfolio[indexOfCoin].holdings = event.target.value)
@@ -97,62 +95,74 @@ function Tracker() {
     }
   }, [debouncedSearchTerm]);
 
-  useOnClickOutside(ref, handleClickOutside);
+  useOnClickOutside(ref, handleClickOutside); // click outside of search results hook
+
   return (
-    <section className="tracker">
-      <h1>Portfolio tracker</h1>
-      <p>we should be able to add/remove coins</p>
-      <p>we should be able to Change value of holdings</p>
-      <p>
-        the information should be saved in localstorage so we can view it later
-      </p>
-      <div>
-        <p>Add coin:</p>
-        <div className="search-div">
-          <SearchInput
-            onInput={handleInputChange}
-            value={searchTerm}
-            onClick={() => setShowResults(true)}
-          />
-          <SearchResults
-            data={results}
-            onClick={handleSearchClick}
-            ref={ref}
-            showResults={showResults}
-          />
-        </div>
-        <div className="portfolio">
-          <p>Holdings:</p>
-          {portfolio.map((coin) => (
-            <div
-              key={coin.uuid}
-              style={{
-                display: "flex",
-                justifyContent: "space-around",
-                alignItems: "center",
-                width: "450px",
-                maxWidth: "100%",
-              }}
-            >
-              <p>{coin.name}</p>
-              {/* we want to set coin.price to xxxx*/}
-              <input
-                type="number"
-                onChange={(event) => handleHoldingsChange(event, coin.name)}
-              />
-              <button>Edit holdings</button>
-              <p>{coin.holdings * coin.price} $</p>
-              <button
-                style={{ backgroundColor: "red" }}
-                onClick={() => handleRemoveCoin(coin.name)}
+    <>
+      <Modal isShowing={true}>
+        {" "}
+        {/* TODO: NEED TO PASS boolean true/false to Modal component 
+        This should be triggered on click of search results. anything inside of modal <> gets rendered 
+        https://upmostly.com/tutorials/modal-components-react-custom-hooks 
+        */}
+        <p>HELLO THERE </p>
+      </Modal>
+      <section className="tracker">
+        <h1>Portfolio tracker</h1>
+        <p>we should be able to add/remove coins</p>
+        <p>we should be able to Change value of holdings</p>
+        <p>
+          the information should be saved in localstorage so we can view it
+          later
+        </p>
+        <div>
+          <p>Add coin:</p>
+          <div className="search-div">
+            <SearchInput
+              onInput={handleInputChange}
+              value={searchTerm}
+              onClick={() => setShowResults(true)}
+            />
+            <SearchResults
+              data={results}
+              onClick={handleSearchClick}
+              ref={ref}
+              showResults={showResults}
+            />
+          </div>
+          <div className="portfolio">
+            <p>Holdings:</p>
+            {portfolio.map((coin) => (
+              <div
+                key={coin.uuid}
+                style={{
+                  display: "flex",
+                  justifyContent: "space-around",
+                  alignItems: "center",
+                  width: "450px",
+                  maxWidth: "100%",
+                }}
               >
-                X
-              </button>
-            </div>
-          ))}
+                <p>{coin.name}</p>
+                {/* we want to set coin.price to xxxx*/}
+                <input
+                  type="number"
+                  onChange={(event) => handleHoldingsChange(event, coin.name)}
+                />
+                <button>Edit holdings</button>
+                <p>{coin.holdings * coin.price} $</p>
+                <button
+                  style={{ backgroundColor: "red" }}
+                  onClick={() => handleRemoveCoin(coin.name)}
+                >
+                  X
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
 
