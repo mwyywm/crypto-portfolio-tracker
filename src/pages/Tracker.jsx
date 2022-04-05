@@ -6,6 +6,7 @@ import Modal from "../components/Modal";
 import axios from "axios";
 import useDebounce from "../hooks/useDebounce.jsx";
 import { useOnClickOutside } from "../hooks/useOnClickOutside";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 import uuid from "../utils/uuid";
 
 function Tracker() {
@@ -13,13 +14,12 @@ function Tracker() {
   const debouncedSearchTerm = useDebounce(searchTerm, 450);
   const [results, setResults] = useState([]);
   const [showResults, setShowResults] = useState(false);
-  const [portfolio, setPortfolio] = useState([]); // name, holdings, price, uuid
+  const [portfolio, setPortfolio] = useLocalStorage("portfolio", []); // name, holdings, price, uuid
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState({}); // name, holdings, price, uuid - modalContent is later passed to portfolio
-  // TODO: get this from local storage.
   const ref = useRef();
-  // TODO: on page load get the portfolio from local storage.
   // TODO: After we add a coin to the portfolio, we fetch the new prices for the coins.
+  // TODO: On page load we fetch the prices for all the coins in the portfolio.
   function handleInputChange(event) {
     // search handler
     event.preventDefault();
@@ -48,7 +48,6 @@ function Tracker() {
     ) {
       return; // TODO: we should show that the coin already exists in the portfolio.
     }
-    //TODO: modal should trigger on click of search results.
     if (event.target.tagName === "IMG") {
       // add to modalContent
       setModalContent({
@@ -88,10 +87,11 @@ function Tracker() {
   function handleHoldingsChange(event) {
     // holdings change handler
     event.preventDefault();
-    setModalContent({ ...modalContent, holdings: event.target.value });
+    setModalContent({ ...modalContent, holdings: Number(event.target.value) });
   }
   function saveModalCoinToPortfolio() {
     setPortfolio([...portfolio, { ...modalContent }]);
+    setShowModal(false);
   }
   useEffect(() => {
     if (debouncedSearchTerm.length > 1) {
@@ -107,15 +107,13 @@ function Tracker() {
   }, [debouncedSearchTerm]);
 
   useOnClickOutside(ref, handleClickOutside); // click outside of search results hook
-  console.log("portfolio", portfolio);
-  console.log("modalcontent", modalContent);
   return (
     <>
       <Modal isShowing={showModal}>
         <p>{modalContent.name}</p>
         <input type="number" min="0" onChange={handleHoldingsChange} />
         <button onClick={() => setShowModal(false)}>❌</button>
-        <button>🟢</button>
+        <button onClick={saveModalCoinToPortfolio}>🟢</button>
       </Modal>
       <section className="tracker">
         <h1>Portfolio tracker</h1>
@@ -154,15 +152,14 @@ function Tracker() {
                 }}
               >
                 <p>{coin.name}</p>
-                {/* we want to set coin.price to xxxx*/}
-                <input type="number" />
+                <p>{coin.holdings}</p>
                 <button>Edit holdings</button>
                 <p>{coin.holdings * coin.price} $</p>
                 <button
                   style={{ backgroundColor: "red" }}
                   onClick={() => handleRemoveCoin(coin.name)}
                 >
-                  X
+                  ❌
                 </button>
               </div>
             ))}
