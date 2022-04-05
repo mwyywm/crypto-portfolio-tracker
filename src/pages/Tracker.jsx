@@ -14,11 +14,14 @@ function Tracker() {
   const [results, setResults] = useState([]);
   const [showResults, setShowResults] = useState(false);
   const [portfolio, setPortfolio] = useState([]); // name, holdings, price, uuid
+  const [showModal, setShowModal] = useState(false);
+  const [modalContent, setModalContent] = useState({}); // name, holdings, price, uuid - modalContent is later passed to portfolio
   // TODO: get this from local storage.
   const ref = useRef();
   // TODO: on page load get the portfolio from local storage.
   // TODO: After we add a coin to the portfolio, we fetch the new prices for the coins.
   function handleInputChange(event) {
+    // search handler
     event.preventDefault();
     setSearchTerm(event.target.value);
     setShowResults(true);
@@ -35,33 +38,41 @@ function Tracker() {
   }
   function handleSearchClick(event) {
     event.preventDefault();
+    //TODO: error handling should be shown above search input
     // If the coin we click already exists in the portfolio, we don't want to add it again.
-    //TODO: error handling should be shown above search input???
     if (
       [...portfolio].some(
         (coin) =>
           coin.name === event.target.alt || coin.name === event.target.innerText
       )
     ) {
-      return; //TODO: we should handle error here.
+      return; // TODO: we should show that the coin already exists in the portfolio.
     }
     //TODO: modal should trigger on click of search results.
     if (event.target.tagName === "IMG") {
-      setPortfolio([
-        ...portfolio,
-        { name: event.target.alt, holdings: 0, price: 0, uuid: uuid() },
-      ]);
+      // add to modalContent
+      setModalContent({
+        name: event.target.alt,
+        holdings: 0,
+        price: 0,
+        uuid: uuid(),
+      });
     } else if (event.target.tagName === "P") {
-      setPortfolio([
-        ...portfolio,
-        { name: event.target.innerText, holdings: 0, price: 0, uuid: uuid() },
-      ]);
+      setModalContent({
+        name: event.target.innerText,
+        holdings: 0,
+        price: 0,
+        uuid: uuid(),
+      });
     } else if (event.target.tagName === "DIV") {
-      setPortfolio([
-        ...portfolio,
-        { name: event.target.innerText, holdings: 0, price: 0, uuid: uuid() },
-      ]);
+      setModalContent({
+        name: event.target.innerText,
+        holdings: 0,
+        price: 0,
+        uuid: uuid(),
+      });
     }
+    setShowModal(true);
     setSearchTerm("");
     setResults([]);
   }
@@ -70,17 +81,17 @@ function Tracker() {
     setShowResults(false);
   }
   function handleRemoveCoin(coinToRemove) {
-    // remove coin from portfolio
     const newPortfolio = portfolio.filter((coin) => coin.name !== coinToRemove);
     setPortfolio(newPortfolio);
   }
-  function handleHoldingsChange(event, inputCoin) {
-    // update holdings for a coin
-    const indexOfCoin = portfolio.findIndex((coin) => coin.name === inputCoin);
-    setPortfolio(
-      [...portfolio],
-      (portfolio[indexOfCoin].holdings = event.target.value)
-    );
+  // modal functions
+  function handleHoldingsChange(event) {
+    // holdings change handler
+    event.preventDefault();
+    setModalContent({ ...modalContent, holdings: event.target.value });
+  }
+  function saveModalCoinToPortfolio() {
+    setPortfolio([...portfolio, { ...modalContent }]);
   }
   useEffect(() => {
     if (debouncedSearchTerm.length > 1) {
@@ -96,20 +107,19 @@ function Tracker() {
   }, [debouncedSearchTerm]);
 
   useOnClickOutside(ref, handleClickOutside); // click outside of search results hook
-
+  console.log("portfolio", portfolio);
+  console.log("modalcontent", modalContent);
   return (
     <>
-      <Modal isShowing={true}>
-        {" "}
-        {/* TODO: NEED TO PASS boolean true/false to Modal component 
-        This should be triggered on click of search results. anything inside of modal <> gets rendered 
-        https://upmostly.com/tutorials/modal-components-react-custom-hooks 
-        */}
-        <p>HELLO THERE </p>
+      <Modal isShowing={showModal}>
+        <p>{modalContent.name}</p>
+        <input type="number" min="0" onChange={handleHoldingsChange} />
+        <button onClick={() => setShowModal(false)}>❌</button>
+        <button>🟢</button>
       </Modal>
       <section className="tracker">
         <h1>Portfolio tracker</h1>
-        <p>we should be able to add/remove coins</p>
+        <p>we should be able to add/remove coins</p>K
         <p>we should be able to Change value of holdings</p>
         <p>
           the information should be saved in localstorage so we can view it
@@ -145,10 +155,7 @@ function Tracker() {
               >
                 <p>{coin.name}</p>
                 {/* we want to set coin.price to xxxx*/}
-                <input
-                  type="number"
-                  onChange={(event) => handleHoldingsChange(event, coin.name)}
-                />
+                <input type="number" />
                 <button>Edit holdings</button>
                 <p>{coin.holdings * coin.price} $</p>
                 <button
