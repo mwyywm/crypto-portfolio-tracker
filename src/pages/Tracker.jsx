@@ -18,6 +18,7 @@ function Tracker() {
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState({}); // name, holdings, price, uuid - modalContent is later passed to portfolio
   const ref = useRef();
+  useOnClickOutside(ref, handleClickOutside); // click outside of search results hook
   // TODO: After we add a coin to the portfolio, we fetch the new prices for the coins.
   // TODO: On page load we fetch the prices for all the coins in the portfolio.
   function handleInputChange(event) {
@@ -89,8 +90,7 @@ function Tracker() {
     const coinToUpdate = portfolio.find(
       (coin) => coin.name === event.target.id
     );
-    // index of coinToUpdate in portfolio
-    const index = portfolio.indexOf(coinToUpdate);
+    // we set the modalContent to the coin we want to update.
     setModalContent({
       name: coinToUpdate.name,
       holdings: event.target.value,
@@ -124,7 +124,6 @@ function Tracker() {
       setShowModal(false);
     }
   }
-
   useEffect(() => {
     if (debouncedSearchTerm.length > 1) {
       axios
@@ -137,7 +136,36 @@ function Tracker() {
     } else {
     }
   }, [debouncedSearchTerm]);
-  useOnClickOutside(ref, handleClickOutside); // click outside of search results hook
+  useEffect(() => {
+    if (portfolio.length > 0) {
+      // fetch prices for all coins in the portfolio
+      const promises = portfolio.map((coin) => {
+        return axios.get(
+          `https://api.coingecko.com/api/v3/coins/${coin?.name?.toLowerCase()}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Methods": "GET",
+            },
+          }
+        );
+      });
+      Promise.all(promises)
+        .then((res) => {
+          const newPortfolio = portfolio.map((coin, index) => {
+            return {
+              ...coin,
+              price: res[index].data.market_data.current_price.usd,
+            };
+          });
+          setPortfolio(newPortfolio);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [portfolio]);
   return (
     <>
       <Modal isShowing={showModal}>
