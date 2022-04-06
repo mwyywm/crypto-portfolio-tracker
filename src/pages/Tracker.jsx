@@ -118,6 +118,7 @@ function Tracker() {
       // only the value of "portfolio[index].holdings" is changed, not the whole object
       setPortfolio([...portfolio]);
       setShowModal(false);
+      setTriggerFetch((triggerFetch += 1));
     } else {
       // save new coin to portfolio
       const newPortfolio = [...portfolio, modalContent];
@@ -142,9 +143,12 @@ function Tracker() {
     if (portfolio.length > 0) {
       // fetch prices for all coins in the portfolio
       const promises = portfolio.map((coin) => {
-        return axios.get(
-          `https://api.coingecko.com/api/v3/coins/${coin?.name?.toLowerCase()}`
-        );
+        const url =
+          `https://api.coingecko.com/api/v3/coins/${coin.name.toLowerCase()}`.replaceAll(
+            " ",
+            "-"
+          );
+        return axios.get(url);
       });
       let newPortfolio = portfolio;
       Promise.all(promises)
@@ -160,15 +164,14 @@ function Tracker() {
           console.log(err);
         })
         .finally(() => {
-          console.log("finally");
+          console.log("promises", promises);
           console.log("np", newPortfolio);
           setPortfolio(newPortfolio);
         });
     }
   }, [triggerFetch]);
   useEffect(() => {
-    setTriggerFetch(triggerFetch++);
-    console.log(triggerFetch);
+    setTriggerFetch((triggerFetch += 1));
   }, []);
   return (
     <>
