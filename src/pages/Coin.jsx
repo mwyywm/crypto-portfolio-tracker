@@ -26,7 +26,7 @@ function Coin() {
     error && (
       <section className="coinsection">
         <div style={{ textAlign: "center" }}>
-          <p>Failed to load...</p>
+          <p>Failed to load, you are being rate limited.</p>
         </div>
       </section>
     );

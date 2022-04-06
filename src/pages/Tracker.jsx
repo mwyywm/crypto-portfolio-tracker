@@ -17,6 +17,7 @@ function Tracker() {
   const [portfolio, setPortfolio] = useLocalStorage("portfolio", []); // name, holdings, price, uuid
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState({}); // name, holdings, price, uuid - modalContent is later passed to portfolio
+  let [triggerFetch, setTriggerFetch] = useState(1); // counter to trigger fetching data from api???
   const ref = useRef();
   useOnClickOutside(ref, handleClickOutside); // click outside of search results hook
   // TODO: After we add a coin to the portfolio, we fetch the new prices for the coins.
@@ -122,6 +123,7 @@ function Tracker() {
       const newPortfolio = [...portfolio, modalContent];
       setPortfolio(newPortfolio);
       setShowModal(false);
+      setTriggerFetch((triggerFetch += 1));
     }
   }
   useEffect(() => {
@@ -141,31 +143,33 @@ function Tracker() {
       // fetch prices for all coins in the portfolio
       const promises = portfolio.map((coin) => {
         return axios.get(
-          `https://api.coingecko.com/api/v3/coins/${coin?.name?.toLowerCase()}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Origin": "*",
-              "Access-Control-Allow-Methods": "GET",
-            },
-          }
+          `https://api.coingecko.com/api/v3/coins/${coin?.name?.toLowerCase()}`
         );
       });
+      let newPortfolio = portfolio;
       Promise.all(promises)
         .then((res) => {
-          const newPortfolio = portfolio.map((coin, index) => {
+          newPortfolio = portfolio.map((coin, index) => {
             return {
               ...coin,
               price: res[index].data.market_data.current_price.usd,
             };
           });
-          setPortfolio(newPortfolio);
         })
         .catch((err) => {
           console.log(err);
+        })
+        .finally(() => {
+          console.log("finally");
+          console.log("np", newPortfolio);
+          setPortfolio(newPortfolio);
         });
     }
-  }, [portfolio]);
+  }, [triggerFetch]);
+  useEffect(() => {
+    setTriggerFetch(triggerFetch++);
+    console.log(triggerFetch);
+  }, []);
   return (
     <>
       <Modal isShowing={showModal}>

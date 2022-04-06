@@ -95,7 +95,7 @@ function CoinRow() {
       },
     },
   };
-  if (error) return <div>failed to load data.</div>;
+  if (error) return <div>Failed to load, you are being rate limited.</div>;
   if (!data) return <div>loading...</div>;
   return (
     data.length > 0 && (
