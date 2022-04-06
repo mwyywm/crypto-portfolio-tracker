@@ -75,13 +75,29 @@ function Tracker() {
     setSearchTerm("");
     setResults([]);
   }
-  function handleClickOutside(e) {
+  function handleClickOutside() {
     // hide results div when clicking outside of search results div
     setShowResults(false);
   }
   function handleRemoveCoin(coinToRemove) {
     const newPortfolio = portfolio.filter((coin) => coin.name !== coinToRemove);
     setPortfolio(newPortfolio);
+  }
+  function handleEdit(event) {
+    console.log(event.target.id);
+    // The coin with the same name as id is the coin we want to update.
+    const coinToUpdate = portfolio.find(
+      (coin) => coin.name === event.target.id
+    );
+    // index of coinToUpdate in portfolio
+    const index = portfolio.indexOf(coinToUpdate);
+    setModalContent({
+      name: coinToUpdate.name,
+      holdings: event.target.value,
+      price: coinToUpdate.price,
+      uuid: coinToUpdate.uuid,
+    });
+    setShowModal(true);
   }
   // modal functions
   function handleHoldingsChange(event) {
@@ -90,9 +106,25 @@ function Tracker() {
     setModalContent({ ...modalContent, holdings: Number(event.target.value) });
   }
   function saveModalCoinToPortfolio() {
-    setPortfolio([...portfolio, { ...modalContent }]);
-    setShowModal(false);
+    if ([...portfolio].some((coin) => coin.name === modalContent.name)) {
+      // save existing coin to portfolio
+      const coinToUpdate = portfolio.find(
+        (coin) => coin.name === modalContent.name
+      );
+      const index = portfolio.indexOf(coinToUpdate);
+      // changing the holdings value in the portfolio
+      portfolio[index].holdings = modalContent.holdings;
+      // only the value of "portfolio[index].holdings" is changed, not the whole object
+      setPortfolio([...portfolio]);
+      setShowModal(false);
+    } else {
+      // save new coin to portfolio
+      const newPortfolio = [...portfolio, modalContent];
+      setPortfolio(newPortfolio);
+      setShowModal(false);
+    }
   }
+
   useEffect(() => {
     if (debouncedSearchTerm.length > 1) {
       axios
@@ -105,7 +137,6 @@ function Tracker() {
     } else {
     }
   }, [debouncedSearchTerm]);
-
   useOnClickOutside(ref, handleClickOutside); // click outside of search results hook
   return (
     <>
@@ -153,7 +184,9 @@ function Tracker() {
               >
                 <p>{coin.name}</p>
                 <p>{coin.holdings}</p>
-                <button>Edit holdings</button>
+                <button onClick={handleEdit} id={coin.name}>
+                  edit
+                </button>
                 <p>{coin.holdings * coin.price} $</p>
                 <button
                   style={{ backgroundColor: "red" }}
