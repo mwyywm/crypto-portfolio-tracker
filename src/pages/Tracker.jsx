@@ -20,8 +20,7 @@ function Tracker() {
   let [triggerFetch, setTriggerFetch] = useState(1); // counter to trigger fetching data from api???
   const ref = useRef();
   useOnClickOutside(ref, handleClickOutside); // click outside of search results hook
-  // TODO: After we add a coin to the portfolio, we fetch the new prices for the coins.
-  // TODO: On page load we fetch the prices for all the coins in the portfolio.
+  // TODO: search results navigation
   function handleInputChange(event) {
     // search handler
     event.preventDefault();
@@ -40,7 +39,7 @@ function Tracker() {
   }
   function handleSearchClick(event) {
     event.preventDefault();
-    //TODO: error handling should be shown above search input
+    //TODO: Error handling should be shown above search input
     // If the coin we click already exists in the portfolio, we don't want to add it again.
     if (
       [...portfolio].some(
@@ -48,7 +47,7 @@ function Tracker() {
           coin.name === event.target.alt || coin.name === event.target.innerText
       )
     ) {
-      return; // TODO: we should show that the coin already exists in the portfolio.
+      return; // TODO: We should show that the coin already exists in the portfolio.
     }
     if (event.target.tagName === "IMG") {
       // add to modalContent
@@ -86,7 +85,6 @@ function Tracker() {
     setPortfolio(newPortfolio);
   }
   function handleEdit(event) {
-    console.log(event.target.id);
     // The coin with the same name as id is the coin we want to update.
     const coinToUpdate = portfolio.find(
       (coin) => coin.name === event.target.id
@@ -164,8 +162,6 @@ function Tracker() {
           console.log(err);
         })
         .finally(() => {
-          console.log("promises", promises);
-          console.log("np", newPortfolio);
           setPortfolio(newPortfolio);
         });
     }
@@ -177,7 +173,19 @@ function Tracker() {
     <>
       <Modal isShowing={showModal}>
         <p>{modalContent.name}</p>
-        <input type="number" min="0" onChange={handleHoldingsChange} />
+        <input
+          type="number"
+          min="0"
+          onChange={handleHoldingsChange}
+          autoFocus={true}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              saveModalCoinToPortfolio();
+            } else if (e.key === "Escape" || e.key === "Esc") {
+              setShowModal(false);
+            }
+          }}
+        />
         <button onClick={() => setShowModal(false)}>❌</button>
         <button onClick={saveModalCoinToPortfolio}>🟢</button>
       </Modal>
