@@ -1,0 +1,8 @@
+.breadcrumb-coins {
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+}
+.breadcrumb-coins:hover {
+  color: rgb(49, 49, 49);
+  text-decoration: none;
+}

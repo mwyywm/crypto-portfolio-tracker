@@ -1,6 +1,7 @@
 import React from "react";
 import { AiOutlineRight } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import "./Breadcrumb.css";
 
 export default function Breadcrumb({ text }) {
   return (

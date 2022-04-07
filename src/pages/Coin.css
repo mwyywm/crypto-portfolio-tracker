@@ -16,15 +16,6 @@
 p {
   font-size: 18px;
 }
-
-.breadcrumb-coins {
-  color: rgb(0, 0, 0);
-  text-decoration: none;
-}
-.breadcrumb-coins:hover {
-  color: rgb(49, 49, 49);
-  text-decoration: none;
-}
 .coin .coin-title {
   margin-left: 5px;
   text-align: center;
