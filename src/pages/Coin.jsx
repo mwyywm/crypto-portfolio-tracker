@@ -1,10 +1,10 @@
 import React from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import useSWR from "swr";
 import fetcher from "../utils/fetcher";
 import "./Coin.css";
-import { AiOutlineRight } from "react-icons/ai";
 import CoinConverter from "../components/CoinConverter";
+import Breadcrumb from "../components/Breadcrumb";
 
 function Coin() {
   let params = useParams();
@@ -33,14 +33,7 @@ function Coin() {
   }
   return (
     <section className="coinsection">
-      <div className="breadcrumb">
-        <p className="breadcrumb-text">
-          <Link to="/" className="breadcrumb-coins">
-            Coins
-          </Link>{" "}
-          <AiOutlineRight /> {data ? data?.name : "..."}
-        </p>
-      </div>
+      <Breadcrumb text={data?.name} />
       {data && (
         <div className="coin">
           <div>

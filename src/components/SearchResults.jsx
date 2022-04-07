@@ -7,18 +7,21 @@ const SearchResults = React.forwardRef(
       <div
         className="results-container"
         ref={ref}
+        tabIndex="-1"
         style={showResults ? { display: "block" } : { display: "none" }}
       >
-        {data.map((result) => (
-          <div
-            key={result.name}
-            className="coin-search-result"
-            onClick={onClick}
-          >
-            <img src={result.thumb} alt={result.name} />
-            <p>{result.name}</p>
-          </div>
-        ))}
+        <ul>
+          {data.map((result, i) => (
+            <li
+              key={result.name}
+              className="coin-search-result"
+              onClick={onClick}
+            >
+              <img src={result.thumb} alt={result.name} />
+              <p>{result.name}</p>
+            </li>
+          ))}
+        </ul>
       </div>
     );
   }

@@ -3,7 +3,7 @@
   left: 0;
   width: 100%;
   height: 90px;
-  background-color: #303949;
+  background-color: var(--navbar-color);
   text-align: center;
 }
 .nav-logo {

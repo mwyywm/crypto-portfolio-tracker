@@ -205,6 +205,8 @@ function Tracker() {
               value={searchTerm}
               onClick={() => setShowResults(true)}
             />
+            {/* TODO: Eventually we want to add arrow keys to navigate the results. 
+            https://www.downshift-js.com/use-select */}
             <SearchResults
               data={results}
               onClick={handleSearchClick}

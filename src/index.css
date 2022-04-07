@@ -7,20 +7,21 @@ body {
 * {
   box-sizing: border-box;
 }
-
+:root {
+  --text-color: rgb(0, 0, 0);
+  --background-color: #a3aab6;
+  --navbar-color: #242a35;
+}
 body {
   margin: 0;
   padding: 0;
   font-family: "Heebo", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #bfdbf3;
+  background-color: var(--background-color);
 }
 
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
-
-/* Document
-   ========================================================================== */
 
 /**
  * 1. Correct the line height in all browsers.
