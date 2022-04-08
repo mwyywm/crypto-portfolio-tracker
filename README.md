@@ -1,7 +1,8 @@
 # cryptoapp
 
 Crypto portfolio tracking web application. View cryptocurrencies and track the value of your portfolio. All data is stored in local storage.
-[Link](cryptoappywm.netlify.app)
+
+[Link to demo](https://cryptoappywm.netlify.app/)
 
 ## Available Scripts
 
