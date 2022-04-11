@@ -9,8 +9,12 @@ body {
 }
 :root {
   --text-color: rgb(0, 0, 0);
-  --background-color: #a3aab6;
-  --navbar-color: #242a35;
+  --background-color: #bdcfff; /* #bdcfff */
+  --navbar-color: #ffffff;
+  --navbar-text-color: #000000;
+  --navbar-text-color-hover: #000000;
+  --navbar-button-color: #bdcfff;
+  --navbar-button-color-hover: #bdcfff;
 }
 body {
   margin: 0;

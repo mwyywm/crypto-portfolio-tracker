@@ -1,18 +1,31 @@
 import React from "react";
-import { AiOutlineRight } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import "./Breadcrumb.css";
+import "./breadcrumb.css";
 
 export default function Breadcrumb({ text }) {
   return (
     <div className="breadcrumb">
       {text && (
-        <p className="breadcrumb-text">
-          <Link to="/" className="breadcrumb-coins">
-            Home
+        <>
+          <Link to="/" className="breadcrumb-home">
+            <p className="breadcrumb-home">Home</p>
           </Link>{" "}
-          <AiOutlineRight /> {text}
-        </p>
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M9 6L15 12L9 18"
+              stroke="black"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          <p>{text}</p>
+        </>
       )}
     </div>
   );

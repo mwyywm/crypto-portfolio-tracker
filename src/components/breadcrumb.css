@@ -1,8 +1,34 @@
-.breadcrumb-coins {
-  color: rgb(0, 0, 0);
+.breadcrumb {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  max-width: 400px;
+  width: auto;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+.breadcrumb p {
+  color: var(--text-color);
+  height: 20px;
+}
+.breadcrumb svg {
+  height: 20px;
+  fill: none;
+}
+.breadcrumb svg path {
+  stroke: var(--text-color);
+  stroke-width: 2px;
+}
+.breadcrumb-home {
   text-decoration: none;
 }
-.breadcrumb-coins:hover {
-  color: rgb(49, 49, 49);
+.breadcrumb-home a {
+  text-decoration: none;
+}
+.breadcrumb-home:hover {
+  color: rgb(22, 22, 22);
   text-decoration: none;
 }

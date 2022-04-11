@@ -14,13 +14,13 @@
 .nav-logo h1 a {
   font-size: 44px;
   margin: auto;
-  color: #ffffff;
+  color: var(--navbar-text-color);
 }
 .nav-logo h1 a:hover {
-  color: #dddde2;
+  color: var(--navbar-text-color-hover);
 }
 .nav-logo h1 a:active {
-  color: #dddde2;
+  color: var(--navbar-text-color-hover);
 }
 .nav-wrapper {
   display: flex;
@@ -54,9 +54,9 @@
 }
 .nav-links li a {
   height: 60px;
-  background-color: #ffffff;
+  background-color: var(--navbar-button-color);
+  color: var(--navbar-text-color);
   display: block;
-  color: rgb(0, 0, 0);
   margin-left: 20px;
   text-align: center;
   padding: 20px 20px;
@@ -68,14 +68,12 @@
   align-items: center;
 }
 .nav-links li a:hover {
-  background-color: #dddde2;
+  background-color: var(--navbar-button-color-hover);
 }
 .hamburger {
   display: none;
 }
 @media only screen and (max-width: 960px) {
-  .header {
-  }
   .nav-wrapper {
     width: 100%;
   }
@@ -85,7 +83,7 @@
   .mobile-nav-links {
     position: relative;
     z-index: 2;
-    background-color: #303949;
+    background-color: var(--navbar-color);
   }
   .mobile-nav-links li {
     display: flex;
@@ -96,8 +94,8 @@
   }
   .mobile-nav-links li {
     font-size: 24px;
-    color: rgb(255, 255, 255);
     text-decoration: none;
+    color: var(--navbar-text-color);
   }
   .mobile-nav-links a {
     text-decoration: none;
@@ -108,7 +106,7 @@
     display: block;
   }
   .hamburger path {
-    fill: white;
-    stroke: white;
+    fill: var(--navbar-text-color);
+    stroke: var(--navbar-text-color);
   }
 }

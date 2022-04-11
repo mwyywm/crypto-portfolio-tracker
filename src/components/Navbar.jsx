@@ -19,7 +19,7 @@ function Navbar() {
         <div className="nav-logo">
           <h1>
             <Link to="/" style={{ textDecoration: "none" }}>
-              CRYPTO
+              cpt.
             </Link>
           </h1>
         </div>

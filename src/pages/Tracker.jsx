@@ -39,7 +39,6 @@ function Tracker() {
   }
   function handleSearchClick(event) {
     event.preventDefault();
-    //TODO: Error handling should be shown above search input
     // If the coin we click already exists in the portfolio, we don't want to add it again.
     if (
       [...portfolio].some(
@@ -47,7 +46,7 @@ function Tracker() {
           coin.name === event.target.alt || coin.name === event.target.innerText
       )
     ) {
-      return; // TODO: We should show that the coin already exists in the portfolio.
+      return; // TODO: We should show that the coin already exists in the portfolio. Modal, toast or red error message above search input.
     }
     if (event.target.tagName === "IMG") {
       // add to modalContent
@@ -191,11 +190,8 @@ function Tracker() {
       </Modal>
       <section className="tracker">
         <h1>Portfolio tracker</h1>
-        <p>we should be able to add/remove coins</p>K
-        <p>we should be able to Change value of holdings</p>
         <p>
-          the information should be saved in localstorage so we can view it
-          later
+          Add the coins that you hold and see the value of them!!! blablabla
         </p>
         <div>
           <p>Add coin:</p>
@@ -205,8 +201,6 @@ function Tracker() {
               value={searchTerm}
               onClick={() => setShowResults(true)}
             />
-            {/* TODO: Eventually we want to add arrow keys to navigate the results. 
-            https://www.downshift-js.com/use-select */}
             <SearchResults
               data={results}
               onClick={handleSearchClick}
