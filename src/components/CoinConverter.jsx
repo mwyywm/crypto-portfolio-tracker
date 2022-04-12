@@ -3,25 +3,52 @@ import styled from "@emotion/styled";
 import { IoIosSwap } from "react-icons/io";
 import dollarSign from "../images/dollarsign.png";
 
+const ConverterBox = styled.div`
+  margin: 0 auto;
+  margin-top: 20px;
+  @media (max-width: 960px) {
+    max-width: 100%;
+  }
+`;
+const ConverterTitle = styled.h1`
+  font-weight: 400;
+  margin-bottom: 10px;
+  text-align: center;
+`;
+const InputDiv = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 490px;
+  align-items: center;
+  max-width: 100%;
+  @media (max-width: 960px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+  }
+`;
 const Input = styled.input`
   height: 50px;
   border: none;
+  width: auto;
+  max-width: 100%;
   font-size: 16px;
   &:focus {
-    outline: 1px solid black;
+    outline: none;
   }
 `;
 const InputBox = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   background-color: white;
-  border: 1px solid black;
+  border: none;
+  max-width: 97%;
 `;
-const ConverterBox = styled.div``;
-const ConverterTitle = styled.h1`
-  font-weight: bold;
-  margin-bottom: 10px;
-`;
+
 export default function CoinConverter({ priceOfCoin, symbol, coinImage }) {
   const [amount, setAmount] = useState(1);
   const [stable, setStable] = useState(priceOfCoin);
@@ -53,18 +80,12 @@ export default function CoinConverter({ priceOfCoin, symbol, coinImage }) {
   return (
     <ConverterBox>
       <ConverterTitle>{symbol?.toUpperCase()} to USD Converter</ConverterTitle>
-      <div
-        style={{
-          display: "flex",
-          flexAlign: "center",
-          alignItems: "center",
-        }}
-      >
+      <InputDiv>
         <InputBox>
           <img
             src={coinImage}
-            width="30px"
-            height="30px"
+            width="40px"
+            height="40px"
             style={{ margin: "2px" }}
           />
           <Input
@@ -80,8 +101,8 @@ export default function CoinConverter({ priceOfCoin, symbol, coinImage }) {
         <InputBox>
           <img
             src={dollarSign}
-            width="34px"
-            height="34px"
+            width="40px"
+            height="40px"
             style={{ margin: "2px" }}
           />
           <Input
@@ -93,7 +114,7 @@ export default function CoinConverter({ priceOfCoin, symbol, coinImage }) {
             step="0.10"
           />
         </InputBox>
-      </div>
+      </InputDiv>
     </ConverterBox>
   );
 }
