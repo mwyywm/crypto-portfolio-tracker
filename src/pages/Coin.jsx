@@ -31,6 +31,7 @@ function Coin() {
       </section>
     );
   }
+  console.log("data", data);
   return (
     <section className="coinsection">
       <Breadcrumb text={data?.name} />
@@ -46,7 +47,32 @@ function Coin() {
             <h1 className="coin-text">{data.name}</h1>
             <p className="symbol">{data.symbol?.toUpperCase()}</p>
           </div>
-          <div className="coininfo">
+          <div className="noclassyet">
+            {/* 
+            TODO: wrap the paragraphs in <span>  &
+            only render if there is a value
+            */}
+            <p>Market cap rank: #{data.market_cap_rank}</p>
+            <p>
+              Market cap:{" "}
+              {new Intl.NumberFormat("en-US").format(
+                data.market_data.market_cap.usd
+              )}
+            </p>
+            <p>
+              Circulating supply:{" "}
+              {new Intl.NumberFormat("en-US").format(
+                data.market_data.circulating_supply
+              )}
+            </p>
+            <p>
+              Total supply:{" "}
+              {new Intl.NumberFormat("en-US").format(
+                data.market_data.total_supply
+              )}
+            </p>
+          </div>
+          <div className="coin-info">
             {data.market_data && (
               <>
                 <p>

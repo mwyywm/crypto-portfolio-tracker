@@ -46,13 +46,14 @@ function CoinRow() {
       selector: (row) => row?.market_cap,
       sortable: true,
       className: "wow",
-      cell: (row) => `${new Intl.NumberFormat().format(row.market_cap)}`,
+      cell: (row) => `${new Intl.NumberFormat("en-US").format(row.market_cap)}`,
     },
     {
       name: "24h Volume",
       selector: (row) => row?.total_volume,
       sortable: true,
-      cell: (row) => `${new Intl.NumberFormat().format(row.total_volume)}`,
+      cell: (row) =>
+        `${new Intl.NumberFormat("en-US").format(row.total_volume)}`,
     },
     {
       name: "24h Change",
