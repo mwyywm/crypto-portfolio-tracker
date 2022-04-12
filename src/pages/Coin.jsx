@@ -36,58 +36,50 @@ function Coin() {
       <Breadcrumb text={data?.name} />
       {data && (
         <div className="coin">
-          <div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "flex-start",
-                alignItems: "center",
-              }}
-            >
-              <img
-                src={data.image.small}
-                alt={data.name}
-                width={32}
-                height={32}
-              />
-              <h1 className="coin-title">{data.name}</h1>
-              <p className="symbol">{data.symbol?.toUpperCase()}</p>
-            </div>
-            <div className="coininfo">
-              {data.market_data && (
-                <>
-                  <p>
-                    {data.symbol?.toUpperCase()} price:{" "}
-                    <span className="price">
-                      ${data.market_data.current_price.usd}{" "}
-                      <span
-                        style={{
-                          color:
-                            data.market_data.price_change_percentage_24h > 0
-                              ? "green"
-                              : "red",
-                          fontSize: "24px",
-                        }}
-                      >
-                        {`${data.market_data.price_change_percentage_24h?.toFixed(
-                          2
-                        )}%`}
-                      </span>
-                    </span>
-                  </p>
-                </>
-              )}
-            </div>
+          <div className="coin-heading">
+            <img
+              src={data.image.small}
+              alt={data.name}
+              width={40}
+              height={40}
+            />
+            <h1 className="coin-text">{data.name}</h1>
+            <p className="symbol">{data.symbol?.toUpperCase()}</p>
+          </div>
+          <div className="coininfo">
             {data.market_data && (
               <>
-                <CoinConverter
-                  priceOfCoin={data.market_data.current_price.usd}
-                  symbol={data.symbol}
-                  coinImage={data.image.small}
-                />
+                <p>
+                  {data.symbol?.toUpperCase()} price:{" "}
+                  <span className="price">
+                    ${data.market_data.current_price.usd}{" "}
+                    <span
+                      style={{
+                        color:
+                          data.market_data.price_change_percentage_24h > 0
+                            ? "green"
+                            : "red",
+                        fontSize: "24px",
+                      }}
+                    >
+                      {`${data.market_data.price_change_percentage_24h?.toFixed(
+                        2
+                      )}%`}
+                    </span>
+                  </span>
+                </p>
               </>
             )}
           </div>
+          {data.market_data && (
+            <>
+              <CoinConverter
+                priceOfCoin={data.market_data.current_price.usd}
+                symbol={data.symbol}
+                coinImage={data.image.small}
+              />
+            </>
+          )}
         </div>
       )}
     </section>

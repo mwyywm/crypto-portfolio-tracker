@@ -12,6 +12,7 @@
   display: flex;
 }
 .nav-logo h1 a {
+  font-weight: 400;
   font-size: 44px;
   margin: auto;
   color: var(--navbar-text-color);
@@ -27,7 +28,7 @@
   justify-content: space-between;
   margin: 0 auto;
   align-items: center;
-  width: 1200px;
+  width: 1440px;
   max-width: 97%;
   height: 90px;
 }
