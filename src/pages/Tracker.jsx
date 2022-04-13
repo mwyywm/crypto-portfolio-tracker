@@ -15,7 +15,10 @@ function Tracker() {
   const debouncedSearchTerm = useDebounce(searchTerm, 450); // search debounce
   const [results, setResults] = useState([]); // search results
   const [showResults, setShowResults] = useState(false); // boolean
-  const [searchError, setSearchError] = useState(false); // boolean
+  const [displayError, setDisplayError] = useState({
+    modal: false,
+    search: false,
+  }); // {displayError.modal, displayError.search} boolean
   const [portfolio, setPortfolio] = useLocalStorage("portfolio", []); // name, holdings, price, uuid
   const [modalContent, setModalContent] = useState({}); // name, apiID, holdings, price, uuid - modalContent is later passed to portfolio
   const [totalHoldings, setTotalHoldings] = useState(0); // total holdings of all coins
@@ -49,7 +52,7 @@ function Tracker() {
           coin.name === event.target.alt || coin.name === event.target.innerText
       )
     ) {
-      return setSearchError(true);
+      return setDisplayError({ ...displayError, search: true });
     }
     if (event.target.tagName === "IMG") {
       // add to modalContent
@@ -60,7 +63,7 @@ function Tracker() {
         price: 0,
         uuid: uuid(),
       });
-      setSearchError(false);
+      setDisplayError({ ...displayError, search: false });
       setShowModal(true);
       setSearchTerm("");
       setResults([]);
@@ -73,7 +76,7 @@ function Tracker() {
         price: 0,
         uuid: uuid(),
       });
-      setSearchError(false);
+      setDisplayError({ ...displayError, search: false });
       setShowModal(true);
       setSearchTerm("");
       setResults([]);
@@ -106,27 +109,38 @@ function Tracker() {
   function handleHoldingsChange(event) {
     // holdings change handler
     event.preventDefault();
-    setModalContent({ ...modalContent, holdings: Number(event.target.value) });
+    if (typeof event.target.value === "string") {
+      setModalContent({
+        ...modalContent,
+        holdings: parseFloat(event.target.value),
+      });
+    } else {
+    }
   }
   function saveModalCoinToPortfolio() {
-    if ([...portfolio].some((coin) => coin.name === modalContent.name)) {
-      // save existing coin to portfolio
-      const coinToUpdate = portfolio.find(
-        (coin) => coin.name === modalContent.name
-      );
-      const index = portfolio.indexOf(coinToUpdate);
-      // changing the holdings value in the portfolio
-      portfolio[index].holdings = modalContent.holdings;
-      // only the value of "portfolio[index].holdings" is changed, not the whole object
-      setPortfolio([...portfolio]);
-      setShowModal(false);
-      setTriggerFetch((triggerFetch += 1));
+    if (modalContent.holdings > 0) {
+      if ([...portfolio].some((coin) => coin.name === modalContent.name)) {
+        // save existing coin to portfolio
+        const coinToUpdate = portfolio.find(
+          (coin) => coin.name === modalContent.name
+        );
+        const index = portfolio.indexOf(coinToUpdate);
+        // changing the holdings value in the portfolio
+        portfolio[index].holdings = modalContent.holdings;
+        // only the value of "portfolio[index].holdings" is changed, not the whole object
+        setPortfolio([...portfolio]);
+        setShowModal(false);
+        setTriggerFetch((triggerFetch += 1));
+      } else {
+        // save new coin to portfolio
+        const newPortfolio = [...portfolio, modalContent];
+        setPortfolio(newPortfolio);
+        setShowModal(false);
+        setTriggerFetch((triggerFetch += 1));
+      }
     } else {
-      // save new coin to portfolio
-      const newPortfolio = [...portfolio, modalContent];
-      setPortfolio(newPortfolio);
-      setShowModal(false);
-      setTriggerFetch((triggerFetch += 1));
+      // modalContent.holdings is 0 or less
+      setDisplayError({ ...displayError, modal: true });
     }
   }
   useEffect(() => {
@@ -177,33 +191,74 @@ function Tracker() {
     setTotalHoldings(total);
   }, [portfolio]);
   useEffect(() => {
-    setTimeout(() => {
-      setSearchError(false);
-    }, 4000);
-    // cleanup function
-    return () => {
-      clearTimeout();
-    };
-  }, [searchError]);
+    if (displayError.search) {
+      setTimeout(() => {
+        setDisplayError({ ...displayError, search: false });
+      }, 4000);
+      // cleanup function
+      return () => {
+        clearTimeout();
+      };
+    }
+    if (displayError.modal) {
+      setTimeout(() => {
+        setDisplayError({ ...displayError, modal: false });
+      }, 4000);
+      // cleanup function
+      return () => {
+        clearTimeout();
+      };
+    }
+  }, [displayError]);
   return (
     <>
       <Modal isShowing={showModal}>
-        <p>{modalContent.name}</p>
-        <input
-          type="number"
-          min="0"
-          onChange={handleHoldingsChange}
-          autoFocus={true}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              saveModalCoinToPortfolio();
-            } else if (e.key === "Escape" || e.key === "Esc") {
-              setShowModal(false);
-            }
-          }}
-        />
-        <button onClick={() => setShowModal(false)}>❌</button>
-        <button onClick={saveModalCoinToPortfolio}>🟢</button>
+        <svg
+          width="30"
+          height="30"
+          viewBox="0 0 30 30"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          onClick={() => setShowModal(false)}
+        >
+          <rect width="30" height="30" rx="6" fill="black" />
+          <path
+            d="M14.9997 13.586L19.9497 8.63599L21.3637 10.05L16.4137 15L21.3637 19.95L19.9497 21.364L14.9997 16.414L10.0497 21.364L8.63574 19.95L13.5857 15L8.63574 10.05L10.0497 8.63599L14.9997 13.586Z"
+            fill="white"
+          />
+        </svg>
+        <div className="modal-content">
+          <p className="modal-heading">{modalContent.name + " holdings:"}</p>
+          <div className="modal-input-div">
+            <p className="modal-error">
+              {displayError.modal && "Must be a number greater than 0!"}
+            </p>
+            <input
+              type="number"
+              className="modal-input"
+              placeholder="Enter holdings"
+              step="0.1"
+              min="0"
+              onChange={handleHoldingsChange}
+              autoFocus={true}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  saveModalCoinToPortfolio();
+                } else if (e.key === "Escape" || e.key === "Esc") {
+                  setShowModal(false);
+                }
+              }}
+            />
+          </div>
+        </div>
+        <div className="buttons-div">
+          <button className="cancel" onClick={() => setShowModal(false)}>
+            Cancel
+          </button>
+          <button className="submit" onClick={saveModalCoinToPortfolio}>
+            Submit
+          </button>
+        </div>
       </Modal>
       <section className="tracker">
         <Breadcrumb text="Portfolio tracker" />
@@ -216,7 +271,8 @@ function Tracker() {
         </section>
         <section className="bottom-section">
           <p className="search-error">
-            {searchError && "Coin already exists in portfolio!"}
+            {displayError.search === true &&
+              "Coin already exists in portfolio!"}
           </p>
           <div className="search-div" ref={ref}>
             <SearchInput
@@ -235,7 +291,12 @@ function Tracker() {
               <>
                 <h2>
                   Total portfolio value:{" "}
-                  {totalHoldings ? "$" + totalHoldings?.toFixed(2) : "..."}
+                  {totalHoldings
+                    ? "$" +
+                      Intl.NumberFormat("en-US").format(
+                        totalHoldings?.toFixed(2)
+                      )
+                    : "..."}
                 </h2>
                 <div className="portfolio-box">
                   {portfolio.map((coin) => (

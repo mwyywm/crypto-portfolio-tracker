@@ -4,10 +4,80 @@
   left: 50%;
   background-color: rgb(255, 255, 255);
   transform: translate(-50%, -50%);
-  width: 600px;
-  max-width: 100%;
-  height: 200px;
+  height: 330px;
+  width: 500px;
+  max-width: 97%;
   max-height: 100%;
-  padding: 20px 50px 20px 20px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid rgb(126, 126, 126);
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.modal-content {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+.modal-content .modal-heading {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--text-color);
+}
+.modal .modal-input-div {
+  margin-top: 20px;
+}
+.modal .modal-error {
+  color: red;
+  font-size: 16px;
+  height: 40px;
+  width: 200px;
+  max-width: 100%;
+}
+.modal .modal-input {
+  margin: 0 auto;
+  height: 40px;
+  padding-left: 5px;
   border: 1px solid black;
+  border-radius: 8px;
+  width: 200px;
+  max-width: 100%;
+  font-size: 16px;
+}
+.modal svg {
+  cursor: pointer;
+}
+
+.modal button {
+  cursor: pointer;
+  width: 100px;
+  height: 50px;
+  border-radius: 8px;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  transition: 0.25s;
+}
+.modal button:hover {
+  transition: 0.25s;
+}
+
+.modal .cancel {
+  background-color: #626262;
+}
+.modal .cancel:hover {
+  background-color: #3b3b3b;
+}
+.modal .submit {
+  margin-left: 5px;
+  background-color: #3a70ff;
+}
+.modal .submit:hover {
+  background-color: #2c5cff; /* #2c5cff; */
 }

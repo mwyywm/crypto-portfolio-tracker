@@ -46,6 +46,8 @@ const InputBox = styled.div`
   align-items: center;
   background-color: white;
   border: none;
+  padding-right: 5px;
+  border-radius: 8px;
   max-width: 97%;
 `;
 

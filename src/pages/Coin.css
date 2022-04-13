@@ -21,7 +21,7 @@
 }
 .coin-tabs {
   padding: 5px;
-  border-radius: 6px;
+  border-radius: 8px;
   margin-top: 5px;
   background-color: white;
   display: flex;
@@ -49,7 +49,7 @@
   font-weight: 400;
   margin-left: 5px;
   padding: 6px;
-  border-radius: 6px;
+  border-radius: 8px;
 }
 .symbol b {
   padding-left: 20px;
