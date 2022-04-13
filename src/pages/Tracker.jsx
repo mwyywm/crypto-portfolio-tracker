@@ -41,6 +41,7 @@ function Tracker() {
   }
   function handleSearchClick(event) {
     event.preventDefault();
+    console.log(event.target);
     // If the coin we click already exists in the portfolio, we don't want to add it again.
     if (
       [...portfolio].some(
@@ -65,7 +66,7 @@ function Tracker() {
         price: 0,
         uuid: uuid(),
       });
-    } else if (event.target.tagName === "DIV") {
+    } else if (event.target.tagName === "LI") {
       setModalContent({
         name: event.target.innerText,
         holdings: 0,
@@ -226,7 +227,7 @@ function Tracker() {
               <>
                 <h2>
                   Total portfolio value:
-                  {totalHoldings ? "$" + totalHoldings : "..."}
+                  {totalHoldings ? "$" + totalHoldings?.toFixed(2) : "..."}
                 </h2>
                 <div className="portfolio-box">
                   {portfolio.map((coin) => (

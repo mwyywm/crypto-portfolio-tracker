@@ -11,7 +11,7 @@ const SearchResults = React.forwardRef(
         style={showResults ? { display: "block" } : { display: "none" }}
       >
         <ul>
-          {data.map((result, i) => (
+          {data.map((result) => (
             <li
               key={result.name}
               className="coin-search-result"
