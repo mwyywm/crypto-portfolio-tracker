@@ -26,6 +26,8 @@ function Tracker() {
   let [triggerFetch, setTriggerFetch] = useState(1); // force rerender
   const ref = useRef();
   useOnClickOutside(ref, handleClickOutside); // click outside of search results hook
+  const modalRef = useRef();
+  useOnClickOutside(modalRef, handleClickOutsideModal); // click outside of modal hook
   // TODO: search results navigation with arrow keys
   function handleInputChange(event) {
     // search handler
@@ -143,6 +145,10 @@ function Tracker() {
       setDisplayError({ ...displayError, modal: true });
     }
   }
+  function handleClickOutsideModal() {
+    // hide modal when clicking outside of modal
+    setShowModal(false);
+  }
   useEffect(() => {
     if (debouncedSearchTerm.length > 1) {
       axios
@@ -212,7 +218,7 @@ function Tracker() {
   }, [displayError]);
   return (
     <>
-      <Modal isShowing={showModal}>
+      <Modal isShowing={showModal} ref={modalRef}>
         <svg
           width="30"
           height="30"
@@ -327,7 +333,12 @@ function Tracker() {
                         </button>
                       </div>
                       <div className="portfolio-coin-total">
-                        <p>{"$" + (coin.holdings * coin.price)?.toFixed(2)}</p>
+                        <p>
+                          {"$" +
+                            Intl.NumberFormat("en-US").format(
+                              coin.holdings * coin.price?.toFixed(2)
+                            )}
+                        </p>
                         <button onClick={() => handleRemoveCoin(coin.name)}>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
