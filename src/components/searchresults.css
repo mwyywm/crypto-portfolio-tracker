@@ -1,20 +1,27 @@
 .results-container {
-  background-color: rgb(255, 255, 255);
-  width: 200px;
+  background-color: #ffffff;
+  margin-top: 1px;
+  width: 240px;
   position: absolute;
   max-height: 400px;
   overflow-y: scroll;
-  border-radius: 5px;
+  border-radius: 8px;
 }
 .coin-search-result {
   padding: 10px;
-  border-bottom: 1px solid rgb(230, 230, 230);
-  height: auto;
-  max-height: 80px;
+  border-bottom: 1px solid #e6e6e6;
+  min-height: 60px;
   cursor: pointer;
   display: flex;
+  align-items: center;
 }
 .coin-search-result img {
   width: 32px;
   height: 32px;
+}
+.coin-search-result p {
+  margin-left: 10px;
+  font-size: 18px;
+  font-weight: 400;
+  color: #000000;
 }

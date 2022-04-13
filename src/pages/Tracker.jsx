@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./tracker.css";
+import Breadcrumb from "../components/Breadcrumb";
 import SearchInput from "../components/SearchInput";
 import SearchResults from "../components/SearchResults";
 import Modal from "../components/Modal";
@@ -10,14 +11,15 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 import uuid from "../utils/uuid";
 
 function Tracker() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const debouncedSearchTerm = useDebounce(searchTerm, 450);
-  const [results, setResults] = useState([]);
-  const [showResults, setShowResults] = useState(false);
+  const [searchTerm, setSearchTerm] = useState(""); // value of the search input
+  const debouncedSearchTerm = useDebounce(searchTerm, 450); // search debounce
+  const [results, setResults] = useState([]); // search results
+  const [showResults, setShowResults] = useState(false); // boolean
   const [portfolio, setPortfolio] = useLocalStorage("portfolio", []); // name, holdings, price, uuid
-  const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState({}); // name, holdings, price, uuid - modalContent is later passed to portfolio
-  let [triggerFetch, setTriggerFetch] = useState(1); // counter to trigger fetching data from api???
+  const [totalHoldings, setTotalHoldings] = useState(0); // total holdings of all coins
+  const [showModal, setShowModal] = useState(false); // boolean
+  let [triggerFetch, setTriggerFetch] = useState(1); // force rerender
   const ref = useRef();
   useOnClickOutside(ref, handleClickOutside); // click outside of search results hook
   // TODO: search results navigation
@@ -141,7 +143,7 @@ function Tracker() {
       // fetch prices for all coins in the portfolio
       const promises = portfolio.map((coin) => {
         const url =
-          `https://api.coingecko.com/api/v3/coins/${coin.name.toLowerCase()}`.replaceAll(
+          `https://api.coingecko.com/api/v3/coins/${coin.name?.toLowerCase()}`.replaceAll(
             " ",
             "-"
           );
@@ -168,6 +170,14 @@ function Tracker() {
   useEffect(() => {
     setTriggerFetch((triggerFetch += 1));
   }, []);
+  useEffect(() => {
+    // calculate total holdings
+    let total = 0;
+    portfolio.map((coin) => {
+      total += coin.holdings * coin.price;
+    });
+    setTotalHoldings(total);
+  }, [portfolio]);
   return (
     <>
       <Modal isShowing={showModal}>
@@ -189,12 +199,15 @@ function Tracker() {
         <button onClick={saveModalCoinToPortfolio}>🟢</button>
       </Modal>
       <section className="tracker">
-        <h1>Portfolio tracker</h1>
-        <p>
-          Add the coins that you hold and see the value of them!!! blablabla
-        </p>
-        <div>
-          <p>Add coin:</p>
+        <Breadcrumb text="Portfolio tracker" />
+        <section className="tracker-heading">
+          <h1>Portfolio tracker</h1>
+          <p className="tracker-paragraph">
+            Track the value of all your cryptocurrencies! Add coins to your
+            portfolio tracker and the total portfolio value will be tracked.
+          </p>
+        </section>
+        <section className="bottom-section">
           <div className="search-div">
             <SearchInput
               onInput={handleInputChange}
@@ -209,34 +222,61 @@ function Tracker() {
             />
           </div>
           <div className="portfolio">
-            <p>Holdings:</p>
-            {portfolio.map((coin) => (
-              <div
-                key={coin.uuid}
-                style={{
-                  display: "flex",
-                  justifyContent: "space-around",
-                  alignItems: "center",
-                  width: "450px",
-                  maxWidth: "100%",
-                }}
-              >
-                <p>{coin.name}</p>
-                <p>{coin.holdings}</p>
-                <button onClick={handleEdit} id={coin.name}>
-                  edit
-                </button>
-                <p>{coin.holdings * coin.price} $</p>
-                <button
-                  style={{ backgroundColor: "red" }}
-                  onClick={() => handleRemoveCoin(coin.name)}
-                >
-                  ❌
-                </button>
-              </div>
-            ))}
+            {portfolio.length > 0 && (
+              <>
+                <h2>
+                  Total portfolio value:
+                  {totalHoldings ? "$" + totalHoldings : "..."}
+                </h2>
+                <div className="portfolio-box">
+                  {portfolio.map((coin) => (
+                    <div key={coin.uuid} className="portfolio-coin">
+                      <div className="portfolio-coin-name">
+                        <p>{coin.name}</p>
+                      </div>
+                      <div className="portfolio-coin-holdings">
+                        <p>{coin.holdings}</p>
+                        <button onClick={handleEdit} id={coin.name}>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            height="24"
+                            id={coin.name}
+                          >
+                            <path
+                              fill="none"
+                              d="M0 0h24v24H0z"
+                              id={coin.name}
+                            />
+                            <path
+                              d="M5 19h1.414l9.314-9.314-1.414-1.414L5 17.586V19zm16 2H3v-4.243L16.435 3.322a1 1 0 0 1 1.414 0l2.829 2.829a1 1 0 0 1 0 1.414L9.243 19H21v2zM15.728 6.858l1.414 1.414 1.414-1.414-1.414-1.414-1.414 1.414z"
+                              id={coin.name}
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                      <div className="portfolio-coin-total">
+                        <p>{"$" + (coin.holdings * coin.price)?.toFixed(2)}</p>
+                        <button onClick={() => handleRemoveCoin(coin.name)}>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            height="24"
+                          >
+                            <path fill="none" d="M0 0h24v24H0z" />
+                            <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
-        </div>
+        </section>
       </section>
     </>
   );

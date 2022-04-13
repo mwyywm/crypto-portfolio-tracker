@@ -7,6 +7,23 @@ body {
 * {
   box-sizing: border-box;
 }
+/* scrollbar */
+/* width */
+::-webkit-scrollbar {
+  width: 14px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: #e7e7e7;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #47494d;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(122, 122, 122);
+}
 :root {
   --text-color: rgb(0, 0, 0);
   --background-color: #bdcfff; /* #bdcfff */

@@ -4,3 +4,106 @@
   margin: 0 auto;
   margin-top: 40px;
 }
+.tracker h1 {
+  font-weight: 400;
+  font-size: 42px;
+}
+.tracker-heading {
+  margin: 0 auto;
+  text-align: center;
+  max-width: 97%;
+  width: 370px;
+}
+.tracker-paragraph {
+  text-align: left;
+  font-size: 18px;
+  line-height: 1.5;
+  margin-bottom: 40px;
+  width: 370px;
+  max-width: 97%;
+}
+.bottom-section {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+.search-div {
+  margin: 0 auto;
+  width: 240px;
+  border: none;
+  border-radius: 6px;
+}
+.search-input {
+  border: none;
+  height: 50px;
+  width: 240px;
+  padding-left: 5px;
+  border-radius: 8px;
+  max-width: 100%;
+}
+.search-input:focus {
+  outline: none;
+}
+.portfolio {
+  width: 490px;
+  max-width: 100%;
+  margin: 0 auto;
+  margin-top: 60px;
+  margin-bottom: 40px;
+}
+.portfolio h2 {
+  font-weight: 400;
+  text-align: center;
+}
+
+.portfolio-box {
+  background-color: rgb(255, 255, 255);
+  margin-top: 15px;
+  border-radius: 8px;
+  padding: 10px;
+  max-width: 100%;
+}
+.portfolio-coin {
+  display: grid;
+  grid-template-columns: 6fr 2fr 2fr;
+  background-color: rgb(255, 255, 255);
+  grid-template-areas: "name holdings total";
+  margin: 5px;
+  padding: 5px;
+}
+.portfolio-coin button {
+  border: 1px solid rgb(0, 0, 0);
+  background-color: white;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 34px;
+  width: 34px;
+}
+.portfolio-coin-name {
+  grid-area: name;
+  text-align: left;
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.portfolio-coin-holdings {
+  grid-area: holdings;
+  min-width: 100px;
+  text-align: right;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.portfolio-coin-total {
+  grid-area: total;
+  text-align: right;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0 0 5px;
+  align-items: center;
+  min-width: 130px;
+  width: auto;
+}

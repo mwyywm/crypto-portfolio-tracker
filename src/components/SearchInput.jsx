@@ -5,8 +5,7 @@ export default function SearchInput({ onInput, value, onClick }) {
     <>
       <input
         className="search-input"
-        style={{ width: "200px" }}
-        placeholder="Search..."
+        placeholder="Search for a coin..."
         onInput={onInput}
         value={value}
         onClick={onClick}
