@@ -18,14 +18,14 @@ function Tracker() {
   const [displayError, setDisplayError] = useState({
     modal: false,
     search: false,
-  }); // {displayError.modal, displayError.search} boolean
+  }); // boolean
   const [portfolio, setPortfolio] = useLocalStorage("portfolio", []); // name, holdings, price, uuid
-  const [modalContent, setModalContent] = useState({}); // name, apiID, holdings, price, uuid - modalContent is later passed to portfolio
+  const [modalContent, setModalContent] = useState({}); // name, apiID, image, holdings, price, uuid - modalContent is later passed to portfolio
   const [totalHoldings, setTotalHoldings] = useState(0); // total holdings of all coins
   const [showModal, setShowModal] = useState(false); // boolean
   let [triggerFetch, setTriggerFetch] = useState(1); // force rerender
-  const ref = useRef();
-  useOnClickOutside(ref, handleClickOutside); // click outside of search results hook
+  const searchRef = useRef();
+  useOnClickOutside(searchRef, handleClickOutside); // click outside of search results hook
   const modalRef = useRef();
   useOnClickOutside(modalRef, handleClickOutsideModal); // click outside of modal hook
   // TODO: search results navigation with arrow keys
@@ -61,6 +61,7 @@ function Tracker() {
       setModalContent({
         name: event.target.alt,
         apiID: results.find((result) => result.name === event.target.alt).id,
+        image: results.find((result) => result.name === event.target.alt).large,
         holdings: 0,
         price: 0,
         uuid: uuid(),
@@ -74,6 +75,8 @@ function Tracker() {
         name: event.target.innerText,
         apiID: results.find((result) => result.name === event.target.innerText)
           .id,
+        image: results.find((result) => result.name === event.target.innerText)
+          .large,
         holdings: 0,
         price: 0,
         uuid: uuid(),
@@ -280,7 +283,7 @@ function Tracker() {
             {displayError.search === true &&
               "Coin already exists in portfolio!"}
           </p>
-          <div className="search-div" ref={ref}>
+          <div className="search-div" ref={searchRef}>
             <SearchInput
               onInput={handleInputChange}
               value={searchTerm}
@@ -308,6 +311,16 @@ function Tracker() {
                   {portfolio.map((coin) => (
                     <div key={coin.uuid} className="portfolio-coin">
                       <div className="portfolio-coin-name">
+                        {coin.image && (
+                          <img
+                            src={coin.image}
+                            style={{
+                              width: "32px",
+                              height: "32px",
+                              marginRight: "5px",
+                            }}
+                          />
+                        )}
                         <p>{coin.name}</p>
                       </div>
                       <div className="portfolio-coin-holdings">
