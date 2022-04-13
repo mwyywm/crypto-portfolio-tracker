@@ -15,14 +15,15 @@ function Tracker() {
   const debouncedSearchTerm = useDebounce(searchTerm, 450); // search debounce
   const [results, setResults] = useState([]); // search results
   const [showResults, setShowResults] = useState(false); // boolean
+  const [searchError, setSearchError] = useState(false); // boolean
   const [portfolio, setPortfolio] = useLocalStorage("portfolio", []); // name, holdings, price, uuid
-  const [modalContent, setModalContent] = useState({}); // name, holdings, price, uuid - modalContent is later passed to portfolio
+  const [modalContent, setModalContent] = useState({}); // name, apiID, holdings, price, uuid - modalContent is later passed to portfolio
   const [totalHoldings, setTotalHoldings] = useState(0); // total holdings of all coins
   const [showModal, setShowModal] = useState(false); // boolean
   let [triggerFetch, setTriggerFetch] = useState(1); // force rerender
   const ref = useRef();
   useOnClickOutside(ref, handleClickOutside); // click outside of search results hook
-  // TODO: search results navigation
+  // TODO: search results navigation with arrow keys
   function handleInputChange(event) {
     // search handler
     event.preventDefault();
@@ -41,7 +42,6 @@ function Tracker() {
   }
   function handleSearchClick(event) {
     event.preventDefault();
-    console.log(event.target);
     // If the coin we click already exists in the portfolio, we don't want to add it again.
     if (
       [...portfolio].some(
@@ -49,34 +49,35 @@ function Tracker() {
           coin.name === event.target.alt || coin.name === event.target.innerText
       )
     ) {
-      return; // TODO: We should show that the coin already exists in the portfolio. Modal, toast or red error message above search input.
+      return setSearchError(true);
     }
     if (event.target.tagName === "IMG") {
       // add to modalContent
       setModalContent({
         name: event.target.alt,
+        apiID: results.find((result) => result.name === event.target.alt).id,
         holdings: 0,
         price: 0,
         uuid: uuid(),
       });
-    } else if (event.target.tagName === "P") {
+      setSearchError(false);
+      setShowModal(true);
+      setSearchTerm("");
+      setResults([]);
+    } else if (event.target.tagName === "P" || event.target.tagName === "LI") {
       setModalContent({
         name: event.target.innerText,
+        apiID: results.find((result) => result.name === event.target.innerText)
+          .id,
         holdings: 0,
         price: 0,
         uuid: uuid(),
       });
-    } else if (event.target.tagName === "LI") {
-      setModalContent({
-        name: event.target.innerText,
-        holdings: 0,
-        price: 0,
-        uuid: uuid(),
-      });
+      setSearchError(false);
+      setShowModal(true);
+      setSearchTerm("");
+      setResults([]);
     }
-    setShowModal(true);
-    setSearchTerm("");
-    setResults([]);
   }
   function handleClickOutside() {
     // hide results div when clicking outside of search results div
@@ -94,6 +95,7 @@ function Tracker() {
     // we set the modalContent to the coin we want to update.
     setModalContent({
       name: coinToUpdate.name,
+      apiID: coinToUpdate.apiID,
       holdings: event.target.value,
       price: coinToUpdate.price,
       uuid: coinToUpdate.uuid,
@@ -136,18 +138,13 @@ function Tracker() {
         .then((res) => {
           setResults(res.data.coins.slice(0, 15));
         });
-    } else {
     }
   }, [debouncedSearchTerm]);
   useEffect(() => {
     if (portfolio.length > 0) {
       // fetch prices for all coins in the portfolio
       const promises = portfolio.map((coin) => {
-        const url =
-          `https://api.coingecko.com/api/v3/coins/${coin.name?.toLowerCase()}`.replaceAll(
-            " ",
-            "-"
-          );
+        const url = `https://api.coingecko.com/api/v3/coins/${coin.apiID}`;
         return axios.get(url);
       });
       let newPortfolio = portfolio;
@@ -179,6 +176,15 @@ function Tracker() {
     });
     setTotalHoldings(total);
   }, [portfolio]);
+  useEffect(() => {
+    setTimeout(() => {
+      setSearchError(false);
+    }, 4000);
+    // cleanup function
+    return () => {
+      clearTimeout();
+    };
+  }, [searchError]);
   return (
     <>
       <Modal isShowing={showModal}>
@@ -209,7 +215,10 @@ function Tracker() {
           </p>
         </section>
         <section className="bottom-section">
-          <div className="search-div">
+          <p className="search-error">
+            {searchError && "Coin already exists in portfolio!"}
+          </p>
+          <div className="search-div" ref={ref}>
             <SearchInput
               onInput={handleInputChange}
               value={searchTerm}
@@ -218,7 +227,6 @@ function Tracker() {
             <SearchResults
               data={results}
               onClick={handleSearchClick}
-              ref={ref}
               showResults={showResults}
             />
           </div>
@@ -226,7 +234,7 @@ function Tracker() {
             {portfolio.length > 0 && (
               <>
                 <h2>
-                  Total portfolio value:
+                  Total portfolio value:{" "}
                   {totalHoldings ? "$" + totalHoldings?.toFixed(2) : "..."}
                 </h2>
                 <div className="portfolio-box">

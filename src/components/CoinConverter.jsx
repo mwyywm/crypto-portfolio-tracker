@@ -72,9 +72,9 @@ export default function CoinConverter({ priceOfCoin, symbol, coinImage }) {
   useEffect(() => {
     // handling the alternate input number change
     if (document.activeElement === coinRef.current) {
-      setStable(parseFloat(priceOfCoin * amount));
+      setStable(parseFloat((priceOfCoin * amount)?.toFixed(4)));
     } else if (document.activeElement === stableRef.current) {
-      setAmount((stable / priceOfCoin).toFixed(8));
+      setAmount((stable / priceOfCoin)?.toFixed(8));
     }
   }, [amount, stable]);
   return (

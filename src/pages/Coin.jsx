@@ -39,10 +39,6 @@ function Coin() {
             <p className="symbol">{data.symbol?.toUpperCase()}</p>
           </div>
           <div className="coin-info-tabs">
-            {/* 
-            TODO: wrap the paragraphs in <span>  &
-            only render if there is a value
-            */}
             {data?.market_cap_rank && (
               <p>
                 <span className="coin-tabs">
