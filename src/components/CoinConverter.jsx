@@ -4,6 +4,7 @@ import { IoIosSwap } from "react-icons/io";
 import dollarSign from "../images/dollarsign.png";
 
 const ConverterBox = styled.div`
+  max-width: 100%;
   margin: 0 auto;
   margin-top: 20px;
   @media (max-width: 960px) {
@@ -15,13 +16,16 @@ const ConverterTitle = styled.h1`
   margin-bottom: 10px;
   text-align: center;
 `;
+// TODO: More responsive css needs to be added
 const InputDiv = styled.div`
+  margin-top: 15px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  height: auto;
   width: 490px;
-  align-items: center;
   max-width: 100%;
+  align-items: center;
   @media (max-width: 960px) {
     display: flex;
     flex-direction: column;
@@ -31,7 +35,7 @@ const InputDiv = styled.div`
   }
 `;
 const Input = styled.input`
-  height: 50px;
+  height: 45px;
   border: none;
   width: auto;
   max-width: 100%;
@@ -43,12 +47,13 @@ const Input = styled.input`
 const InputBox = styled.div`
   display: flex;
   flex-wrap: wrap;
+  padding: 5px;
   align-items: center;
   background-color: white;
   border: none;
   padding-right: 5px;
   border-radius: 8px;
-  max-width: 97%;
+  max-width: 100%;
 `;
 
 export default function CoinConverter({ priceOfCoin, symbol, coinImage }) {
@@ -86,8 +91,8 @@ export default function CoinConverter({ priceOfCoin, symbol, coinImage }) {
         <InputBox>
           <img
             src={coinImage}
-            width="40px"
-            height="40px"
+            width="32px"
+            height="32px"
             style={{ margin: "2px" }}
           />
           <Input
@@ -99,12 +104,13 @@ export default function CoinConverter({ priceOfCoin, symbol, coinImage }) {
             step="0.10"
           />
         </InputBox>
-        <IoIosSwap size="30px" fill="black" />
+
+        <IoIosSwap size="28px" fill="black" />
         <InputBox>
           <img
             src={dollarSign}
-            width="40px"
-            height="40px"
+            width="32px"
+            height="32px"
             style={{ margin: "2px" }}
           />
           <Input
