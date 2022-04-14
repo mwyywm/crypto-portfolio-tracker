@@ -67,6 +67,7 @@
   /* centering text */
   display: flex;
   align-items: center;
+  transition: 0.25s;
 }
 .nav-links li a:hover {
   background-color: var(--navbar-button-color-hover);
@@ -84,19 +85,23 @@
   .mobile-nav-links {
     position: relative;
     z-index: 2;
+    border-top: 1px solid #808080;
     background-color: var(--navbar-color);
   }
   .mobile-nav-links li {
     display: flex;
+    text-decoration: none;
+    transition: 0.25s;
     justify-content: center;
     align-items: center;
     list-style: none;
-    height: 40px;
-  }
-  .mobile-nav-links li {
+    border-bottom: 1px solid #808080;
+    height: 80px;
     font-size: 24px;
-    text-decoration: none;
     color: var(--navbar-text-color);
+  }
+  .mobile-nav-links li:hover {
+    background-color: #dfdfdf;
   }
   .mobile-nav-links a {
     text-decoration: none;
