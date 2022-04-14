@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import DataTable from "react-data-table-component";
 import useSWR from "swr";
 import fetcher from "../utils/fetcher";
+import formatNumber from "../utils/formatNumber";
 import Pagination from "@mui/material/Pagination";
 import { PaginationItem } from "@mui/material";
 
@@ -39,23 +40,20 @@ function CoinRow() {
       selector: (row) => row?.current_price,
       sortable: true,
       // no formating because we need a very accurate number
-      cell: (row) =>
-        `$${new Intl.NumberFormat("en-US").format(row?.current_price)}`,
+      cell: (row) => `$${formatNumber(row?.current_price)}`,
     },
     {
       name: "Market Cap",
       selector: (row) => row?.market_cap,
       sortable: true,
       className: "wow",
-      cell: (row) =>
-        `$${new Intl.NumberFormat("en-US").format(row?.market_cap)}`,
+      cell: (row) => `$${formatNumber(row?.market_cap)}`,
     },
     {
       name: "24h Volume",
       selector: (row) => row?.total_volume,
       sortable: true,
-      cell: (row) =>
-        `${new Intl.NumberFormat("en-US").format(row?.total_volume)}`,
+      cell: (row) => `${formatNumber(row?.total_volume)}`,
     },
     {
       name: "24h Change",

@@ -5,6 +5,7 @@ import fetcher from "../utils/fetcher";
 import "./Coin.css";
 import CoinConverter from "../components/CoinConverter";
 import Breadcrumb from "../components/Breadcrumb";
+import formatNumber from "../utils/formatNumber";
 
 function Coin() {
   let params = useParams();
@@ -49,10 +50,7 @@ function Coin() {
             {data?.market_data?.market_cap?.usd && (
               <p>
                 <span className="coin-tabs">
-                  Market cap: $
-                  {new Intl.NumberFormat("en-US").format(
-                    data.market_data.market_cap.usd
-                  )}
+                  Market cap: ${formatNumber(data.market_data.market_cap?.usd)}
                 </span>
               </p>
             )}
@@ -60,9 +58,7 @@ function Coin() {
               <p>
                 <span className="coin-tabs">
                   Circulating supply:{" "}
-                  {new Intl.NumberFormat("en-US").format(
-                    data.market_data.circulating_supply
-                  )}{" "}
+                  {formatNumber(data.market_data.circulating_supply)}{" "}
                   {data.symbol?.toUpperCase()}
                 </span>
               </p>
@@ -70,10 +66,7 @@ function Coin() {
             {data?.market_data?.total_supply > 0 && (
               <p>
                 <span className="coin-tabs">
-                  Total supply:{" "}
-                  {new Intl.NumberFormat("en-US").format(
-                    data.market_data.total_supply
-                  )}{" "}
+                  Total supply: {formatNumber(data.market_data.total_supply)}{" "}
                   {data.symbol?.toUpperCase()}
                 </span>
               </p>

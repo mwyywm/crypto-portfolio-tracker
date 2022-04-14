@@ -6,6 +6,7 @@ import SearchResults from "../components/SearchResults";
 import Modal from "../components/Modal";
 import axios from "axios";
 import useDebounce from "../hooks/useDebounce.jsx";
+import formatNumber from "../utils/formatNumber";
 import { useOnClickOutside } from "../hooks/useOnClickOutside";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import uuid from "../utils/uuid";
@@ -300,12 +301,7 @@ function Tracker() {
               <>
                 <h2>
                   Total portfolio value:{" "}
-                  {totalHoldings
-                    ? "$" +
-                      Intl.NumberFormat("en-US").format(
-                        totalHoldings?.toFixed(2)
-                      )
-                    : "..."}
+                  {totalHoldings ? "$" + formatNumber(totalHoldings, 2) : "..."}
                 </h2>
                 <div className="portfolio-box">
                   {portfolio.map((coin) => (
@@ -347,10 +343,7 @@ function Tracker() {
                       </div>
                       <div className="portfolio-coin-total">
                         <p>
-                          {"$" +
-                            Intl.NumberFormat("en-US").format(
-                              coin.holdings * coin.price?.toFixed(2)
-                            )}
+                          {"$" + formatNumber(coin.holdings * coin.price, 2)}
                         </p>
                         <button onClick={() => handleRemoveCoin(coin.name)}>
                           <svg
