@@ -1,11 +1,16 @@
 .results-container {
   background-color: #ffffff;
-  margin-top: 1px;
+  margin-top: 2px;
   width: 240px;
+  height: auto;
   position: absolute;
   max-height: 400px;
-  overflow-y: scroll;
+  overflow-y: auto; /* only triggers scrollbar when needed */
   border-radius: 8px;
+}
+.results-container ul {
+  list-style-type: none;
+  padding: 0;
 }
 .coin-search-result {
   padding: 10px;

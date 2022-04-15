@@ -8,7 +8,11 @@ const SearchResults = React.forwardRef(
         className="results-container"
         ref={ref}
         tabIndex="-1"
-        style={showResults ? { display: "block" } : { display: "none" }}
+        style={
+          showResults & (data.length > 0)
+            ? { display: "block" }
+            : { display: "none" }
+        }
       >
         <ul>
           {data.map((result, i) => (

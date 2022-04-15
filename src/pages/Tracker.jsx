@@ -34,16 +34,17 @@ function Tracker() {
     // search handler
     event.preventDefault();
     setSearchTerm(event.target.value);
-    setShowResults(true);
     // when to show results
-    if (event.target.value.length === 0) {
+    if (event.target.value.length <= 2) {
       setResults([]);
+      setShowResults(false);
     }
     if (
       event.target.value.length > 2 &&
       event.target.value.match(/^[a-zA-Z0-9]+$/)
     ) {
       setSearchTerm(event.target.value);
+      setShowResults(true);
     }
   }
   function handleSearchClick(event) {
@@ -288,7 +289,7 @@ function Tracker() {
             <SearchInput
               onInput={handleInputChange}
               value={searchTerm}
-              onClick={() => setShowResults(true)}
+              onClick={() => setShowResults(true)} /* TODO: needs fixing */
             />
             <SearchResults
               data={results}

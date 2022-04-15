@@ -45,13 +45,14 @@ function CoinRow() {
     {
       name: "Market Cap",
       selector: (row) => row?.market_cap,
+      width: "180px",
       sortable: true,
-      className: "wow",
       cell: (row) => `$${formatNumber(row?.market_cap)}`,
     },
     {
       name: "24h Volume",
       selector: (row) => row?.total_volume,
+      width: "180px",
       sortable: true,
       cell: (row) => `${formatNumber(row?.total_volume)}`,
     },
@@ -82,6 +83,7 @@ function CoinRow() {
     rows: {
       style: {
         fontSize: "18px",
+        width: "100%",
       },
     },
     headCells: {
