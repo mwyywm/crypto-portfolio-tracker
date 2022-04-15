@@ -192,6 +192,9 @@ function Tracker() {
   }, [triggerFetch]);
   useEffect(() => {
     setTriggerFetch((triggerFetch += 1));
+    if (document.title !== "cpt. - Portfolio tracker") {
+      document.title = "cpt. - Portfolio tracker";
+    }
   }, []);
   useEffect(() => {
     // calculate total holdings

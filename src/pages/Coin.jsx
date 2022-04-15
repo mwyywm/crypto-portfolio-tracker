@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
 import fetcher from "../utils/fetcher";
@@ -13,7 +13,10 @@ function Coin() {
     `https://api.coingecko.com/api/v3/coins/${params.coin}`,
     fetcher
   );
-
+  const title = document.title;
+  useEffect(() => {
+    document.title = data?.name ? `cpt. - ${data.name}` : title;
+  }, [data]);
   return (
     <section className="coinsection">
       <Breadcrumb text={data?.name ? data.name : params.coin} />

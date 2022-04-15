@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./navbar.css";
 import { Link, useNavigate } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { GrClose } from "react-icons/gr";
 import { useWindowWidth } from "../hooks/useWindowWidth";
+import { useOnClickOutside } from "../hooks/useOnClickOutside";
 
 const menuLinks = [
   { path: "/", text: "Home" },
@@ -15,14 +16,20 @@ function Navbar() {
   const windowWidth = useWindowWidth();
   const navigate = useNavigate();
 
+  const ref = useRef();
+  useOnClickOutside(ref, () => setIsOpen(false));
+
   useEffect(() => {
     if (isOpen) {
       setIsOpen(false);
     }
   }, [navigate]);
+  // TODO: if we click outside the navbar and the navbar is open, close it.
 
+  // TODO: When we go on a specific page it should change document.title.
+  // TODO: idk if I need library for this.
   return (
-    <nav className="header">
+    <nav className="header" ref={ref}>
       <div className="nav-wrapper">
         <div className="nav-logo">
           <h1>
