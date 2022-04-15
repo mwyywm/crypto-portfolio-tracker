@@ -289,7 +289,7 @@ function Tracker() {
             <SearchInput
               onInput={handleInputChange}
               value={searchTerm}
-              onClick={() => setShowResults(true)} /* TODO: needs fixing */
+              onClick={() => setShowResults(true)}
             />
             <SearchResults
               data={results}

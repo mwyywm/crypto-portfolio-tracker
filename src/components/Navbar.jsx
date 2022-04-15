@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./navbar.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { GrClose } from "react-icons/gr";
 import { useWindowWidth } from "../hooks/useWindowWidth";
@@ -13,6 +13,14 @@ const menuLinks = [
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const windowWidth = useWindowWidth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isOpen) {
+      setIsOpen(false);
+    }
+  }, [navigate]);
+
   return (
     <nav className="header">
       <div className="nav-wrapper">
