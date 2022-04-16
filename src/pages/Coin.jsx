@@ -15,7 +15,7 @@ function Coin() {
   );
   const title = document.title;
   useEffect(() => {
-    document.title = data?.name ? `cpt. - ${data.name}` : title;
+    document.title = data?.name ? `cpt - ${data.name}` : title;
   }, [data]);
   return (
     <section className="coinsection">
@@ -44,34 +44,26 @@ function Coin() {
           </div>
           <div className="coin-info-tabs">
             {data?.market_cap_rank && (
-              <p>
-                <span className="coin-tabs">
-                  Market cap rank: #{data.market_cap_rank}
-                </span>
+              <p className="coin-tabs">
+                Market cap rank: #{data.market_cap_rank}
               </p>
             )}
             {data?.market_data?.market_cap?.usd && (
-              <p>
-                <span className="coin-tabs">
-                  Market cap: ${formatNumber(data.market_data.market_cap?.usd)}
-                </span>
+              <p className="coin-tabs">
+                Market cap: ${formatNumber(data.market_data.market_cap?.usd)}
               </p>
             )}
             {data?.market_data?.circulating_supply && (
-              <p>
-                <span className="coin-tabs">
-                  Circulating supply:{" "}
-                  {formatNumber(data.market_data.circulating_supply)}{" "}
-                  {data.symbol?.toUpperCase()}
-                </span>
+              <p className="coin-tabs">
+                Circulating supply:{" "}
+                {formatNumber(data.market_data.circulating_supply)}{" "}
+                {data.symbol?.toUpperCase()}
               </p>
             )}
             {data?.market_data?.total_supply > 0 && (
-              <p>
-                <span className="coin-tabs">
-                  Total supply: {formatNumber(data.market_data.total_supply)}{" "}
-                  {data.symbol?.toUpperCase()}
-                </span>
+              <p className="coin-tabs">
+                Total supply: {formatNumber(data.market_data.total_supply)}{" "}
+                {data.symbol?.toUpperCase()}
               </p>
             )}
           </div>

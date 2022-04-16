@@ -25,7 +25,7 @@
 .coin-tabs {
   padding: 10px;
   border-radius: 8px;
-  margin-top: 5px;
+  margin: 0px 0px 5px 0px;
   background-color: white;
   display: flex;
   width: auto;
