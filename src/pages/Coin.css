@@ -27,6 +27,7 @@
   padding: 10px;
   border-radius: 8px;
   margin: 0px 0px 5px 0px;
+  box-shadow: 0 1.6px 3.6px 0 rgb(0 0 0 / 13%), 0 0.3px 0.9px 0 rgb(0 0 0 / 11%);
   background-color: white;
   display: flex;
   width: auto;
@@ -53,11 +54,9 @@
   margin-left: 5px;
   padding: 6px;
   border-radius: 8px;
+  box-shadow: 0 1.6px 3.6px 0 rgb(0 0 0 / 13%), 0 0.3px 0.9px 0 rgb(0 0 0 / 11%);
 }
-.symbol b {
-  padding-left: 20px;
-  color: rgb(19, 19, 19);
-}
+
 .coin-info {
   font-size: 24px;
   display: flex;

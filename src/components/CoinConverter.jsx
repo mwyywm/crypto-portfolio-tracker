@@ -40,6 +40,7 @@ const Input = styled.input`
   width: auto;
   max-width: 100%;
   font-size: 16px;
+
   &:focus {
     outline: none;
   }
@@ -48,6 +49,7 @@ const InputBox = styled.div`
   display: flex;
   flex-wrap: wrap;
   padding: 5px;
+  box-shadow: 0 1.6px 3.6px 0 rgb(0 0 0 / 13%), 0 0.3px 0.9px 0 rgb(0 0 0 / 11%);
   align-items: center;
   background-color: white;
   border: none;

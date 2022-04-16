@@ -3,7 +3,9 @@
   max-width: 100%;
   height: auto;
   text-align: left;
+  border-radius: 8px;
   margin: 0 auto;
+  box-shadow: 0 1.6px 3.6px 0 rgb(0 0 0 / 13%), 0 0.3px 0.9px 0 rgb(0 0 0 / 11%);
 }
 .coinlist a {
   color: black;
@@ -16,11 +18,13 @@
   max-width: 950px;
   display: flex;
   justify-content: center;
+
   /* table should be centered */
 }
 .pagination ul {
   background-color: #ffffff;
   border-radius: 8px;
+  box-shadow: 0 1.6px 3.6px 0 rgb(0 0 0 / 13%), 0 0.3px 0.9px 0 rgb(0 0 0 / 11%);
 }
 @media (max-width: 960px) {
   .mktcap-cell {

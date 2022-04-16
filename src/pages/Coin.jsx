@@ -19,7 +19,7 @@ function Coin() {
   }, [data]);
   return (
     <section className="coinsection">
-      <Breadcrumb text={data?.name ? data.name : params.coin} />
+      <Breadcrumb text={data?.name ? data.name : ""} />
       {!data && (
         <div style={{ textAlign: "center", marginTop: "20px" }}>
           <p>loading...</p>
