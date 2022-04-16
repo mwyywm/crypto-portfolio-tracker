@@ -58,16 +58,11 @@
 }
 
 .coin-info {
-  font-size: 24px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  margin: 0;
-  margin-top: 20px;
+  max-width: 100%;
+  margin-top: 25px;
+  margin-bottom: 15px;
 }
+
 .coin-info p {
   font-size: 20px;
-  margin: 0;
-  margin-top: 5px;
 }

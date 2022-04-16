@@ -7,6 +7,11 @@ body {
 * {
   box-sizing: border-box;
 }
+
+p {
+  margin: 0;
+  padding: 0;
+}
 /* scrollbar */
 /* width */
 ::-webkit-scrollbar {
@@ -42,7 +47,6 @@ body {
   text-rendering: optimizeLegibility;
   background-color: var(--background-color);
 }
-
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
 
 /**

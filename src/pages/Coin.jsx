@@ -69,39 +69,43 @@ function Coin() {
           </div>
           {data.market_data && (
             <div className="coin-info">
-              <p>
-                {data.symbol?.toUpperCase()} price: $
-                {data.market_data.current_price.usd}{" "}
-                <span
-                  style={{
-                    color:
-                      data.market_data.price_change_percentage_24h > 0
-                        ? "green"
-                        : "red",
-                  }}
-                >
-                  {typeof data.market_data.price_change_percentage_24h ===
-                  "number" ? (
-                    data.market_data.price_change_percentage_24h?.toFixed(2)
-                  ) : (
-                    <span style={{ color: "black" }}>?</span>
-                  )}
-                </span>
-              </p>
-
-              <p>
-                All time high price: ${data.market_data?.ath?.usd}{" "}
-                <span
-                  style={{
-                    color:
-                      data.market_data?.ath_change_percentage.usd > 0
-                        ? "green"
-                        : "red",
-                  }}
-                >
-                  {data.market_data.ath_change_percentage.usd?.toFixed(2)}%
-                </span>
-              </p>
+              <div className="test">
+                <p>
+                  {data.symbol?.toUpperCase()} price: $
+                  {data.market_data.current_price.usd}{" "}
+                  <span
+                    style={{
+                      color:
+                        data.market_data.price_change_percentage_24h > 0
+                          ? "green"
+                          : "red",
+                    }}
+                  >
+                    {typeof data.market_data.price_change_percentage_24h ===
+                    "number" ? (
+                      data.market_data.price_change_percentage_24h?.toFixed(2) +
+                      "%"
+                    ) : (
+                      <span style={{ color: "black" }}>?</span>
+                    )}
+                  </span>
+                </p>
+              </div>
+              <div className="test">
+                <p>
+                  All time high price: ${data.market_data?.ath?.usd}{" "}
+                  <span
+                    style={{
+                      color:
+                        data.market_data?.ath_change_percentage.usd > 0
+                          ? "green"
+                          : "red",
+                    }}
+                  >
+                    {data.market_data.ath_change_percentage.usd?.toFixed(2)}%
+                  </span>
+                </p>
+              </div>
             </div>
           )}
           {data.market_data && (
