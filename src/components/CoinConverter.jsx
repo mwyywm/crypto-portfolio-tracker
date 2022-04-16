@@ -5,6 +5,7 @@ import dollarSign from "../images/dollarsign.png";
 
 const ConverterBox = styled.div`
   max-width: 100%;
+  min-height: 50vh;
   margin: 0 auto;
   margin-top: 20px;
   @media (max-width: 960px) {
