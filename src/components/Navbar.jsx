@@ -24,10 +24,6 @@ function Navbar() {
       setIsOpen(false);
     }
   }, [navigate]);
-  // TODO: if we click outside the navbar and the navbar is open, close it.
-
-  // TODO: When we go on a specific page it should change document.title.
-  // TODO: idk if I need library for this.
   return (
     <nav className="header" ref={ref}>
       <div className="nav-wrapper">
@@ -51,7 +47,6 @@ function Navbar() {
           {isOpen ? <GrClose size={30} /> : <GiHamburgerMenu size={30} />}
         </div>
       </div>
-
       <div
         className="mobile-nav-links"
         style={

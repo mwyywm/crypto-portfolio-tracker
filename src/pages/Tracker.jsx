@@ -29,7 +29,7 @@ function Tracker() {
   useOnClickOutside(searchRef, handleClickOutside); // click outside of search results hook
   const modalRef = useRef();
   useOnClickOutside(modalRef, handleClickOutsideModal); // click outside of modal hook
-  // TODO: search results navigation with arrow keys
+  // TODO: Search results navigation with arrow keys
   function handleInputChange(event) {
     // search handler
     event.preventDefault();
