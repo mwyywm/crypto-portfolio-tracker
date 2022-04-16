@@ -23,7 +23,7 @@ function CoinRow() {
     setPage(value);
   };
   useEffect(() => {
-    // with this useEffect we can reset the page to 1 when we click logo or home on navbar.
+    // reset the page to 1 when we click logo or home on navbar.
     if (pg === null) {
       setPage(1);
     }
@@ -39,30 +39,46 @@ function CoinRow() {
       name: "Price",
       selector: (row) => row?.current_price,
       sortable: true,
-      // no formating because we need a very accurate number
-      cell: (row) => `$${formatNumber(row?.current_price)}`,
+      style: {
+        whiteSpace: "nowrap",
+      },
+      cell: (row) => (
+        <div className="price-cell">
+          <p>${formatNumber(row?.current_price)}</p>
+        </div>
+      ),
     },
     {
       name: "Market Cap",
       selector: (row) => row?.market_cap,
-      width: "180px",
+      left: true,
       sortable: true,
-      cell: (row) => `$${formatNumber(row?.market_cap)}`,
+      cell: (row) => (
+        <div className="mktcap-cell">
+          <p>${formatNumber(row?.market_cap)}</p>
+        </div>
+      ),
     },
     {
       name: "24h Volume",
       selector: (row) => row?.total_volume,
-      width: "180px",
+      left: true,
       sortable: true,
-      cell: (row) => `${formatNumber(row?.total_volume)}`,
+      cell: (row) => (
+        <div className="volume-cell">
+          <p>${formatNumber(row?.total_volume)}</p>
+        </div>
+      ),
     },
     {
       name: "24h Change",
       selector: (row) => row?.price_change_percentage_24h,
       sortable: true,
       // only allowing 2 decimals after the period sign (.)
-      // to handle null values we use optional chaining ?.
-      cell: (row) => `${row.price_change_percentage_24h?.toFixed(2)}%`,
+      cell: (row) =>
+        typeof row.price_change_percentage_24h === "number"
+          ? row.price_change_percentage_24h?.toFixed(2) + "%"
+          : "?",
       conditionalCellStyles: [
         {
           when: (row) => row.price_change_percentage_24h < 0,
@@ -113,12 +129,12 @@ function CoinRow() {
         <div className="pagination">
           <Pagination
             count={100}
-            page={page}
+            page={parseFloat(page)}
             onChange={handleChange}
             renderItem={(item) => (
               <PaginationItem
                 component={Link}
-                to={`/${item.page === 1 ? "" : `?pg=${item.page}`}`}
+                to={`/${item?.page === 1 ? "" : `?pg=${item?.page}`}`}
                 {...item}
               />
             )}

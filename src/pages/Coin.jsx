@@ -80,9 +80,12 @@ function Coin() {
                         : "red",
                   }}
                 >
-                  {`${data.market_data.price_change_percentage_24h?.toFixed(
-                    2
-                  )}%`}
+                  {typeof data.market_data.price_change_percentage_24h ===
+                  "number" ? (
+                    data.market_data.price_change_percentage_24h?.toFixed(2)
+                  ) : (
+                    <span style={{ color: "black" }}>?</span>
+                  )}
                 </span>
               </p>
 
