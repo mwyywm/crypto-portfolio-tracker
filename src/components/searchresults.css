@@ -20,6 +20,11 @@
   cursor: pointer;
   display: flex;
   align-items: center;
+  transition: 0.2s;
+  transition-property: background-color;
+}
+.coin-search-result:hover {
+  background-color: #e6e6e6;
 }
 .coin-search-result img {
   width: 32px;

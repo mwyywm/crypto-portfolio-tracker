@@ -325,7 +325,7 @@ function Tracker() {
                       </div>
                       <div className="portfolio-buttons">
                         <div className="portfolio-coin-holdings">
-                          <p>{coin.holdings}</p>
+                          <p>{coin.holdings}</p> {/* TODO: Display symbol? */}
                           <button onClick={handleEdit} id={coin.name}>
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
