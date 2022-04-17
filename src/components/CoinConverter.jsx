@@ -17,7 +17,6 @@ const ConverterTitle = styled.h1`
   margin-bottom: 10px;
   text-align: center;
 `;
-// TODO: More responsive css needs to be added
 const InputDiv = styled.div`
   margin-top: 15px;
   display: flex;

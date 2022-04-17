@@ -64,6 +64,9 @@ function Tracker() {
         name: event.target.alt,
         apiID: results.find((result) => result.name === event.target.alt).id,
         image: results.find((result) => result.name === event.target.alt).large,
+        symbol:
+          results.find((result) => result.name === event.target.alt).symbol ||
+          "",
         holdings: 0,
         price: 0,
         uuid: uuid(),
@@ -79,6 +82,9 @@ function Tracker() {
           .id,
         image: results.find((result) => result.name === event.target.innerText)
           .large,
+        symbol:
+          results.find((result) => result.name === event.target.innerText)
+            .symbol || "",
         holdings: 0,
         price: 0,
         uuid: uuid(),
@@ -325,7 +331,9 @@ function Tracker() {
                       </div>
                       <div className="portfolio-buttons">
                         <div className="portfolio-coin-holdings">
-                          <p>{coin.holdings}</p> {/* TODO: Display symbol? */}
+                          <p>
+                            {coin.holdings} {coin.symbol}
+                          </p>
                           <button onClick={handleEdit} id={coin.name}>
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
