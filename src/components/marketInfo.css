@@ -1,0 +1,29 @@
+.market-info {
+  margin: 0 auto;
+  min-height: 130px;
+  background-color: rgb(105, 105, 105);
+  width: 950px;
+  max-width: 100%;
+  display: grid;
+  text-align: left;
+}
+.market-card {
+  background-color: white;
+  width: 200px;
+  height: 100%;
+  border-radius: 8px;
+  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 5px;
+}
+.market-card-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.market-card-text {
+  background-color: red;
+}

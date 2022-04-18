@@ -14,10 +14,12 @@ function CoinRow() {
   const searchParams = new URLSearchParams(search);
   const pg = searchParams.get("pg");
   const [page, setPage] = useState(pg ? pg : 1); // I want to move this into searchparams so we can link to the pagination page.
-  const { data, error } = useSWR(
-    `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=${page}&sparkline=false`,
-    fetcher
-  );
+  // const { data, error } = useSWR(
+  //   `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=${page}&sparkline=false`,
+  //   fetcher
+  // );
+  const { data, error } = ["temp"];
+  // TODO: REMOVE THIS WHEN DONE WITH MarketInfo component
   const handleChange = (event, value) => {
     scrollTo(top);
     setPage(value);

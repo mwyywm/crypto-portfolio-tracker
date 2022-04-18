@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import "./Home.css";
+import MarketInfo from "../components/MarketInfo";
 import Coinrow from "../components/Coinrow.jsx";
 import { AiOutlineArrowUp } from "react-icons/ai";
 
@@ -12,6 +13,7 @@ function Home() {
   return (
     <div className="home">
       <div className="content" style={{ minHeight: "100vh" }}>
+        <MarketInfo />
         <Coinrow />
       </div>
       <div className="scroll-to-top" onClick={() => scrollTo(top)}>
