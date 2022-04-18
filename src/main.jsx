@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import useSWR, { SWRConfig } from "swr";
 import Home from "./pages/Home";
 import Coin from "./pages/Coin";
 import Navbar from "./components/Navbar";
@@ -10,17 +11,24 @@ import NotFound from "./components/NotFound.jsx";
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/tracker" element={<Tracker />} />
-        <Route path="/coin">
-          <Route path=":coin" element={<Coin />} />
-        </Route>
-        <Route path="*" element={<NotFound />} /> // 404 page
-      </Routes>
-    </BrowserRouter>
+    <SWRConfig
+      value={{
+        fetcher: (url) => fetch(url).then((r) => r.json()),
+        provider: () => new Map(),
+      }}
+    >
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/tracker" element={<Tracker />} />
+          <Route path="/coin">
+            <Route path=":coin" element={<Coin />} />
+          </Route>
+          <Route path="*" element={<NotFound />} /> // 404 page
+        </Routes>
+      </BrowserRouter>
+    </SWRConfig>
   </React.StrictMode>,
   document.getElementById("root")
 );

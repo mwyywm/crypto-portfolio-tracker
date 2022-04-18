@@ -171,6 +171,7 @@ function Tracker() {
         });
     }
   }, [debouncedSearchTerm]);
+
   useEffect(() => {
     if (portfolio.length > 0) {
       // fetch prices for all coins in the portfolio

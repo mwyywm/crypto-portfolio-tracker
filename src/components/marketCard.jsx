@@ -2,9 +2,9 @@ import React from "react";
 import "./marketCard.css";
 
 export default function MarketCard({ card }) {
-  console.log(card[1]);
   const { first, second, third } = card[1];
-  if (card[1].title === "Trending")
+
+  if (card[1].type === "trending")
     return (
       <div className="market-card">
         <p className="market-card-title">{card[1].title}</p>
@@ -27,10 +27,7 @@ export default function MarketCard({ card }) {
         </ol>
       </div>
     );
-  else if (
-    card[1].title === "Global Market Cap" ||
-    card[1].title === "Global Volume (24h)"
-  )
+  else if (card[1].type === "global")
     return (
       <div className="market-card">
         <p className="market-card-title">{card[1].title}</p>
@@ -48,10 +45,7 @@ export default function MarketCard({ card }) {
         </div>
       </div>
     );
-  else if (
-    card[1].title === "BTC Dominance" ||
-    card[1].title === "ETH Dominance"
-  )
+  else if (card[1].type === "dominance")
     return (
       <div className="market-card">
         <p className="market-card-title">{card[1].title}</p>

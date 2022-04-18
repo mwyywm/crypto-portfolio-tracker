@@ -1,13 +1,13 @@
 import React from "react";
 import "./marketInfo.css";
-import useSWR from "swr";
-import fetcher from "../utils/fetcher";
+import useSWR, { useSWRConfig } from "swr";
 import MarketCard from "./MarketCard";
 import ScrollContainer from "react-indiana-drag-scroll";
 
 const formatBigNum = Intl.NumberFormat("en", { notation: "compact" });
 
 export default function MarketInfo() {
+  const { fetcher } = useSWRConfig();
   const { data, error } = useSWR(
     "https://api.coingecko.com/api/v3/global",
     fetcher
@@ -23,23 +23,28 @@ export default function MarketInfo() {
   const cardObjects = {
     globalmktcap: {
       title: "Global Market Cap",
+      type: "global",
       value: formatBigNum.format(data?.data.total_market_cap?.usd),
       change: data?.data.market_cap_change_percentage_24h_usd?.toFixed(2) + "%",
     },
     globalvolume: {
       title: "Global Volume (24h)",
+      type: "global",
       value: formatBigNum.format(data?.data.total_volume?.usd),
     },
     btcDominance: {
       title: "BTC Dominance",
+      type: "dominance",
       value: data?.data.market_cap_percentage?.btc?.toFixed(2) + "%",
     },
     ethDominance: {
       title: "ETH Dominance",
+      type: "dominance",
       value: data?.data.market_cap_percentage?.eth?.toFixed(2) + "%",
     },
     trending: {
       title: "Trending",
+      type: "trending",
       first: {
         value: trendingData?.coins[0].item.name,
         valueImg: trendingData?.coins[0].item.thumb,

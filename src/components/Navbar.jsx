@@ -15,7 +15,6 @@ function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const windowWidth = useWindowWidth();
   const navigate = useNavigate();
-
   const ref = useRef();
   useOnClickOutside(ref, () => setIsOpen(false));
 
@@ -24,6 +23,7 @@ function Navbar() {
       setIsOpen(false);
     }
   }, [navigate]);
+
   return (
     <nav className="header" ref={ref}>
       <div className="nav-wrapper">

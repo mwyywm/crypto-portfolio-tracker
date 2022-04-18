@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./coinrow.css";
 import { Link, useLocation } from "react-router-dom";
 import DataTable from "react-data-table-component";
-import useSWR from "swr";
-import fetcher from "../utils/fetcher";
+import useSWR, { mutate, useSWRConfig } from "swr";
 import formatNumber from "../utils/formatNumber";
 import Pagination from "@mui/material/Pagination";
 import { PaginationItem } from "@mui/material";
@@ -11,6 +10,7 @@ import { PaginationItem } from "@mui/material";
 // Table and pagination component
 function CoinRow() {
   const { search } = useLocation();
+  let { fetcher } = useSWRConfig();
   const searchParams = new URLSearchParams(search);
   const pg = searchParams.get("pg");
   const [page, setPage] = useState(pg ? pg : 1); // I want to move this into searchparams so we can link to the pagination page.
@@ -33,7 +33,26 @@ function CoinRow() {
       name: "Name",
       selector: (row) => row.name,
       sortable: true,
-      cell: (row) => <Link to={`/coin/${row.id}`}>{row.name}</Link>,
+      cell: (row) => (
+        <Link
+          to={`/coin/${row.id}`}
+          onMouseEnter={() => {
+            setTimeout(() => {
+              mutate(
+                `https://api.coingecko.com/api/v3/coins/${row.id}`,
+                async (currValue) => {
+                  return (
+                    currValue ??
+                    fetcher(`https://api.coingecko.com/api/v3/coins/${row.id}`)
+                  );
+                }
+              );
+            }, 250);
+          }}
+        >
+          {row.name}
+        </Link>
+      ),
     },
     {
       name: "Price",
@@ -115,7 +134,7 @@ function CoinRow() {
     },
   };
   if (error) return <div>Failed to load, you are being rate limited.</div>;
-  if (!data) return <div>loading...</div>;
+  if (!data) return <div></div>;
   return (
     data.length > 0 && (
       <>
