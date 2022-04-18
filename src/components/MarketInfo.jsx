@@ -3,6 +3,7 @@ import "./marketInfo.css";
 import useSWR from "swr";
 import fetcher from "../utils/fetcher";
 import MarketCard from "./MarketCard";
+import ScrollContainer from "react-indiana-drag-scroll";
 
 const formatBigNum = Intl.NumberFormat("en", { notation: "compact" });
 
@@ -57,11 +58,15 @@ export default function MarketInfo() {
     },
   };
   return (
-    <div className="market-info">
+    <ScrollContainer
+      className="market-info"
+      vertical={false}
+      hideScrollbars={false}
+    >
       {data &&
         Object.entries(cardObjects).map((card) => (
           <MarketCard card={card} key={card[1].title} />
         ))}
-    </div>
+    </ScrollContainer>
   );
 }
