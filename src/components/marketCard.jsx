@@ -1,29 +1,30 @@
 import React from "react";
-import "./MarketCard.css";
+import "./marketCard.css";
 
 export default function MarketCard({ card }) {
   console.log(card[1]);
+  const { first, second, third } = card[1];
   if (card[1].title === "Trending")
     return (
       <div className="market-card">
         <p className="market-card-title">{card[1].title}</p>
-        <ul className="market-card-trending">
-          <li className="market-card-value">
+        <ol className="market-card-trending">
+          <a className="market-card-value" href={`/coin/${first.slug}`}>
             {" "}
-            <img src={card[1].valueImg} alt={card[1].value} />
-            {card[1].value}
-          </li>
-          <li className="market-card-value">
+            <img src={first.valueImg} alt={first.value} />
+            {first.value}
+          </a>
+          <a className="market-card-value" href={`/coin/${second.slug}`}>
             {" "}
-            <img src={card[1].valueImg2} alt={card[1].value2} />
-            {card[1].value2}
-          </li>
-          <li className="market-card-value">
+            <img src={second.valueImg2} alt={second.value2} />
+            {second.value2}
+          </a>
+          <a className="market-card-value" href={`/coin/${third.slug}`}>
             {" "}
-            <img src={card[1].valueImg3} alt={card[1].value3} />
-            {card[1].value3}
-          </li>
-        </ul>
+            <img src={third.valueImg3} alt={third.value3} />
+            {third.value3}
+          </a>
+        </ol>
       </div>
     );
   else if (

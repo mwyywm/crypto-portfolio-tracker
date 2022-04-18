@@ -45,24 +45,24 @@ function Coin() {
           <div className="coin-info-tabs">
             {data?.market_cap_rank && (
               <p className="coin-tabs">
-                Market cap rank: #{data.market_cap_rank}
+                Market Cap rank: #{data.market_cap_rank}
               </p>
             )}
             {data?.market_data?.market_cap?.usd && (
               <p className="coin-tabs">
-                Market cap: ${formatNumber(data.market_data.market_cap?.usd)}
+                Market Cap: ${formatNumber(data.market_data.market_cap?.usd)}
               </p>
             )}
             {data?.market_data?.circulating_supply && (
               <p className="coin-tabs">
-                Circulating supply:{" "}
+                Circulating Supply:{" "}
                 {formatNumber(data.market_data.circulating_supply)}{" "}
                 {data.symbol?.toUpperCase()}
               </p>
             )}
             {data?.market_data?.total_supply > 0 && (
               <p className="coin-tabs">
-                Total supply: {formatNumber(data.market_data.total_supply)}{" "}
+                Total Supply: {formatNumber(data.market_data.total_supply)}{" "}
                 {data.symbol?.toUpperCase()}
               </p>
             )}

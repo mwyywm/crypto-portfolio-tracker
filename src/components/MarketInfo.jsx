@@ -2,7 +2,7 @@ import React from "react";
 import "./marketInfo.css";
 import useSWR from "swr";
 import fetcher from "../utils/fetcher";
-import MarketCard from "./marketCard";
+import MarketCard from "./MarketCard";
 
 const formatBigNum = Intl.NumberFormat("en", { notation: "compact" });
 
@@ -16,11 +16,9 @@ export default function MarketInfo() {
     fetcher
   );
   if (error || trendingError) return <div>failed to load</div>;
-  if (!data && !trendingData) return <div>loading...</div>;
-  // market_cap_change_percentage_24h_usd, market_cap_percentage.btc, market_cap_percentage.eth, total_market_cap.usd, total_volume.usd
+  // if (!data && !trendingData) return <div>loading...</div>;
   // can also show last updated date?
 
-  console.log("data", data);
   const cardObjects = {
     globalmktcap: {
       title: "Global Market Cap",
@@ -41,12 +39,21 @@ export default function MarketInfo() {
     },
     trending: {
       title: "Trending",
-      value: trendingData.coins[0].item.name,
-      valueImg: trendingData.coins[0].item.thumb,
-      value2: trendingData.coins[1].item.name,
-      valueImg2: trendingData.coins[1].item.thumb,
-      value3: trendingData.coins[2].item.name,
-      valueImg3: trendingData.coins[2].item.thumb,
+      first: {
+        value: trendingData?.coins[0].item.name,
+        valueImg: trendingData?.coins[0].item.thumb,
+        slug: trendingData?.coins[0].item.slug,
+      },
+      second: {
+        value2: trendingData?.coins[1].item.name,
+        valueImg2: trendingData?.coins[1].item.thumb,
+        slug: trendingData?.coins[1].item.slug,
+      },
+      third: {
+        value3: trendingData?.coins[2].item.name,
+        valueImg3: trendingData?.coins[2].item.thumb,
+        slug: trendingData?.coins[2].item.slug,
+      },
     },
   };
   return (
