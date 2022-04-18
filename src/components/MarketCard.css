@@ -1,14 +1,15 @@
 .market-card {
   background-color: white;
   height: 130px;
+  min-width: 150px;
   width: auto;
   border-radius: 8px;
   font-size: 18px;
   margin-right: 15px;
   display: flex;
   flex-direction: column;
+  padding: 10px;
   justify-content: space-between;
-  padding: 5px;
   box-shadow: 0 1.6px 3.6px 0 rgb(0 0 0 / 13%), 0 0.3px 0.9px 0 rgb(0 0 0 / 11%);
 }
 .market-card-title {
@@ -18,4 +19,26 @@
   margin-bottom: 10px;
 }
 .market-card-text {
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.market-card-change {
+  font-size: 18px;
+}
+.market-card-trending {
+  padding: 0;
+  margin: 0;
+  font-size: 18px;
+  list-style: none;
+}
+.market-card-value {
+  display: flex;
+  align-items: center;
+}
+.market-card-value img {
+  height: 20px;
+  width: 20px;
+  margin-right: 4px;
 }
