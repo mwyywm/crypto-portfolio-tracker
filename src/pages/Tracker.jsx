@@ -45,7 +45,6 @@ function Tracker() {
             };
           })
         );
-        console.log("swr done", data);
       },
       onError: (err) => {
         console.log(err);

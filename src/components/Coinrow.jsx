@@ -20,7 +20,7 @@ function CoinRow() {
       revalidateOnFocus: false,
     }
   );
-  const handleChange = (event, value) => {
+  const handlePageChange = (event, value) => {
     scrollTo(top);
     setPage(value);
   };
@@ -151,7 +151,7 @@ function CoinRow() {
           <Pagination
             count={100}
             page={parseFloat(page)}
-            onChange={handleChange}
+            onChange={handlePageChange}
             renderItem={(item) => (
               <PaginationItem
                 component={Link}
