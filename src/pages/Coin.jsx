@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
 import "./Coin.css";
+import Chart from "../components/Chart";
 import CoinConverter from "../components/CoinConverter";
 import Breadcrumb from "../components/Breadcrumb";
 import formatNumber from "../utils/formatNumber";
@@ -11,6 +12,7 @@ function Coin() {
   const { data, error } = useSWR(
     `https://api.coingecko.com/api/v3/coins/${params.coin}`
   );
+
   const title = document.title;
 
   useEffect(() => {
@@ -119,6 +121,7 @@ function Coin() {
           )}
         </div>
       )}
+      <Chart />
     </section>
   );
 }
