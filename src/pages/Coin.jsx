@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
-import fetcher from "../utils/fetcher";
 import "./Coin.css";
 import CoinConverter from "../components/CoinConverter";
 import Breadcrumb from "../components/Breadcrumb";
@@ -10,13 +9,14 @@ import formatNumber from "../utils/formatNumber";
 function Coin() {
   let params = useParams();
   const { data, error } = useSWR(
-    `https://api.coingecko.com/api/v3/coins/${params.coin}`,
-    fetcher
+    `https://api.coingecko.com/api/v3/coins/${params.coin}`
   );
   const title = document.title;
+
   useEffect(() => {
     document.title = data?.name ? `cpt - ${data.name}` : title;
   }, [data]);
+
   return (
     <section className="coinsection">
       <Breadcrumb text={data?.name ? data.name : ""} />
@@ -53,11 +53,11 @@ function Coin() {
                 Market Cap: ${formatNumber(data.market_data.market_cap?.usd)}
               </p>
             )}
-            {data?.market_data?.circulating_supply && (
+            {data?.market_data && (
               <p className="coin-tabs">
                 Circulating Supply:{" "}
                 {formatNumber(data.market_data.circulating_supply)}{" "}
-                {data.symbol?.toUpperCase()}
+                {data?.symbol.toUpperCase()}
               </p>
             )}
             {data?.market_data?.total_supply > 0 && (

@@ -1,25 +1,51 @@
 import React from "react";
 import "./marketCard.css";
+import { useSWRConfig } from "swr";
 
 export default function MarketCard({ card }) {
+  const { mutate, fetcher } = useSWRConfig();
   const { first, second, third } = card[1];
+
+  function preFetchData(slug) {
+    // prefetches data without time delay before fetching
+    mutate(
+      `https://api.coingecko.com/api/v3/coins/${slug}`,
+      async (currValue) => {
+        return (
+          currValue ?? fetcher(`https://api.coingecko.com/api/v3/coins/${slug}`)
+        );
+      }
+    );
+  }
 
   if (card[1].type === "trending")
     return (
-      <div className="market-card">
+      <div className="market-card" id="trending">
         <p className="market-card-title">{card[1].title}</p>
         <ol className="market-card-trending">
-          <a className="market-card-value" href={`/coin/${first.slug}`}>
+          <a
+            className="market-card-value"
+            href={`/coin/${first.slug}`}
+            onMouseEnter={() => preFetchData(first.slug)}
+          >
             {" "}
             <img src={first.valueImg} alt={first.value} />
             {first.value}
           </a>
-          <a className="market-card-value" href={`/coin/${second.slug}`}>
+          <a
+            className="market-card-value"
+            href={`/coin/${second.slug}`}
+            onMouseEnter={() => preFetchData(second.slug)}
+          >
             {" "}
             <img src={second.valueImg2} alt={second.value2} />
             {second.value2}
           </a>
-          <a className="market-card-value" href={`/coin/${third.slug}`}>
+          <a
+            className="market-card-value"
+            href={`/coin/${third.slug}`}
+            onMouseEnter={() => preFetchData(third.slug)}
+          >
             {" "}
             <img src={third.valueImg3} alt={third.value3} />
             {third.value3}

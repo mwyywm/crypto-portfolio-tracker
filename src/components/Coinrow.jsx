@@ -2,21 +2,23 @@ import React, { useEffect, useState } from "react";
 import "./coinrow.css";
 import { Link, useLocation } from "react-router-dom";
 import DataTable from "react-data-table-component";
-import useSWR, { mutate, useSWRConfig } from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import formatNumber from "../utils/formatNumber";
 import Pagination from "@mui/material/Pagination";
 import { PaginationItem } from "@mui/material";
 
 // Table and pagination component
 function CoinRow() {
+  const { mutate, fetcher } = useSWRConfig();
   const { search } = useLocation();
-  let { fetcher } = useSWRConfig();
   const searchParams = new URLSearchParams(search);
   const pg = searchParams.get("pg");
   const [page, setPage] = useState(pg ? pg : 1); // I want to move this into searchparams so we can link to the pagination page.
   const { data, error } = useSWR(
     `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=${page}&sparkline=false`,
-    fetcher
+    {
+      revalidateOnFocus: false,
+    }
   );
   const handleChange = (event, value) => {
     scrollTo(top);

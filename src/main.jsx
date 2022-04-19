@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import useSWR, { SWRConfig } from "swr";
+import { SWRConfig } from "swr";
 import Home from "./pages/Home";
 import Coin from "./pages/Coin";
 import Navbar from "./components/Navbar";

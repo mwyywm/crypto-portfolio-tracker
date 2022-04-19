@@ -1,20 +1,20 @@
 import React from "react";
 import "./marketInfo.css";
-import useSWR, { useSWRConfig } from "swr";
+import useSWR from "swr";
 import MarketCard from "./MarketCard";
 import ScrollContainer from "react-indiana-drag-scroll";
 
 const formatBigNum = Intl.NumberFormat("en", { notation: "compact" });
 
 export default function MarketInfo() {
-  const { fetcher } = useSWRConfig();
-  const { data, error } = useSWR(
-    "https://api.coingecko.com/api/v3/global",
-    fetcher
-  );
+  const { data, error } = useSWR("https://api.coingecko.com/api/v3/global", {
+    revalidateOnFocus: false,
+  });
   const { data: trendingData, error: trendingError } = useSWR(
     "https://api.coingecko.com/api/v3/search/trending",
-    fetcher
+    {
+      revalidateOnFocus: false,
+    }
   );
   if (error || trendingError) return <div>failed to load</div>;
   // if (!data && !trendingData) return <div>loading...</div>;
