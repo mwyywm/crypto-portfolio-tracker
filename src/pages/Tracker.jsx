@@ -4,12 +4,12 @@ import Breadcrumb from "../components/Breadcrumb";
 import SearchInput from "../components/SearchInput";
 import SearchResults from "../components/SearchResults";
 import Modal from "../components/Modal";
-import axios from "axios";
 import useDebounce from "../hooks/useDebounce.jsx";
 import formatNumber from "../utils/formatNumber";
 import { useOnClickOutside } from "../hooks/useOnClickOutside";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import uuid from "../utils/uuid";
+import useSWR from "swr";
 
 function Tracker() {
   const [searchTerm, setSearchTerm] = useState(""); // value of the search input
@@ -21,14 +21,49 @@ function Tracker() {
     search: false,
   }); // boolean
   const [portfolio, setPortfolio] = useLocalStorage("portfolio", []); // name, holdings, price, uuid
+  const allAPIIDs = portfolio.map((coin) => coin.apiID).join(",");
   const [modalContent, setModalContent] = useState({}); // name, apiID, image, holdings, price, uuid - this gets passed to portfolio
   const [totalHoldings, setTotalHoldings] = useState(0); // total holdings of all coins
   const [showModal, setShowModal] = useState(false); // boolean
-  let [triggerFetch, setTriggerFetch] = useState(1); // force rerender
+
   const searchRef = useRef();
   useOnClickOutside(searchRef, handleClickOutside); // click outside of search results hook
   const modalRef = useRef();
   useOnClickOutside(modalRef, handleClickOutsideModal); // click outside of modal hook
+
+  const { data, error } = useSWR(
+    allAPIIDs.length > 0 &&
+      `https://api.coingecko.com/api/v3/simple/price?ids=${allAPIIDs}&vs_currencies=usd`,
+    {
+      revalidateOnFocus: false,
+      onSuccess: (data) => {
+        setPortfolio(
+          portfolio.map((coin) => {
+            return {
+              ...coin,
+              price: data[coin.apiID].usd,
+            };
+          })
+        );
+        console.log("swr done", data);
+      },
+      onError: (err) => {
+        console.log(err);
+      },
+    }
+  );
+  const { data: searchData, error: searchError } = useSWR(
+    debouncedSearchTerm.length > 1
+      ? `https://api.coingecko.com/api/v3/search?query=${debouncedSearchTerm}`
+      : null,
+    {
+      revalidateOnFocus: false,
+      onSuccess: (searchData) => {
+        setResults(searchData.coins.slice(0, 30));
+      },
+    }
+  );
+
   // TODO: Search results navigation with arrow keys
   function handleInputChange(event) {
     // search handler
@@ -143,13 +178,11 @@ function Tracker() {
         // only the value of "portfolio[index].holdings" is changed, not the whole object
         setPortfolio([...portfolio]);
         setShowModal(false);
-        setTriggerFetch((triggerFetch += 1));
       } else {
         // save new coin to portfolio
         const newPortfolio = [...portfolio, modalContent];
         setPortfolio(newPortfolio);
         setShowModal(false);
-        setTriggerFetch((triggerFetch += 1));
       }
     } else {
       // modalContent.holdings is 0 or less
@@ -160,48 +193,8 @@ function Tracker() {
     // hide modal when clicking outside of modal
     setShowModal(false);
   }
-  useEffect(() => {
-    if (debouncedSearchTerm.length > 1) {
-      axios
-        .get(
-          `https://api.coingecko.com/api/v3/search?query=${debouncedSearchTerm}`
-        )
-        .then((res) => {
-          setResults(res.data.coins.slice(0, 15));
-        });
-    }
-  }, [debouncedSearchTerm]);
 
   useEffect(() => {
-    if (portfolio.length > 0) {
-      // fetch prices for all coins in the portfolio
-      const allAPIIDs = portfolio.map((coin) => coin.apiID).join(",");
-      let newPortfolio = portfolio;
-      axios
-        .get(
-          `https://api.coingecko.com/api/v3/simple/price?ids=${allAPIIDs}&vs_currencies=usd`
-        )
-        .then((res) => {
-          console.log(res.data);
-          newPortfolio = portfolio.map((coin) => {
-            return {
-              ...coin,
-              price: res.data[coin.apiID].usd,
-            };
-          });
-          console.log("newportfolio", newPortfolio);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          setPortfolio(newPortfolio);
-        });
-    }
-  }, [triggerFetch]);
-
-  useEffect(() => {
-    setTriggerFetch((triggerFetch += 1));
     if (document.title !== "cpt. - Portfolio tracker") {
       document.title = "cpt. - Portfolio tracker";
     }
