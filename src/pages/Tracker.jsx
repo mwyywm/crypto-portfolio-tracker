@@ -21,7 +21,7 @@ function Tracker() {
     search: false,
   }); // boolean
   const [portfolio, setPortfolio] = useLocalStorage("portfolio", []); // name, holdings, price, uuid
-  const [modalContent, setModalContent] = useState({}); // name, apiID, image, holdings, price, uuid - modalContent is later passed to portfolio
+  const [modalContent, setModalContent] = useState({}); // name, apiID, image, holdings, price, uuid - this gets passed to portfolio
   const [totalHoldings, setTotalHoldings] = useState(0); // total holdings of all coins
   const [showModal, setShowModal] = useState(false); // boolean
   let [triggerFetch, setTriggerFetch] = useState(1); // force rerender
@@ -175,19 +175,21 @@ function Tracker() {
   useEffect(() => {
     if (portfolio.length > 0) {
       // fetch prices for all coins in the portfolio
-      const promises = portfolio.map((coin) => {
-        const url = `https://api.coingecko.com/api/v3/coins/${coin.apiID}`;
-        return axios.get(url);
-      });
+      const allAPIIDs = portfolio.map((coin) => coin.apiID).join(",");
       let newPortfolio = portfolio;
-      Promise.all(promises)
+      axios
+        .get(
+          `https://api.coingecko.com/api/v3/simple/price?ids=${allAPIIDs}&vs_currencies=usd`
+        )
         .then((res) => {
-          newPortfolio = portfolio.map((coin, index) => {
+          console.log(res.data);
+          newPortfolio = portfolio.map((coin) => {
             return {
               ...coin,
-              price: res[index].data.market_data.current_price.usd,
+              price: res.data[coin.apiID].usd,
             };
           });
+          console.log("newportfolio", newPortfolio);
         })
         .catch((err) => {
           console.log(err);
@@ -197,6 +199,7 @@ function Tracker() {
         });
     }
   }, [triggerFetch]);
+
   useEffect(() => {
     setTriggerFetch((triggerFetch += 1));
     if (document.title !== "cpt. - Portfolio tracker") {
