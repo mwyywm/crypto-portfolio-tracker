@@ -54,7 +54,7 @@ function Coin() {
           <p>{params?.coin ? params.coin : "coin"} could not be found...</p>
         </div>
       )}
-      <section style={{ display: "flex", flexWrap: "wrap", margin: "0 auto" }}>
+      <section className="coin-chart-box">
         {data?.name && (
           <div className="coin">
             <div className="coin-heading">
@@ -136,10 +136,12 @@ function Coin() {
             )}
           </div>
         )}
+        <div className="chart-div">
+          {chartObj && data?.name && (
+            <Chart coin={params?.coin} chartObj={chartObj} />
+          )}
+        </div>
         {/* render if(chartObj && data?.name) because we dont want to render the chart before anything else mounts */}
-        {chartObj && data?.name && (
-          <Chart coin={params?.coin} chartObj={chartObj} />
-        )}
       </section>
 
       {data?.market_data && (

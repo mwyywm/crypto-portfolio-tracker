@@ -40,7 +40,6 @@ function CoinRow() {
           to={`/coin/${row.id}`}
           onMouseEnter={() => {
             // not prefetching when the cache has over 25 items. Dont want to get rate limited.
-            console.log(cache);
             if (cache.size < 25) {
               setTimeout(() => {
                 mutate(
