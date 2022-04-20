@@ -18,6 +18,7 @@ const ConverterTitle = styled.h1`
   text-align: center;
 `;
 const InputDiv = styled.div`
+  margin: 0 auto;
   margin-top: 15px;
   display: flex;
   flex-wrap: wrap;

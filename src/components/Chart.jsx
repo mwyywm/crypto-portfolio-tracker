@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import useSWR from "swr";
 import {
   LineChart,
@@ -9,36 +9,15 @@ import {
   Tooltip,
 } from "recharts";
 
-export default function Chart() {
-  const [chartObj, setChartObj] = useState([]);
-  const { data, error: chartError } = useSWR(
-    "https://api.coingecko.com/api/v3/coins/solana/market_chart?vs_currency=usd&days=7&interval=daily",
-    {
-      onSuccess: (data) => {
-        let obj = [];
-        data?.prices.map((curr) => {
-          obj = [
-            ...obj,
-            {
-              name: "ye",
-              price: curr[1],
-              date: new Date(curr[0]).toLocaleDateString("en-US", {
-                month: "numeric",
-                day: "numeric",
-              }),
-            },
-          ];
-        });
-        console.log(obj);
-        setChartObj(obj);
-      },
-    }
-  );
+export default function Chart({ chartObj }) {
+  // TODO: Add mutate() to coinRow component to prefetch data in chart
+  // TODO: wrap chart in a https://recharts.org/en-US/api/ResponsiveContainer
+  // https://api.coingecko.com/api/v3/coins/${coin}/market_chart?vs_currency=usd&days=7&interval=daily
 
   return (
     <LineChart width={600} height={400} data={chartObj}>
+      <YAxis type="number" domain={["auto", "auto"]} dataKey="price" />
       <XAxis dataKey="date" />
-      <YAxis domain={["auto", "auto"]} />
       <Tooltip />
       <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
       <Line type="monotone" dataKey="price" stroke="green" strokeWidth="3px" />
