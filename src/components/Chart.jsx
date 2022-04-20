@@ -7,6 +7,7 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
+  ResponsiveContainer,
 } from "recharts";
 
 export default function Chart({ chartObj }) {
@@ -15,12 +16,19 @@ export default function Chart({ chartObj }) {
   // https://api.coingecko.com/api/v3/coins/${coin}/market_chart?vs_currency=usd&days=7&interval=daily
 
   return (
-    <LineChart width={600} height={400} data={chartObj}>
-      <YAxis type="number" domain={["auto", "auto"]} dataKey="price" />
-      <XAxis dataKey="date" />
-      <Tooltip />
-      <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
-      <Line type="monotone" dataKey="price" stroke="green" strokeWidth="3px" />
-    </LineChart>
+    <ResponsiveContainer width="100%" height={400}>
+      <LineChart width={600} height={400} data={chartObj}>
+        <YAxis type="number" domain={["auto", "auto"]} dataKey="price" />
+        <XAxis dataKey="date" />
+        <Tooltip />
+        <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
+        <Line
+          type="monotone"
+          dataKey="price"
+          stroke="black"
+          strokeWidth="3px"
+        />
+      </LineChart>
+    </ResponsiveContainer>
   );
 }

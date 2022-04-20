@@ -9,7 +9,7 @@ import { PaginationItem } from "@mui/material";
 
 // Table and pagination component
 function CoinRow() {
-  const { mutate, fetcher } = useSWRConfig();
+  const { mutate, fetcher, cache } = useSWRConfig();
   const { search } = useLocation();
   const searchParams = new URLSearchParams(search);
   const pg = searchParams.get("pg");
@@ -39,17 +39,39 @@ function CoinRow() {
         <Link
           to={`/coin/${row.id}`}
           onMouseEnter={() => {
-            setTimeout(() => {
-              mutate(
-                `https://api.coingecko.com/api/v3/coins/${row.id}`,
-                async (currValue) => {
-                  return (
-                    currValue ??
-                    fetcher(`https://api.coingecko.com/api/v3/coins/${row.id}`)
-                  );
-                }
-              );
-            }, 250);
+            // not prefetching when the cache has over 25 items. Dont want to get rate limited.
+            console.log(cache);
+            if (cache.size < 25) {
+              setTimeout(() => {
+                mutate(
+                  `https://api.coingecko.com/api/v3/coins/${row.id}`,
+                  async (currValue) => {
+                    return (
+                      currValue ??
+                      fetcher(
+                        `https://api.coingecko.com/api/v3/coins/${row.id}`
+                      )
+                    );
+                  }
+                );
+                // chart data prefetch, if currValue already exists, don't fetch.
+                mutate(
+                  `https://api.coingecko.com/api/v3/coins/${row.id}/market_chart?vs_currency=usd&days=7&interval=daily`,
+                  async (currValue) => {
+                    // currValue is undefined if the coin isnt fetched yet.
+                    // after
+                    return (
+                      currValue ??
+                      fetcher(
+                        `https://api.coingecko.com/api/v3/coins/${row.id}/market_chart?vs_currency=usd&days=7&interval=daily`
+                      )
+                    );
+                  }
+                );
+              }, 250);
+            } else {
+              console.log("cache is above 25");
+            }
           }}
         >
           {row.name}
