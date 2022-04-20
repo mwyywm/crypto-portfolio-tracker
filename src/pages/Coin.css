@@ -87,14 +87,23 @@
 @media screen and (max-width: 768px) {
   .coin {
     margin-left: 0;
+    min-height: 240px;
   }
   .coin-chart-box {
     padding: 5px;
     margin-bottom: 50px;
   }
   .chart-div {
-    width: 80%;
+    width: 90%;
     height: auto;
     margin: 0 auto;
+  }
+}
+@media screen and (max-width: 500px) {
+  .chart-div {
+    width: 95%;
+    height: auto;
+    margin: 0 auto;
+    min-height: 240px;
   }
 }

@@ -6,7 +6,6 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
-  ReferenceLine,
 } from "recharts";
 
 export default function Chart({ chartObj }) {
@@ -21,7 +20,6 @@ export default function Chart({ chartObj }) {
         />
         <XAxis dataKey="date" stroke="#111216" />
         <Tooltip />
-        <ReferenceLine stroke="red" strokeDasharray="3 3" />
         <Line
           type="monotone"
           dataKey="price"
