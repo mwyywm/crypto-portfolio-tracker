@@ -23,6 +23,7 @@
   transition: 0.2s;
   transition-property: background-color;
 }
+
 .coin-search-result:hover {
   background-color: #e6e6e6;
 }
