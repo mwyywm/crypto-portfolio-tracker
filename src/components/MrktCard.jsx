@@ -1,8 +1,8 @@
 import React from "react";
-import "./marketCard.css";
+import "./mrktCard.css";
 import { useSWRConfig } from "swr";
 
-export default function MarketCard({ card }) {
+function MrktCard({ card }) {
   const { mutate, fetcher } = useSWRConfig();
   const { first, second, third } = card[1];
 
@@ -17,7 +17,6 @@ export default function MarketCard({ card }) {
       }
     );
   }
-
   if (card[1].type === "trending")
     return (
       <div className="market-card" id="trending">
@@ -81,3 +80,5 @@ export default function MarketCard({ card }) {
       </div>
     );
 }
+
+export default MrktCard;

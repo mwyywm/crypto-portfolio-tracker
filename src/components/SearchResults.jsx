@@ -9,13 +9,13 @@ const SearchResults = React.forwardRef(
         ref={ref}
         tabIndex="-1"
         style={
-          showResults & (data.length > 0)
+          showResults && data?.length > 0
             ? { display: "block" }
             : { display: "none" }
         }
       >
         <ul>
-          {data.map((result, i) => (
+          {data?.map((result, i) => (
             <li
               key={result.name}
               className="coin-search-result"

@@ -1,7 +1,7 @@
 import React from "react";
+import MrktCard from "./MrktCard";
 import "./marketInfo.css";
 import useSWR from "swr";
-import MarketCard from "../components/MarketCard";
 import ScrollContainer from "react-indiana-drag-scroll";
 
 const formatBigNum = Intl.NumberFormat("en", { notation: "compact" });
@@ -70,7 +70,7 @@ export default function MarketInfo() {
     >
       {data &&
         Object.entries(cardObjects).map((card) => (
-          <MarketCard card={card} key={card[1].title} />
+          <MrktCard card={card} key={card[1].title} />
         ))}
     </ScrollContainer>
   );

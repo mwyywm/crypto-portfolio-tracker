@@ -1,33 +1,21 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./tracker.css";
 import Breadcrumb from "../components/Breadcrumb";
-import SearchInput from "../components/SearchInput";
-import SearchResults from "../components/SearchResults";
 import Modal from "../components/Modal";
-import useDebounce from "../hooks/useDebounce.jsx";
 import formatNumber from "../utils/formatNumber";
 import { useOnClickOutside } from "../hooks/useOnClickOutside";
 import { useLocalStorage } from "../hooks/useLocalStorage";
-import uuid from "../utils/uuid";
 import useSWR from "swr";
+import TrackerSearch from "../components/TrackerSearch";
 
 function Tracker() {
-  const [searchTerm, setSearchTerm] = useState(""); // value of the search input
-  const debouncedSearchTerm = useDebounce(searchTerm, 450); // search debounce
-  const [results, setResults] = useState([]); // search results
-  const [showResults, setShowResults] = useState(false); // boolean
-  const [displayError, setDisplayError] = useState({
-    modal: false,
-    search: false,
-  }); // boolean
+  const [modalError, setModalError] = useState(false); // boolean
   const [portfolio, setPortfolio] = useLocalStorage("portfolio", []); // name, holdings, price, uuid
   const allAPIIDs = portfolio.map((coin) => coin.apiID).join(",");
   const [modalContent, setModalContent] = useState({}); // name, apiID, image, holdings, price, uuid - this gets passed to portfolio
   const [totalHoldings, setTotalHoldings] = useState(0); // total holdings of all coins
   const [showModal, setShowModal] = useState(false); // boolean
 
-  const searchRef = useRef();
-  useOnClickOutside(searchRef, handleClickOutside); // click outside of search results hook
   const modalRef = useRef();
   useOnClickOutside(modalRef, handleClickOutsideModal); // click outside of modal hook
 
@@ -51,88 +39,8 @@ function Tracker() {
       },
     }
   );
-  const { data: searchData, error: searchError } = useSWR(
-    debouncedSearchTerm.length > 1
-      ? `https://api.coingecko.com/api/v3/search?query=${debouncedSearchTerm}`
-      : null,
-    {
-      revalidateOnFocus: false,
-      onSuccess: (searchData) => {
-        setResults(searchData.coins.slice(0, 30));
-      },
-    }
-  );
-
   // TODO: Search results navigation with arrow keys
-  function handleInputChange(event) {
-    // search handler
-    event.preventDefault();
-    setSearchTerm(event.target.value);
-    // when to show results
-    if (event.target.value.length <= 2) {
-      setResults([]);
-      setShowResults(false);
-    }
-    if (
-      event.target.value.length > 2 &&
-      event.target.value.match(/^[a-zA-Z0-9]+$/)
-    ) {
-      setSearchTerm(event.target.value);
-      setShowResults(true);
-    }
-  }
-  function handleSearchClick(event) {
-    event.preventDefault();
-    // If the coin we click already exists in the portfolio, we don't want to add it again.
-    if (
-      [...portfolio].some(
-        (coin) =>
-          coin.name === event.target.alt || coin.name === event.target.innerText
-      )
-    ) {
-      return setDisplayError({ ...displayError, search: true });
-    }
-    if (event.target.tagName === "IMG") {
-      // add to modalContent
-      setModalContent({
-        name: event.target.alt,
-        apiID: results.find((result) => result.name === event.target.alt).id,
-        image: results.find((result) => result.name === event.target.alt).large,
-        symbol:
-          results.find((result) => result.name === event.target.alt).symbol ||
-          "",
-        holdings: 0,
-        price: 0,
-        uuid: uuid(),
-      });
-      setDisplayError({ ...displayError, search: false });
-      setShowModal(true);
-      setSearchTerm("");
-      setResults([]);
-    } else if (event.target.tagName === "P" || event.target.tagName === "LI") {
-      setModalContent({
-        name: event.target.innerText,
-        apiID: results.find((result) => result.name === event.target.innerText)
-          .id,
-        image: results.find((result) => result.name === event.target.innerText)
-          .large,
-        symbol:
-          results.find((result) => result.name === event.target.innerText)
-            .symbol || "",
-        holdings: 0,
-        price: 0,
-        uuid: uuid(),
-      });
-      setDisplayError({ ...displayError, search: false });
-      setShowModal(true);
-      setSearchTerm("");
-      setResults([]);
-    }
-  }
-  function handleClickOutside() {
-    // hide results div when clicking outside of search results div
-    setShowResults(false);
-  }
+  // portfolio functions
   function handleRemoveCoin(coinToRemove) {
     const newPortfolio = portfolio.filter((coin) => coin.name !== coinToRemove);
     setPortfolio(newPortfolio);
@@ -185,7 +93,7 @@ function Tracker() {
       }
     } else {
       // modalContent.holdings is 0 or less
-      setDisplayError({ ...displayError, modal: true });
+      setModalError(true);
     }
   }
   function handleClickOutsideModal() {
@@ -207,25 +115,16 @@ function Tracker() {
     setTotalHoldings(total);
   }, [portfolio]);
   useEffect(() => {
-    if (displayError.search) {
+    if (modalError) {
       setTimeout(() => {
-        setDisplayError({ ...displayError, search: false });
+        setModalError(false);
       }, 4000);
       // cleanup function
       return () => {
         clearTimeout();
       };
     }
-    if (displayError.modal) {
-      setTimeout(() => {
-        setDisplayError({ ...displayError, modal: false });
-      }, 4000);
-      // cleanup function
-      return () => {
-        clearTimeout();
-      };
-    }
-  }, [displayError]);
+  }, [modalError]);
   return (
     <>
       <Modal isShowing={showModal} ref={modalRef}>
@@ -247,7 +146,7 @@ function Tracker() {
           <p className="modal-heading">{modalContent.name + " holdings:"}</p>
           <div className="modal-input-div">
             <p className="modal-error">
-              {displayError.modal && "Must be a number greater than 0!"}
+              {modalError && "Must be a number greater than 0!"}
             </p>
             <input
               type="number"
@@ -286,22 +185,11 @@ function Tracker() {
           </p>
         </section>
         <section className="bottom-section">
-          <p className="search-error">
-            {displayError.search === true &&
-              "Coin already exists in portfolio!"}
-          </p>
-          <div className="search-div" ref={searchRef}>
-            <SearchInput
-              onInput={handleInputChange}
-              value={searchTerm}
-              onClick={() => setShowResults(true)}
-            />
-            <SearchResults
-              data={results}
-              onClick={handleSearchClick}
-              showResults={showResults}
-            />
-          </div>
+          <TrackerSearch
+            setShowModal={setShowModal}
+            setModalContent={setModalContent}
+            portfolio={portfolio}
+          />
           <div className="portfolio">
             {portfolio.length > 0 && (
               <>
