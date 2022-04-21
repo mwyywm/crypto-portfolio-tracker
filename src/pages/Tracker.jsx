@@ -9,10 +9,7 @@ import useSWR from "swr";
 import TrackerSearch from "../components/TrackerSearch";
 
 function Tracker() {
-  const [displayError, setDisplayError] = useState({
-    modal: false,
-    search: false,
-  }); // boolean
+  const [modalError, setModalError] = useState(false); // boolean
   const [portfolio, setPortfolio] = useLocalStorage("portfolio", []); // name, holdings, price, uuid
   const allAPIIDs = portfolio.map((coin) => coin.apiID).join(",");
   const [modalContent, setModalContent] = useState({}); // name, apiID, image, holdings, price, uuid - this gets passed to portfolio
@@ -42,7 +39,6 @@ function Tracker() {
       },
     }
   );
-
   // TODO: Search results navigation with arrow keys
   // portfolio functions
   function handleRemoveCoin(coinToRemove) {
@@ -97,7 +93,7 @@ function Tracker() {
       }
     } else {
       // modalContent.holdings is 0 or less
-      setDisplayError({ ...displayError, modal: true });
+      setModalError(true);
     }
   }
   function handleClickOutsideModal() {
@@ -119,25 +115,16 @@ function Tracker() {
     setTotalHoldings(total);
   }, [portfolio]);
   useEffect(() => {
-    if (displayError.search) {
+    if (modalError) {
       setTimeout(() => {
-        setDisplayError({ ...displayError, search: false });
+        setModalError(false);
       }, 4000);
       // cleanup function
       return () => {
         clearTimeout();
       };
     }
-    if (displayError.modal) {
-      setTimeout(() => {
-        setDisplayError({ ...displayError, modal: false });
-      }, 4000);
-      // cleanup function
-      return () => {
-        clearTimeout();
-      };
-    }
-  }, [displayError]);
+  }, [modalError]);
   return (
     <>
       <Modal isShowing={showModal} ref={modalRef}>
@@ -159,7 +146,7 @@ function Tracker() {
           <p className="modal-heading">{modalContent.name + " holdings:"}</p>
           <div className="modal-input-div">
             <p className="modal-error">
-              {displayError.modal && "Must be a number greater than 0!"}
+              {modalError && "Must be a number greater than 0!"}
             </p>
             <input
               type="number"
@@ -198,10 +185,6 @@ function Tracker() {
           </p>
         </section>
         <section className="bottom-section">
-          <p className="search-error">
-            {displayError.search === true &&
-              "Coin already exists in portfolio!"}
-          </p>
           <TrackerSearch
             setShowModal={setShowModal}
             setModalContent={setModalContent}

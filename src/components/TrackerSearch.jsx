@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./trackersearch.css";
 import SearchInput from "./SearchInput";
 import SearchResults from "./SearchResults";
@@ -16,10 +16,7 @@ export default function TrackerSearch({
   const debouncedSearchTerm = useDebounce(searchTerm, 450); // search debounce
   const [results, setResults] = useState([]); // search results
   const [showResults, setShowResults] = useState(false); // boolean
-  const [displayError, setDisplayError] = useState({
-    modal: false,
-    search: false,
-  }); // boolean
+  const [showError, setShowError] = useState(false); // boolean show search error
 
   const searchRef = useRef();
   useOnClickOutside(searchRef, handleClickOutside); // click outside of search results hook
@@ -62,7 +59,7 @@ export default function TrackerSearch({
           coin.name === event.target.alt || coin.name === event.target.innerText
       )
     ) {
-      return setDisplayError({ ...displayError, search: true });
+      return setShowError(true);
     }
     if (event.target.tagName === "IMG") {
       // add to modalContent
@@ -77,7 +74,7 @@ export default function TrackerSearch({
         price: 0,
         uuid: uuid(),
       });
-      setDisplayError({ ...displayError, search: false });
+      setShowError(false);
       setShowModal(true);
       setSearchTerm("");
       setResults([]);
@@ -95,8 +92,9 @@ export default function TrackerSearch({
         price: 0,
         uuid: uuid(),
       });
-      setDisplayError({ ...displayError, search: false });
       setShowModal(true);
+      // trigger modal and clear search + results
+      setShowError(false);
       setSearchTerm("");
       setResults([]);
     }
@@ -105,18 +103,34 @@ export default function TrackerSearch({
     // hide results div when clicking outside of search results div
     setShowResults(false);
   }
+  useEffect(() => {
+    if (showError) {
+      setTimeout(() => {
+        setShowError(false);
+      }, 4000);
+      // cleanup function
+      return () => {
+        clearTimeout();
+      };
+    }
+  }, [showError]);
   return (
-    <div className="search-div" ref={searchRef}>
-      <SearchInput
-        onInput={handleInputChange}
-        value={searchTerm}
-        onClick={() => setShowResults(true)}
-      />
-      <SearchResults
-        data={results}
-        onClick={handleSearchClick}
-        showResults={showResults}
-      />
-    </div>
+    <>
+      <p className="search-error">
+        {showError === true && "Coin already exists in portfolio!"}
+      </p>
+      <div className="search-div" ref={searchRef}>
+        <SearchInput
+          onInput={handleInputChange}
+          value={searchTerm}
+          onClick={() => setShowResults(true)}
+        />
+        <SearchResults
+          data={results}
+          onClick={handleSearchClick}
+          showResults={showResults}
+        />
+      </div>
+    </>
   );
 }
