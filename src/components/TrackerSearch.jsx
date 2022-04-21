@@ -1,12 +1,13 @@
 import React, { useState, useRef } from "react";
-import SearchInput from "../components/SearchInput";
-import SearchResults from "../components/SearchResults";
+import "./trackersearch.css";
+import SearchInput from "./SearchInput";
+import SearchResults from "./SearchResults";
 import useDebounce from "../hooks/useDebounce.jsx";
 import { useOnClickOutside } from "../hooks/useOnClickOutside";
 import uuid from "../utils/uuid";
 import useSWR from "swr";
 
-export default function TrackerInputWrapper({
+export default function TrackerSearch({
   portfolio,
   setModalContent,
   setShowModal,

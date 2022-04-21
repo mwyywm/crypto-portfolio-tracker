@@ -1,19 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./tracker.css";
 import Breadcrumb from "../components/Breadcrumb";
-import SearchInput from "../components/SearchInput";
-import SearchResults from "../components/SearchResults";
 import Modal from "../components/Modal";
 import formatNumber from "../utils/formatNumber";
 import { useOnClickOutside } from "../hooks/useOnClickOutside";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import useSWR from "swr";
-import TrackerInputWrapper from "../components/TrackerInputWrapper";
+import TrackerSearch from "../components/TrackerSearch";
 
 function Tracker() {
-  const [searchTerm, setSearchTerm] = useState(""); // value of the search input
-  const [results, setResults] = useState([]); // search results
-  const [showResults, setShowResults] = useState(false); // boolean
   const [displayError, setDisplayError] = useState({
     modal: false,
     search: false,
@@ -207,7 +202,7 @@ function Tracker() {
             {displayError.search === true &&
               "Coin already exists in portfolio!"}
           </p>
-          <TrackerInputWrapper
+          <TrackerSearch
             setShowModal={setShowModal}
             setModalContent={setModalContent}
             portfolio={portfolio}
