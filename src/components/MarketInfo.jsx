@@ -1,7 +1,7 @@
 import React from "react";
 import "./marketInfo.css";
 import useSWR from "swr";
-import MarketCard from "./MarketCard";
+import MarketCard from "../components/MarketCard";
 import ScrollContainer from "react-indiana-drag-scroll";
 
 const formatBigNum = Intl.NumberFormat("en", { notation: "compact" });
