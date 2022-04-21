@@ -2,7 +2,7 @@ import React from "react";
 import "./marketCard.css";
 import { useSWRConfig } from "swr";
 
-export default function MarketCard({ card }) {
+function MarketCard({ card }) {
   const { mutate, fetcher } = useSWRConfig();
   const { first, second, third } = card[1];
 
@@ -81,3 +81,5 @@ export default function MarketCard({ card }) {
       </div>
     );
 }
+
+export { MarketCard };
