@@ -1,5 +1,5 @@
 import React from "react";
-import "./marketCard.css";
+import "./mrktCard.css";
 import { useSWRConfig } from "swr";
 
 function MrktCard({ card }) {
