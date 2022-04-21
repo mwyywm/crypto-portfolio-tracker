@@ -17,7 +17,6 @@ function MarketCard({ card }) {
       }
     );
   }
-
   if (card[1].type === "trending")
     return (
       <div className="market-card" id="trending">
@@ -82,4 +81,4 @@ function MarketCard({ card }) {
     );
 }
 
-export { MarketCard };
+export default MarketCard;

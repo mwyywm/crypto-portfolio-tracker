@@ -1,5 +1,5 @@
 import React from "react";
-import { MarketCard } from "../components/MarketCard";
+import MarketCard from "./MarketCard";
 import "./marketInfo.css";
 import useSWR from "swr";
 import ScrollContainer from "react-indiana-drag-scroll";
