@@ -1,5 +1,5 @@
 import React from "react";
-import MarketCard from "./MarketCard";
+import MrktCard from "./MrktCard";
 import "./marketInfo.css";
 import useSWR from "swr";
 import ScrollContainer from "react-indiana-drag-scroll";
@@ -70,7 +70,7 @@ export default function MarketInfo() {
     >
       {data &&
         Object.entries(cardObjects).map((card) => (
-          <MarketCard card={card} key={card[1].title} />
+          <MrktCard card={card} key={card[1].title} />
         ))}
     </ScrollContainer>
   );
