@@ -138,14 +138,14 @@ export default function TrackerSearch({
 }
 
 export function DropdownCombobox({ portfolio, setModalContent, setShowModal }) {
-  const [inputItems, setInputItems] = useState("hi", "yo");
   const [searchTerm, setSearchTerm] = useState(""); // value of the search input
   const debouncedSearchTerm = useDebounce(searchTerm, 450); // search debounce
   const [results, setResults] = useState([]); // search results
+  const [showError, setShowError] = useState(false); // boolean show search error
+
   const {
     isOpen,
     selectedItem,
-    getToggleButtonProps,
     getLabelProps,
     getMenuProps,
     getInputProps,
@@ -154,13 +154,18 @@ export function DropdownCombobox({ portfolio, setModalContent, setShowModal }) {
     getItemProps,
   } = useCombobox({
     items: results,
+    itemToString: (results) => (results ? results.name : ""),
+    onSelectedItemChange: (item) => {
+      handleSelect(item);
+    },
     onInputValueChange: ({ inputValue }) => {
-      console.log(inputValue);
+      console.log("inputValue:", inputValue);
       setSearchTerm(inputValue);
     },
   });
   function handleSearchClick(event) {
     event.preventDefault();
+    console.log(event.target);
     // If the coin we click already exists in the portfolio, we don't want to add it again.
     if (
       [...portfolio].some(
@@ -208,7 +213,23 @@ export function DropdownCombobox({ portfolio, setModalContent, setShowModal }) {
       setResults([]);
     }
   }
-
+  function handleSelect(item) {
+    // if coin already exists, show error.
+    if ([...portfolio].some((coin) => coin.name === item.selectedItem.name)) {
+      return setShowError(true);
+    } else {
+      setModalContent({
+        name: item.name,
+        apiID: item.id,
+        image: item.large,
+        symbol: item.symbol,
+        holdings: 0,
+        price: 0,
+        uuid: uuid(),
+      });
+      setShowModal(true);
+    }
+  }
   const { data: searchData, error: searchError } = useSWR(
     debouncedSearchTerm.length > 1
       ? `https://api.coingecko.com/api/v3/search?query=${debouncedSearchTerm}`
@@ -222,29 +243,28 @@ export function DropdownCombobox({ portfolio, setModalContent, setShowModal }) {
   );
   return (
     <>
+      <p className="search-error">
+        {showError === true && "Coin already exists in portfolio!"}
+      </p>
       <div {...getComboboxProps()}>
         <input {...getInputProps()} />
-        <button
-          type="button"
-          {...getToggleButtonProps()}
-          aria-label={"toggle menu"}
-        >
-          &#8595;
-        </button>
       </div>
-      <ul {...getMenuProps()}>
-        {isOpen &&
-          results.map((result, i) => (
-            <li
-              key={result.name}
-              className="coin-search-result"
-              onClick={handleSearchClick}
-            >
-              <img src={result.thumb} alt={result.name} />
-              <p>{result.name}</p>
-            </li>
-          ))}
-      </ul>
+      <div>
+        <ul {...getMenuProps()}>
+          {isOpen &&
+            results.map((result, i) => (
+              <li
+                key={result.name}
+                className="coin-search-result"
+                onClick={() => handleSearchClick(event)}
+                {...getItemProps({ result, index: i })}
+              >
+                <img src={result.thumb} alt={result.name} />
+                <p>{result.name}</p>
+              </li>
+            ))}
+        </ul>
+      </div>
     </>
   );
 }
