@@ -6,7 +6,7 @@ import formatNumber from "../utils/formatNumber";
 import { useOnClickOutside } from "../hooks/useOnClickOutside";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import useSWR from "swr";
-import TrackerSearch from "../components/TrackerSearch";
+import DropdownCombobox from "../components/DropdownCombobox";
 
 function Tracker() {
   const [modalError, setModalError] = useState(false); // boolean
@@ -185,7 +185,7 @@ function Tracker() {
           </p>
         </section>
         <section className="bottom-section">
-          <TrackerSearch
+          <DropdownCombobox
             setShowModal={setShowModal}
             setModalContent={setModalContent}
             portfolio={portfolio}

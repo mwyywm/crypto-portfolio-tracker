@@ -1,13 +1,12 @@
-import React, { useState, useRef, useEffect } from "react";
-import "./trackersearch.css";
-import SearchInput from "./SearchInput";
-import SearchResults from "./SearchResults";
+import React, { useState, useEffect } from "react";
+import "./dropdowncombobox.css";
 import useDebounce from "../hooks/useDebounce.jsx";
-import { useOnClickOutside } from "../hooks/useOnClickOutside";
 import uuid from "../utils/uuid";
 import useSWR from "swr";
+import { render } from "react-dom";
+import { useCombobox } from "downshift";
 
-export default function TrackerSearch({
+export default function DropdownCombobox({
   portfolio,
   setModalContent,
   setShowModal,
@@ -15,39 +14,41 @@ export default function TrackerSearch({
   const [searchTerm, setSearchTerm] = useState(""); // value of the search input
   const debouncedSearchTerm = useDebounce(searchTerm, 450); // search debounce
   const [results, setResults] = useState([]); // search results
-  const [showResults, setShowResults] = useState(false); // boolean
   const [showError, setShowError] = useState(false); // boolean show search error
 
-  const searchRef = useRef();
-  useOnClickOutside(searchRef, handleClickOutside); // click outside of search results hook
-
-  const { data: searchData, error: searchError } = useSWR(
-    debouncedSearchTerm.length > 1
-      ? `https://api.coingecko.com/api/v3/search?query=${debouncedSearchTerm}`
-      : null,
-    {
-      revalidateOnFocus: false,
-      onSuccess: (searchData) => {
-        setResults(searchData.coins.slice(0, 30));
-      },
-    }
-  );
-
-  function handleInputChange(event) {
-    // search handler
-    event.preventDefault();
-    setSearchTerm(event.target.value);
-    // when to show results
-    if (event.target.value.length <= 2) {
-      setResults([]);
-      setShowResults(false);
-    }
-    if (
-      event.target.value.length > 2 &&
-      event.target.value.match(/^[a-zA-Z0-9]+$/)
-    ) {
-      setSearchTerm(event.target.value);
-      setShowResults(true);
+  const {
+    isOpen,
+    selectedItem,
+    getMenuProps,
+    getInputProps,
+    getComboboxProps,
+    highlightedIndex,
+    getItemProps,
+  } = useCombobox({
+    items: results,
+    itemToString: (results) => (results ? results.name : ""),
+    onSelectedItemChange: (item) => {
+      handleSelect(item);
+    },
+    onInputValueChange: ({ inputValue }) => {
+      setSearchTerm(inputValue);
+    },
+  });
+  function handleSelect(item) {
+    // if coin already exists, show error.
+    if ([...portfolio].some((coin) => coin.name === item.selectedItem.name)) {
+      return setShowError(true);
+    } else {
+      setModalContent({
+        name: item.selectedItem.name,
+        apiID: item.selectedItem.id,
+        image: item.selectedItem.large,
+        symbol: item.selectedItem.symbol,
+        holdings: 0,
+        price: 0,
+        uuid: uuid(),
+      });
+      setShowModal(true);
     }
   }
   function handleSearchClick(event) {
@@ -99,10 +100,17 @@ export default function TrackerSearch({
       setResults([]);
     }
   }
-  function handleClickOutside() {
-    // hide results div when clicking outside of search results div
-    setShowResults(false);
-  }
+  const { data: searchData, error: searchError } = useSWR(
+    debouncedSearchTerm.length > 1
+      ? `https://api.coingecko.com/api/v3/search?query=${debouncedSearchTerm}`
+      : null,
+    {
+      revalidateOnFocus: false,
+      onSuccess: (searchData) => {
+        setResults(searchData.coins.slice(0, 30));
+      },
+    }
+  );
   useEffect(() => {
     if (showError) {
       setTimeout(() => {
@@ -119,18 +127,37 @@ export default function TrackerSearch({
       <p className="search-error">
         {showError === true && "Coin already exists in portfolio!"}
       </p>
-      <div className="search-div" ref={searchRef}>
-        <SearchInput
-          onInput={handleInputChange}
-          value={searchTerm}
-          onClick={() => setShowResults(true)}
+      <div {...getComboboxProps()} className="search-div">
+        <input
+          {...getInputProps()}
+          className="search-input"
+          placeholder="Search for a coin"
         />
-        <SearchResults
-          data={results}
-          onClick={handleSearchClick}
-          showResults={showResults}
-        />
+      </div>
+      <div className="results-div">
+        <ul {...getMenuProps()} className="results-container-ul">
+          {isOpen &&
+            results.map((result, i) => (
+              <li
+                key={result.name}
+                className="coin-search-li"
+                {...getItemProps({
+                  item: result,
+                  style: {
+                    backgroundColor:
+                      i === highlightedIndex ? "#6b92ff" : "white",
+                  },
+                })}
+                onClick={(e) => handleSearchClick(e)}
+              >
+                <img src={result.thumb} alt={result.name} />
+                <p>{result.name}</p>
+              </li>
+            ))}
+        </ul>
       </div>
     </>
   );
 }
+
+render(<DropdownCombobox />, document.getElementById("root"));
