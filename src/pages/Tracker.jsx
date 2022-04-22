@@ -6,7 +6,7 @@ import formatNumber from "../utils/formatNumber";
 import { useOnClickOutside } from "../hooks/useOnClickOutside";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import useSWR from "swr";
-import DropdownCombobox from "../components/TrackerSearch";
+import DropdownCombobox from "../components/DropdownCombobox";
 
 function Tracker() {
   const [modalError, setModalError] = useState(false); // boolean

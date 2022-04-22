@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import "./trackersearch.css";
+import React, { useState, useEffect } from "react";
+import "./dropdowncombobox.css";
 import useDebounce from "../hooks/useDebounce.jsx";
 import uuid from "../utils/uuid";
 import useSWR from "swr";
@@ -31,13 +31,28 @@ export default function DropdownCombobox({
       handleSelect(item);
     },
     onInputValueChange: ({ inputValue }) => {
-      console.log("inputValue:", inputValue);
       setSearchTerm(inputValue);
     },
   });
+  function handleSelect(item) {
+    // if coin already exists, show error.
+    if ([...portfolio].some((coin) => coin.name === item.selectedItem.name)) {
+      return setShowError(true);
+    } else {
+      setModalContent({
+        name: item.selectedItem.name,
+        apiID: item.selectedItem.id,
+        image: item.selectedItem.large,
+        symbol: item.selectedItem.symbol,
+        holdings: 0,
+        price: 0,
+        uuid: uuid(),
+      });
+      setShowModal(true);
+    }
+  }
   function handleSearchClick(event) {
     event.preventDefault();
-    console.log(event.target);
     // If the coin we click already exists in the portfolio, we don't want to add it again.
     if (
       [...portfolio].some(
@@ -85,23 +100,6 @@ export default function DropdownCombobox({
       setResults([]);
     }
   }
-  function handleSelect(item) {
-    // if coin already exists, show error.
-    if ([...portfolio].some((coin) => coin.name === item.selectedItem.name)) {
-      return setShowError(true);
-    } else {
-      setModalContent({
-        name: item.selectedItem.name,
-        apiID: item.selectedItem.id,
-        image: item.selectedItem.large,
-        symbol: item.selectedItem.symbol,
-        holdings: 0,
-        price: 0,
-        uuid: uuid(),
-      });
-      setShowModal(true);
-    }
-  }
   const { data: searchData, error: searchError } = useSWR(
     debouncedSearchTerm.length > 1
       ? `https://api.coingecko.com/api/v3/search?query=${debouncedSearchTerm}`
@@ -113,6 +111,17 @@ export default function DropdownCombobox({
       },
     }
   );
+  useEffect(() => {
+    if (showError) {
+      setTimeout(() => {
+        setShowError(false);
+      }, 4000);
+      // cleanup function
+      return () => {
+        clearTimeout();
+      };
+    }
+  }, [showError]);
   return (
     <>
       <p className="search-error">
@@ -131,15 +140,15 @@ export default function DropdownCombobox({
             results.map((result, i) => (
               <li
                 key={result.name}
-                onClick={handleSearchClick}
                 className="coin-search-li"
                 {...getItemProps({
                   item: result,
                   style: {
                     backgroundColor:
-                      i === highlightedIndex ? "lightblue" : "white",
+                      i === highlightedIndex ? "#6b92ff" : "white",
                   },
                 })}
+                onClick={(e) => handleSearchClick(e)}
               >
                 <img src={result.thumb} alt={result.name} />
                 <p>{result.name}</p>
