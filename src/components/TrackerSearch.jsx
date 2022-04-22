@@ -219,10 +219,10 @@ export function DropdownCombobox({ portfolio, setModalContent, setShowModal }) {
       return setShowError(true);
     } else {
       setModalContent({
-        name: item.name,
-        apiID: item.id,
-        image: item.large,
-        symbol: item.symbol,
+        name: item.selectedItem.name,
+        apiID: item.selectedItem.id,
+        image: item.selectedItem.large,
+        symbol: item.selectedItem.symbol,
         holdings: 0,
         price: 0,
         uuid: uuid(),
@@ -250,14 +250,20 @@ export function DropdownCombobox({ portfolio, setModalContent, setShowModal }) {
         <input {...getInputProps()} />
       </div>
       <div>
-        <ul {...getMenuProps()}>
+        <ul {...getMenuProps()} className="results-container">
           {isOpen &&
             results.map((result, i) => (
               <li
                 key={result.name}
+                onClick={handleSearchClick}
                 className="coin-search-result"
-                onClick={() => handleSearchClick(event)}
-                {...getItemProps({ result, index: i })}
+                {...getItemProps({
+                  item: result,
+                  style: {
+                    backgroundColor:
+                      i === highlightedIndex ? "lightblue" : "white",
+                  },
+                })}
               >
                 <img src={result.thumb} alt={result.name} />
                 <p>{result.name}</p>
