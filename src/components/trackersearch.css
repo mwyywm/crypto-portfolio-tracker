@@ -24,3 +24,47 @@
 .search-input:focus {
   border: 2px solid black;
 }
+.results-div {
+  margin: 0 auto;
+  width: 240px;
+}
+.results-container-ul {
+  background-color: #ffffff;
+  margin-top: 2px;
+  margin: 0 auto;
+  width: 240px;
+  height: auto;
+  position: absolute;
+  max-height: 400px;
+  overflow-y: auto; /* only triggers scrollbar when needed */
+  border-radius: 8px;
+  box-shadow: 0 1.6px 3.6px 0 rgb(0 0 0 / 13%), 0 0.3px 0.9px 0 rgb(0 0 0 / 11%);
+}
+.results-container ul {
+  list-style-type: none;
+  padding: 0;
+}
+.coin-search-li {
+  padding: 10px;
+  border-bottom: 1px solid #e6e6e6;
+  min-height: 60px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: 0.1s;
+  transition-property: background-color;
+}
+
+.coin-search-li:hover {
+  background-color: #e6e6e6;
+}
+.coin-search-li img {
+  width: 32px;
+  height: 32px;
+}
+.coin-search-li p {
+  margin-left: 10px;
+  font-size: 18px;
+  font-weight: 400;
+  color: #000000;
+}
