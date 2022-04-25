@@ -68,7 +68,7 @@
   transition: 0.25s;
   transition-property: background-color;
 }
-.nav-links li a:hover {
+.nav-links .link:hover {
   background-color: var(--navbar-button-color-hover);
 }
 .hamburger {

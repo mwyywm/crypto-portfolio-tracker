@@ -139,14 +139,88 @@ export default function DropdownCombobox({
             results.map((result, i) => (
               <li
                 key={result.name}
-                className="coin-search-li"
                 {...getItemProps({
                   item: result,
                   style: {
-                    backgroundColor:
-                      i === highlightedIndex ? "#6b92ff" : "white",
+                    backgroundColor: i === highlightedIndex ? "#6b92ff" : null,
                   },
                 })}
+                className="coin-search-li"
+                onClick={(e) => handleSearchClick(e)}
+              >
+                <img src={result.thumb} alt={result.name} />
+                <p>{result.name}</p>
+              </li>
+            ))}
+        </ul>
+      </div>
+    </>
+  );
+}
+
+export function NavbarSearch() {
+  const [searchTerm, setSearchTerm] = useState(""); // value of the search input
+  const debouncedSearchTerm = useDebounce(searchTerm, 450); // search debounce
+  const [results, setResults] = useState([]); // search results
+
+  const {
+    isOpen,
+    selectedItem,
+    getMenuProps,
+    getInputProps,
+    getComboboxProps,
+    highlightedIndex,
+    getItemProps,
+  } = useCombobox({
+    items: results,
+    itemToString: (results) => (results ? results.name : ""),
+    onSelectedItemChange: (item) => {
+      handleSelect(item);
+    },
+    onInputValueChange: ({ inputValue }) => {
+      setSearchTerm(inputValue);
+    },
+  });
+  function handleSelect(item) {
+    // router push to coin page
+  }
+  function handleSearchClick(event) {
+    // router push to coin page
+  }
+  const { data: searchData, error: searchError } = useSWR(
+    debouncedSearchTerm.length > 1
+      ? `https://api.coingecko.com/api/v3/search?query=${debouncedSearchTerm}`
+      : null,
+    {
+      revalidateOnFocus: false,
+      onSuccess: (searchData) => {
+        setResults(searchData.coins.slice(0, 30));
+      },
+    }
+  );
+
+  return (
+    <>
+      <div {...getComboboxProps()} className="search-div">
+        <input
+          {...getInputProps()}
+          className="search-input-nav"
+          placeholder="Search for a coin"
+        />
+      </div>
+      <div className="results-div">
+        <ul {...getMenuProps()} className="results-container-ul">
+          {isOpen &&
+            results.map((result, i) => (
+              <li
+                key={result.name}
+                {...getItemProps({
+                  item: result,
+                  style: {
+                    backgroundColor: i === highlightedIndex ? "#6b92ff" : null,
+                  },
+                })}
+                className="coin-search-li"
                 onClick={(e) => handleSearchClick(e)}
               >
                 <img src={result.thumb} alt={result.name} />

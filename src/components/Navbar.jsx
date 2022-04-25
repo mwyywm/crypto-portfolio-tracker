@@ -5,6 +5,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { GrClose } from "react-icons/gr";
 import { useWindowWidth } from "../hooks/useWindowWidth";
 import { useOnClickOutside } from "../hooks/useOnClickOutside";
+import { NavbarSearch } from "./DropdownCombobox";
 
 const menuLinks = [
   { path: "/", text: "Home" },
@@ -35,10 +36,15 @@ function Navbar() {
           </h1>
         </div>
         <div className="nav-links">
-          <ul>
+          <div>
+            <NavbarSearch />
+          </div>
+          <ul className="links">
             {menuLinks.map((link) => (
               <li key={link.path}>
-                <Link to={link.path}>{link.text}</Link>
+                <Link to={link.path} className="link">
+                  {link.text}
+                </Link>
               </li>
             ))}
           </ul>
