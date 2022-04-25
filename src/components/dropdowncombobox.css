@@ -25,6 +25,7 @@
   border: 2px solid black;
 }
 .results-div {
+  z-index: 5;
   margin: 0 auto;
   width: 240px;
 }

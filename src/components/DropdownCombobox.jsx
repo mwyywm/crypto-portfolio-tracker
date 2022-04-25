@@ -3,7 +3,6 @@ import "./dropdowncombobox.css";
 import useDebounce from "../hooks/useDebounce.jsx";
 import uuid from "../utils/uuid";
 import useSWR from "swr";
-import { render } from "react-dom";
 import { useCombobox } from "downshift";
 
 export default function DropdownCombobox({
@@ -159,5 +158,3 @@ export default function DropdownCombobox({
     </>
   );
 }
-
-render(<DropdownCombobox />, document.getElementById("root"));

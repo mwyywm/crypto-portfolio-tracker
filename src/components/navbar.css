@@ -36,13 +36,12 @@
   height: 90px;
   width: auto;
   display: flex;
-  justify-content: space-between;
   align-items: center;
 }
 .mobile-nav-links {
   display: none;
 }
-.nav-links ul {
+.nav-links .links {
   display: flex;
   width: 100%;
   height: auto;
@@ -53,7 +52,7 @@
   padding: 0;
   overflow: hidden;
 }
-.nav-links li a {
+.nav-links .link {
   height: 60px;
   background-color: var(--navbar-button-color);
   color: var(--navbar-text-color);
@@ -67,6 +66,7 @@
   display: flex;
   align-items: center;
   transition: 0.25s;
+  transition-property: background-color;
 }
 .nav-links li a:hover {
   background-color: var(--navbar-button-color-hover);
