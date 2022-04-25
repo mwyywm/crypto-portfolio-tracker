@@ -203,8 +203,8 @@ export function NavbarSearch() {
     navigate(`/coin/${coinID}`);
   }
   function handleKeyDown(e) {
-    e.preventDefault(); // ignore browser default behavior
     if (e.ctrlKey && e.key.toLowerCase() === "k") {
+      e.preventDefault(); // prevent ctrl+k from opening the search bar.
       searchRef.current.focus();
     }
   }
