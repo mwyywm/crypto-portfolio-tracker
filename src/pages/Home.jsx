@@ -6,8 +6,8 @@ import { AiOutlineArrowUp } from "react-icons/ai";
 
 function Home() {
   useEffect(() => {
-    if (document.title !== "cpt.") {
-      document.title = "cpt.";
+    if (document.title !== "cpt") {
+      document.title = "cpt";
     }
   }, []);
   return (

@@ -159,7 +159,7 @@ export default function DropdownCombobox({
   );
 }
 
-export function NavbarSearch() {
+export function NavbarSearch({ placeholder }) {
   const [searchTerm, setSearchTerm] = useState(""); // value of the search input
   const debouncedSearchTerm = useDebounce(searchTerm, 450); // search debounce
   const [results, setResults] = useState([]); // search results
@@ -222,7 +222,7 @@ export function NavbarSearch() {
             ref: searchRef,
           })}
           className="search-input-nav"
-          placeholder="Search for a coin"
+          placeholder={placeholder ? placeholder : "Search for a coin"}
         />
       </div>
       <div className="results-div">
