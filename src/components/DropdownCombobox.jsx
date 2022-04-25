@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./dropdowncombobox.css";
 import useDebounce from "../hooks/useDebounce.jsx";
 import uuid from "../utils/uuid";
 import useSWR from "swr";
 import { useCombobox } from "downshift";
+import { useNavigate } from "react-router-dom";
 
 export default function DropdownCombobox({
   portfolio,
@@ -162,7 +163,8 @@ export function NavbarSearch() {
   const [searchTerm, setSearchTerm] = useState(""); // value of the search input
   const debouncedSearchTerm = useDebounce(searchTerm, 450); // search debounce
   const [results, setResults] = useState([]); // search results
-
+  const navigate = useNavigate();
+  const searchRef = useRef();
   const {
     isOpen,
     selectedItem,
@@ -181,12 +183,6 @@ export function NavbarSearch() {
       setSearchTerm(inputValue);
     },
   });
-  function handleSelect(item) {
-    // router push to coin page
-  }
-  function handleSearchClick(event) {
-    // router push to coin page
-  }
   const { data: searchData, error: searchError } = useSWR(
     debouncedSearchTerm.length > 1
       ? `https://api.coingecko.com/api/v3/search?query=${debouncedSearchTerm}`
@@ -198,12 +194,33 @@ export function NavbarSearch() {
       },
     }
   );
-
+  function handleSelect(item) {
+    // router push to coin page
+    navigate(`/coin/${item.selectedItem.id}`);
+  }
+  function handleSearchClick(coinID) {
+    // router push to coin page
+    navigate(`/coin/${coinID}`);
+  }
+  function handleKeyDown(e) {
+    e.preventDefault(); // ignore browser default behavior
+    if (e.ctrlKey && e.key.toLowerCase() === "k") {
+      searchRef.current.focus();
+    }
+  }
+  useEffect(() => {
+    addEventListener("keydown", handleKeyDown);
+    return () => {
+      removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
   return (
     <>
       <div {...getComboboxProps()} className="search-div">
         <input
-          {...getInputProps()}
+          {...getInputProps({
+            ref: searchRef,
+          })}
           className="search-input-nav"
           placeholder="Search for a coin"
         />
@@ -221,7 +238,7 @@ export function NavbarSearch() {
                   },
                 })}
                 className="coin-search-li"
-                onClick={(e) => handleSearchClick(e)}
+                onClick={() => handleSearchClick(result.id)}
               >
                 <img src={result.thumb} alt={result.name} />
                 <p>{result.name}</p>
