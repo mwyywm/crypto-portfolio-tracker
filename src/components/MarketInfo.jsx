@@ -48,17 +48,17 @@ export default function MarketInfo() {
       first: {
         value: trendingData?.coins[0].item.name,
         valueImg: trendingData?.coins[0].item.thumb,
-        slug: trendingData?.coins[0].item.slug,
+        slug: trendingData?.coins[0].item.id,
       },
       second: {
         value2: trendingData?.coins[1].item.name,
         valueImg2: trendingData?.coins[1].item.thumb,
-        slug: trendingData?.coins[1].item.slug,
+        slug: trendingData?.coins[1].item.id,
       },
       third: {
         value3: trendingData?.coins[2].item.name,
         valueImg3: trendingData?.coins[2].item.thumb,
-        slug: trendingData?.coins[2].item.slug,
+        slug: trendingData?.coins[2].item.id,
       },
     },
   };
