@@ -7,6 +7,7 @@ import { useOnClickOutside } from "../hooks/useOnClickOutside";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import useSWR from "swr";
 import DropdownCombobox from "../components/DropdownCombobox";
+import TrackerChart from "../components/TrackerChart";
 
 function Tracker() {
   const [modalError, setModalError] = useState(false); // boolean
@@ -14,12 +15,16 @@ function Tracker() {
   const allAPIIDs = portfolio.map((coin) => coin.apiID).join(",");
   const [modalContent, setModalContent] = useState({}); // name, apiID, image, holdings, price, uuid - this gets passed to portfolio
   const [showModal, setShowModal] = useState(false); // boolean
-  const totalPortfolioValue = Number(
-    portfolio
-      .map((coin) => coin.price * coin.holdings)
-      .reduce((a, b) => a + b)
-      .toFixed(2)
-  );
+  const totalPortfolioValue =
+    portfolio.length > 0
+      ? Number(
+          portfolio
+            .map((coin) => coin.price * coin.holdings)
+            .reduce((a, b) => a + b)
+            .toFixed(2)
+        )
+      : null;
+
   const modalRef = useRef();
   useOnClickOutside(modalRef, handleClickOutsideModal); // click outside of modal hook
 
@@ -256,6 +261,9 @@ function Tracker() {
                 </div>
               </>
             )}
+            <div className="pie-div">
+              <TrackerChart data={portfolio} />
+            </div>
           </div>
         </section>
       </section>

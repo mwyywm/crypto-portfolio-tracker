@@ -35,14 +35,12 @@ function Coin() {
       },
     }
   );
-  const title = document.title;
 
+  const title = document.title;
   useEffect(() => {
     document.title = data?.name ? `cpt - ${data.name}` : title;
   }, [data]);
-  console.log(error);
-  console.log(chartError);
-  console.log(data);
+
   return (
     <section className="coinsection">
       <Breadcrumb text={data?.name ? data.name : ""} />

@@ -110,6 +110,11 @@
   width: auto;
   text-align: left;
 }
+.pie-div {
+  max-width: 100%;
+  margin: 0 auto;
+  width: 400px;
+}
 @media (max-width: 768px) {
   .portfolio-box {
     display: grid;
