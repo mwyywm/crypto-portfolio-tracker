@@ -216,7 +216,7 @@ export function NavbarSearch({ placeholder }) {
   }, []);
   return (
     <>
-      <div {...getComboboxProps()} className="search-div">
+      <div {...getComboboxProps()} className="search-div-nav">
         <input
           {...getInputProps({
             ref: searchRef,

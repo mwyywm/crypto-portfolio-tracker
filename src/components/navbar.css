@@ -109,6 +109,8 @@
   }
   .hamburger {
     display: block;
+    height: 30px;
+    width: 30px;
   }
   .hamburger path {
     fill: var(--navbar-text-color);

@@ -17,6 +17,7 @@ export default function Chart({ chartObj }) {
           stroke="black"
           domain={["auto", "auto"]}
           dataKey="price"
+          width={100} /* coins like with a lot of decimals high width */
         />
         <XAxis dataKey="date" stroke="#111216" />
         <Tooltip />

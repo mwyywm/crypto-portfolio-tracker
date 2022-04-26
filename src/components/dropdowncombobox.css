@@ -73,8 +73,19 @@
 }
 
 /* !! navbar search styles */
-.search-input-nav {
+.search-div-nav {
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 1.6px 3.6px 0 rgb(0 0 0 / 13%), 0 0.3px 0.9px 0 rgb(0 0 0 / 11%);
+  width: 240px;
+  max-width: 100%;
+  border: none;
+  border-radius: 8px;
   border: 1px solid rgb(0, 0, 0);
+}
+.search-input-nav {
+  border: 0px solid rgb(0, 0, 0);
   height: 50px;
   width: 100%;
   outline: none;
