@@ -13,9 +13,13 @@ function Tracker() {
   const [portfolio, setPortfolio] = useLocalStorage("portfolio", []); // name, holdings, price, uuid
   const allAPIIDs = portfolio.map((coin) => coin.apiID).join(",");
   const [modalContent, setModalContent] = useState({}); // name, apiID, image, holdings, price, uuid - this gets passed to portfolio
-  const [totalHoldings, setTotalHoldings] = useState(0); // total holdings of all coins
   const [showModal, setShowModal] = useState(false); // boolean
-
+  const totalPortfolioValue = Number(
+    portfolio
+      .map((coin) => coin.price * coin.holdings)
+      .reduce((a, b) => a + b)
+      .toFixed(2)
+  );
   const modalRef = useRef();
   useOnClickOutside(modalRef, handleClickOutsideModal); // click outside of modal hook
 
@@ -99,20 +103,11 @@ function Tracker() {
     // hide modal when clicking outside of modal
     setShowModal(false);
   }
-
   useEffect(() => {
     if (document.title !== "cpt - Portfolio tracker") {
       document.title = "cpt - Portfolio tracker";
     }
   }, []);
-  useEffect(() => {
-    // calculate total holdings
-    let total = 0;
-    portfolio.map((coin) => {
-      total += coin.holdings * coin.price;
-    });
-    setTotalHoldings(total);
-  }, [portfolio]);
   useEffect(() => {
     if (modalError) {
       setTimeout(() => {
@@ -194,7 +189,9 @@ function Tracker() {
               <>
                 <h2>
                   Total portfolio value:{" "}
-                  {totalHoldings ? "$" + formatNumber(totalHoldings, 2) : "..."}
+                  {totalPortfolioValue
+                    ? "$" + formatNumber(totalPortfolioValue, 2)
+                    : ""}
                 </h2>
                 <div className="portfolio-box">
                   {portfolio.map((coin) => (

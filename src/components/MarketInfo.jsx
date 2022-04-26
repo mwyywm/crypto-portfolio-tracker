@@ -17,8 +17,6 @@ export default function MarketInfo() {
     }
   );
   if (error || trendingError) return <div>failed to load</div>;
-  // if (!data && !trendingData) return <div>loading...</div>;
-  // can also show last updated date?
 
   const cardObjects = {
     globalmktcap: {

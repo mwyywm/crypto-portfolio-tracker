@@ -39,8 +39,8 @@ function CoinRow() {
         <Link
           to={`/coin/${row.id}`}
           onMouseEnter={() => {
-            // not prefetching when the cache has over 25 items. Dont want to get rate limited.
-            if (cache.size < 25) {
+            // not prefetching when the cache has over 27 items. Dont want to get rate limited.
+            if (cache.size < 27) {
               setTimeout(() => {
                 mutate(
                   `https://api.coingecko.com/api/v3/coins/${row.id}`,
@@ -69,7 +69,7 @@ function CoinRow() {
                 );
               }, 250);
             } else {
-              console.log("cache is above 25");
+              console.log("cache is above 27");
             }
           }}
         >
@@ -156,8 +156,8 @@ function CoinRow() {
       },
     },
   };
-  if (error) return <div>Failed to load, you are being rate limited.</div>;
-  if (!data) return <div></div>;
+  if (error) return <div>Too many requests. You are being rate limited.</div>;
+  if (!data && !error) return <div></div>;
   return (
     data.length > 0 && (
       <>

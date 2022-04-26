@@ -40,18 +40,20 @@ function Coin() {
   useEffect(() => {
     document.title = data?.name ? `cpt - ${data.name}` : title;
   }, [data]);
-
+  console.log(error);
+  console.log(chartError);
+  console.log(data);
   return (
     <section className="coinsection">
       <Breadcrumb text={data?.name ? data.name : ""} />
-      {!data && (
+      {error && (
         <div style={{ textAlign: "center", marginTop: "20px" }}>
-          <p>loading...</p>
+          <p>Too many requests. You are being rate limited.</p>
         </div>
       )}
-      {data?.error && (
+      {!data && !error && (
         <div style={{ textAlign: "center", marginTop: "20px" }}>
-          <p>{params?.coin ? params.coin : "coin"} could not be found...</p>
+          <p>loading...</p>
         </div>
       )}
       {data?.name && (
