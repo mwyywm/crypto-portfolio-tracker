@@ -9,6 +9,7 @@
 }
 .coinlist a {
   color: black;
+  text-decoration: none;
 }
 .coinlist a:hover {
   color: #555555;

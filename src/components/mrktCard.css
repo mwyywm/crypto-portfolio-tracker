@@ -18,6 +18,9 @@
 #trending .market-card-value {
   width: max-content;
 }
+#trending a {
+  text-decoration: none;
+}
 .market-card-title {
   font-size: 20px;
   font-weight: bold;
