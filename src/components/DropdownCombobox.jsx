@@ -143,7 +143,7 @@ export default function DropdownCombobox({
                 {...getItemProps({
                   item: result,
                   style: {
-                    backgroundColor: i === highlightedIndex ? "#6b92ff" : null,
+                    backgroundColor: i === highlightedIndex ? "#c7c7c7" : null,
                   },
                 })}
                 className="coin-search-li"
@@ -234,7 +234,7 @@ export function NavbarSearch({ placeholder }) {
                 {...getItemProps({
                   item: result,
                   style: {
-                    backgroundColor: i === highlightedIndex ? "#6b92ff" : null,
+                    backgroundColor: i === highlightedIndex ? "#c7c7c7" : null,
                   },
                 })}
                 className="coin-search-li"

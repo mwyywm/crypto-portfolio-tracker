@@ -39,7 +39,6 @@ function Tracker() {
       },
     }
   );
-  // TODO: Search results navigation with arrow keys
   // portfolio functions
   function handleRemoveCoin(coinToRemove) {
     const newPortfolio = portfolio.filter((coin) => coin.name !== coinToRemove);
