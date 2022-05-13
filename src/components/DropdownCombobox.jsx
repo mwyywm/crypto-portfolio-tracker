@@ -172,7 +172,12 @@ export default function DropdownCombobox({
   );
 }
 
-export function NavbarSearch({ placeholder }) {
+export function NavbarSearch({
+  placeholder,
+  inputWidth,
+  resultsWidth,
+  setShowSearch,
+}) {
   const [searchTerm, setSearchTerm] = useState(""); // value of the search input
   const debouncedSearchTerm = useDebounce(searchTerm, 450); // search debounce
   const [results, setResults] = useState([]); // search results
@@ -211,11 +216,13 @@ export function NavbarSearch({ placeholder }) {
   function handleSelect(item) {
     // router push to coin page
     navigate(`/coin/${item.selectedItem.id}`);
+    setShowSearch(false); // closing search div in Navbar component
     setInputValue("");
   }
   function handleSearchClick(coinID) {
     // router push to coin page
     navigate(`/coin/${coinID}`);
+    setShowSearch(false); // closing search div in Navbar component
     setInputValue("");
   }
   function handleKeyDown(e) {
@@ -233,7 +240,11 @@ export function NavbarSearch({ placeholder }) {
   }, []);
   return (
     <>
-      <div {...getComboboxProps()} className="search-div-nav">
+      <div
+        {...getComboboxProps()}
+        className="search-div-nav"
+        style={inputWidth ? { width: inputWidth } : {}}
+      >
         <input
           {...getInputProps({
             ref: searchRef,
@@ -242,8 +253,15 @@ export function NavbarSearch({ placeholder }) {
           placeholder={placeholder ? placeholder : "Search for a coin"}
         />
       </div>
-      <div className="results-div">
-        <ul {...getMenuProps()} className="results-container-ul">
+      <div
+        className="results-div"
+        style={resultsWidth ? { width: resultsWidth } : {}}
+      >
+        <ul
+          {...getMenuProps()}
+          className="results-container-ul"
+          style={resultsWidth ? { width: resultsWidth } : {}}
+        >
           {isOpen &&
             results.map((result, i) => (
               <li
