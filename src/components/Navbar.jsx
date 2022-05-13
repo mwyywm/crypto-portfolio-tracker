@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./navbar.css";
 import { Link, useNavigate } from "react-router-dom";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { GrClose } from "react-icons/gr";
 import { useWindowWidth } from "../hooks/useWindowWidth";
 import { useOnClickOutside } from "../hooks/useOnClickOutside";
 import { NavbarSearch } from "./DropdownCombobox";
 import SearchIcon from "../images/SearchIcon";
+import OpenHamburger, { ClosedHamburger } from "../images/Hamburger.jsx";
 
 const menuLinks = [
   { path: "/", text: "Home" },
@@ -60,13 +59,14 @@ function Navbar() {
         </div>
 
         <div className="btn-mobile-menu">
-          <div className="search-mobile">
-            <SearchIcon
-              onClick={() => {
-                setIsOpen(false); // closing the menu when we show search
-                setShowSearch(!showSearch);
-              }}
-            />
+          <div
+            className="search-mobile-icon"
+            onClick={() => {
+              setIsOpen(false); // closing the menu when we show search
+              setShowSearch(!showSearch);
+            }}
+          >
+            <SearchIcon />
           </div>
           <div
             className="hamburger"
@@ -75,7 +75,7 @@ function Navbar() {
               setIsOpen(!isOpen);
             }}
           >
-            {isOpen ? <GrClose size={30} /> : <GiHamburgerMenu size={30} />}
+            {isOpen ? <ClosedHamburger /> : <OpenHamburger />}
           </div>
         </div>
       </div>

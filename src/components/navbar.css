@@ -116,14 +116,21 @@
     align-items: center;
   }
   .hamburger {
-    display: block;
-    height: 30px;
-    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
     margin-left: 15px;
+    border-radius: 8px;
+    transition: background-color 0.25s;
+    background-color: #ffffff00;
   }
-  .hamburger path {
+  .hamburger:hover {
+    cursor: pointer;
+    background-color: #dfdfdf;
+  }
+  .hamburger svg {
     fill: var(--navbar-text-color);
-    stroke: var(--navbar-text-color);
   }
   .mobile-search-div {
     display: flex;
@@ -135,5 +142,18 @@
     border-top: #808080 solid 1px;
     border-bottom: #808080 solid 1px;
     background-color: var(--navbar-color);
+  }
+  .search-mobile-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+    border-radius: 8px;
+    transition: background-color 0.25s;
+    background-color: #ffffff00;
+  }
+  .search-mobile-icon:hover {
+    cursor: pointer;
+    background-color: #dfdfdf;
   }
 }
