@@ -1,7 +1,7 @@
 .market-card {
   background-color: white;
   height: 130px;
-  min-width: 150px;
+  min-width: 170px;
   width: auto;
   border-radius: 8px;
   font-size: 18px;
@@ -13,7 +13,7 @@
   box-shadow: 0 1.6px 3.6px 0 rgb(0 0 0 / 13%), 0 0.3px 0.9px 0 rgb(0 0 0 / 11%);
 }
 #trending {
-  min-width: auto;
+  margin-right: 0px;
 }
 #trending .market-card-value {
   width: max-content;

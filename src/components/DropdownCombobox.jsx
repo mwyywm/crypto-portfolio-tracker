@@ -18,12 +18,12 @@ export default function DropdownCombobox({
 
   const {
     isOpen,
-    selectedItem,
     getMenuProps,
     getInputProps,
     getComboboxProps,
     highlightedIndex,
     getItemProps,
+    setInputValue,
   } = useCombobox({
     items: results,
     itemToString: (results) => (results ? results.name : ""),
@@ -35,20 +35,25 @@ export default function DropdownCombobox({
     },
   });
   function handleSelect(item) {
+    const { selectedItem } = item;
     // if coin already exists, show error.
-    if ([...portfolio].some((coin) => coin.name === item.selectedItem.name)) {
+    if ([...portfolio].some((coin) => coin.name === selectedItem.name)) {
       return setShowError(true);
     } else {
       setModalContent({
-        name: item.selectedItem.name,
-        apiID: item.selectedItem.id,
-        image: item.selectedItem.large,
-        symbol: item.selectedItem.symbol,
+        name: selectedItem.name,
+        apiID: selectedItem.id,
+        image: selectedItem.large,
+        symbol: selectedItem.symbol,
         holdings: 0,
         price: 0,
         uuid: uuid(),
       });
+      setShowError(false);
       setShowModal(true);
+      setSearchTerm("");
+      setResults([]);
+      setInputValue("");
     }
   }
   function handleSearchClick(event) {
@@ -79,6 +84,7 @@ export default function DropdownCombobox({
       setShowModal(true);
       setSearchTerm("");
       setResults([]);
+      setInputValue("");
     } else if (event.target.tagName === "P" || event.target.tagName === "LI") {
       setModalContent({
         name: event.target.innerText,
@@ -98,6 +104,7 @@ export default function DropdownCombobox({
       setShowError(false);
       setSearchTerm("");
       setResults([]);
+      setInputValue("");
     }
   }
   const { data: searchData, error: searchError } = useSWR(
@@ -111,17 +118,18 @@ export default function DropdownCombobox({
       },
     }
   );
+
   useEffect(() => {
-    if (showError) {
-      setTimeout(() => {
-        setShowError(false);
-      }, 4000);
-      // cleanup function
-      return () => {
-        clearTimeout();
-      };
-    }
+    let timedError = setTimeout(() => {
+      // if there is an error, show error message for 3 seconds
+      showError && setShowError(false);
+    }, 3000);
+    // cleanup function
+    return () => {
+      clearTimeout(timedError);
+    };
   }, [showError]);
+
   return (
     <>
       <p className="search-error">
@@ -132,6 +140,11 @@ export default function DropdownCombobox({
           {...getInputProps()}
           className="search-input"
           placeholder="Search for a coin"
+          onInput={(event) => {
+            if (event.target.value.length === 0) {
+              setResults([]);
+            }
+          }}
         />
       </div>
       <div className="results-div">
@@ -173,6 +186,7 @@ export function NavbarSearch({ placeholder }) {
     getComboboxProps,
     highlightedIndex,
     getItemProps,
+    setInputValue,
   } = useCombobox({
     items: results,
     itemToString: (results) => (results ? results.name : ""),
@@ -197,12 +211,15 @@ export function NavbarSearch({ placeholder }) {
   function handleSelect(item) {
     // router push to coin page
     navigate(`/coin/${item.selectedItem.id}`);
+    setInputValue("");
   }
   function handleSearchClick(coinID) {
     // router push to coin page
     navigate(`/coin/${coinID}`);
+    setInputValue("");
   }
   function handleKeyDown(e) {
+    // CTRL + K to focus on nav search
     if (e.ctrlKey && e.key.toLowerCase() === "k") {
       e.preventDefault(); // prevent ctrl+k from opening the search bar.
       searchRef.current.focus();
