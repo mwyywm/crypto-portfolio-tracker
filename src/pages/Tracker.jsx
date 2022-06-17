@@ -27,6 +27,8 @@ function Tracker() {
       : null;
 
   const modalRef = useRef();
+  const lastModalEl = useRef(null);
+  const firstModalEl = useRef(null);
   useOnClickOutside(modalRef, handleClickOutsideModal); // click outside of modal hook
 
   const { data, error } = useSWR(
@@ -127,7 +129,7 @@ function Tracker() {
   }, [modalError]);
   return (
     <>
-      <Modal isShowing={showModal} ref={modalRef}>
+      <Modal isShowing={showModal} setShowModal={setShowModal} ref={modalRef}>
         <svg
           width="30"
           height="30"
@@ -135,6 +137,17 @@ function Tracker() {
           xmlns="http://www.w3.org/2000/svg"
           onClick={() => setShowModal(false)}
           className="modal-close"
+          tabIndex="0"
+          ref={firstModalEl}
+          onKeyDown={(e) => {
+            if (e.key === "Tab" && e.shiftKey) {
+              // if we are on the first element and press shift + tab we focus the last element
+              e.preventDefault();
+              lastModalEl.current.focus();
+            } else if (e.key === "Enter") {
+              setShowModal(false);
+            }
+          }}
         >
           <rect width="30" height="30" rx="6" />
           <path
@@ -159,8 +172,6 @@ function Tracker() {
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   saveModalCoinToPortfolio();
-                } else if (e.key === "Escape" || e.key === "Esc") {
-                  setShowModal(false);
                 }
               }}
             />
@@ -170,7 +181,18 @@ function Tracker() {
           <button className="cancel" onClick={() => setShowModal(false)}>
             Cancel
           </button>
-          <button className="submit" onClick={saveModalCoinToPortfolio}>
+          <button
+            className="submit"
+            onClick={saveModalCoinToPortfolio}
+            ref={lastModalEl}
+            onKeyDown={(e) => {
+              if (e.key === "Tab") {
+                // if we are on the first element and press tab we focus the first element
+                e.preventDefault();
+                firstModalEl.current.focus();
+              }
+            }}
+          >
             Submit
           </button>
         </div>
