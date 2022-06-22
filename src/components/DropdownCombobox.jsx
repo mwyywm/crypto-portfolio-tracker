@@ -4,7 +4,7 @@ import useDebounce from "../hooks/useDebounce.jsx";
 import uuid from "../utils/uuid";
 import useSWR from "swr";
 import { useCombobox } from "downshift";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function DropdownCombobox({
   portfolio,
@@ -181,22 +181,25 @@ export function NavbarSearch({
   const [searchTerm, setSearchTerm] = useState(""); // value of the search input
   const debouncedSearchTerm = useDebounce(searchTerm, 450); // search debounce
   const [results, setResults] = useState([]); // search results
+
   const navigate = useNavigate();
+  const location = useLocation();
+
   const searchRef = useRef();
   const {
     isOpen,
-    selectedItem,
     getMenuProps,
     getInputProps,
     getComboboxProps,
     highlightedIndex,
     getItemProps,
     setInputValue,
+    closeMenu,
   } = useCombobox({
     items: results,
     itemToString: (results) => (results ? results.name : ""),
     onSelectedItemChange: (item) => {
-      handleSelect(item);
+      handleSelect(item.selectedItem.id);
     },
     onInputValueChange: ({ inputValue }) => {
       setSearchTerm(inputValue);
@@ -213,18 +216,20 @@ export function NavbarSearch({
       },
     }
   );
+  const currentCoinPage = location.pathname.slice(6) || undefined;
+
   function handleSelect(item) {
     // router push to coin page
-    navigate(`/coin/${item.selectedItem.id}`);
-    setShowSearch(false); // closing search div in Navbar component
-    setInputValue("");
+    if (currentCoinPage === item) {
+      return; // keeping the results open
+    } else {
+      navigate(`/coin/${item}`);
+      setShowSearch(false); // closing search div on mobile width in <Navbar /> component
+      setInputValue("");
+      closeMenu();
+    }
   }
-  function handleSearchClick(coinID) {
-    // router push to coin page
-    navigate(`/coin/${coinID}`);
-    setShowSearch(false); // closing search div in Navbar component
-    setInputValue("");
-  }
+
   function handleKeyDown(e) {
     // CTRL + K to focus on nav search
     if (e.ctrlKey && e.key.toLowerCase() === "k") {
@@ -273,7 +278,7 @@ export function NavbarSearch({
                   },
                 })}
                 className="coin-search-li"
-                onClick={() => handleSearchClick(result.id)}
+                onClick={() => handleSelect(result.id)}
               >
                 <img src={result.thumb} alt={result.name} />
                 <p>{result.name}</p>

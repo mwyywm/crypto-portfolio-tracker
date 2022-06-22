@@ -14,7 +14,8 @@ const menuLinks = [
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [showSearch, setShowSearch] = useState(false);
+  const [showSearch, setShowSearch] = useState(false); // show search div on mobile width
+
   const windowWidth = useWindowWidth();
   const navigate = useNavigate();
   const ref = useRef();
@@ -45,7 +46,7 @@ function Navbar() {
         </div>
         <div className="nav-links">
           <div>
-            <NavbarSearch />
+            <NavbarSearch setShowSearch={setShowSearch} />
           </div>
           <ul className="links">
             {menuLinks.map((link) => (
