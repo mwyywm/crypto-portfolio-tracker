@@ -1,190 +1,145 @@
-import React, { useEffect, useState } from "react";
-import "./coinrow.css";
-import { Link, useLocation } from "react-router-dom";
-import DataTable from "react-data-table-component";
+import * as React from "react";
 import useSWR, { useSWRConfig } from "swr";
-import formatNumber from "../utils/formatNumber";
-import Pagination from "@mui/material/Pagination";
-import { PaginationItem } from "@mui/material";
 
-// Table and pagination component
-function CoinRow() {
-  const { mutate, fetcher, cache } = useSWRConfig();
-  const { search } = useLocation();
-  const searchParams = new URLSearchParams(search);
-  const pg = searchParams.get("pg");
-  const [page, setPage] = useState(pg ? pg : 1); // I want to move this into searchparams so we can link to the pagination page.
-  const { data, error } = useSWR(
-    `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=${page}&sparkline=false`,
+import {
+  createColumnHelper,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+// const defaultData = [
+//   {
+//     name: "Bitcoin",
+//     price: "linsley",
+//     market_cap: 24,
+//     volume: 100000,
+//     change: 2,
+//   },
+//   {
+//     name: "tandy",
+//     price: "miller",
+//     market_cap: 40,
+//     volume: 100000,
+//     change: 2,
+//   },
+//   {
+//     name: "joe",
+//     price: "dirte",
+//     market_cap: 45,
+//     volume: 100000,
+//     change: 2,
+//   },
+// ];
+
+const columnHelper = createColumnHelper();
+
+const columns = [
+  columnHelper.accessor("name", {
+    header: () => <span>Name</span>,
+    cell: (info) => <a href="">{info.getValue()}</a>,
+  }),
+  columnHelper.accessor("current_price", {
+    header: () => <span>Price</span>,
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor("market_cap", {
+    header: () => <span>Market cap</span>,
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor("total_volume", {
+    header: () => <span>volume</span>,
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor("price_change_percentage_24h", {
+    header: "Change",
+    cell: (info) => info.getValue(),
+  }),
+];
+
+export default function Coinrow() {
+  const { data, error, isValidating } = useSWR(
+    `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=${1}&sparkline=false`,
     {
       revalidateOnFocus: false,
+      onSuccess: (res) => {
+        let arr = [];
+        res.map((coin) => {
+          arr.push(coin);
+        });
+        console.log(arr);
+      },
     }
   );
-  const handlePageChange = (event, value) => {
-    scrollTo(top);
-    setPage(value);
-  };
-  useEffect(() => {
-    // reset the page to 1 when we click logo or home on navbar.
-    if (pg === null) {
-      setPage(1);
-    }
-  }, [pg, page]);
-  const columns = [
-    {
-      name: "Name",
-      selector: (row) => row.name,
-      sortable: true,
-      cell: (row) => (
-        <Link
-          to={`/coin/${row.id}`}
-          onMouseEnter={() => {
-            // not prefetching when the cache has over 27 items. Dont want to get rate limited.
-            if (cache.size < 27) {
-              setTimeout(() => {
-                mutate(
-                  `https://api.coingecko.com/api/v3/coins/${row.id}`,
-                  async (currValue) => {
-                    return (
-                      currValue ??
-                      fetcher(
-                        `https://api.coingecko.com/api/v3/coins/${row.id}`
-                      )
-                    );
-                  }
-                );
-                // chart data prefetch, if currValue already exists, don't fetch.
-                mutate(
-                  `https://api.coingecko.com/api/v3/coins/${row.id}/market_chart?vs_currency=usd&days=7&interval=daily`,
-                  async (currValue) => {
-                    // currValue is undefined if the coin isnt fetched yet.
-                    // after
-                    return (
-                      currValue ??
-                      fetcher(
-                        `https://api.coingecko.com/api/v3/coins/${row.id}/market_chart?vs_currency=usd&days=7&interval=daily`
-                      )
-                    );
-                  }
-                );
-              }, 250);
-            } else {
-              console.log("cache is above 27");
-            }
-          }}
-        >
-          {row.name}
-        </Link>
-      ),
-    },
-    {
-      name: "Price",
-      selector: (row) => row?.current_price,
-      sortable: true,
-      style: {
-        whiteSpace: "nowrap",
-      },
-      cell: (row) => (
-        <div className="price-cell">
-          <p>${formatNumber(row?.current_price)}</p>
-        </div>
-      ),
-    },
-    {
-      name: "Market Cap",
-      selector: (row) => row?.market_cap,
-      left: true,
-      sortable: true,
-      cell: (row) => (
-        <div className="mktcap-cell">
-          <p>${formatNumber(row?.market_cap)}</p>
-        </div>
-      ),
-    },
-    {
-      name: "24h Volume",
-      selector: (row) => row?.total_volume,
-      left: true,
-      sortable: true,
-      cell: (row) => (
-        <div className="volume-cell">
-          <p>${formatNumber(row?.total_volume)}</p>
-        </div>
-      ),
-    },
-    {
-      name: "24h Change",
-      selector: (row) => row?.price_change_percentage_24h,
-      sortable: true,
-      // only allowing 2 decimals after the period sign (.)
-      cell: (row) =>
-        typeof row.price_change_percentage_24h === "number"
-          ? row.price_change_percentage_24h?.toFixed(2) + "%"
-          : "?",
-      conditionalCellStyles: [
-        {
-          when: (row) => row.price_change_percentage_24h < 0,
-          style: {
-            color: "red",
-          },
-        },
-        {
-          when: (row) => row.price_change_percentage_24h > 0,
-          style: {
-            color: "green",
-          },
-        },
-      ],
-    },
-  ];
-  const customStyles = {
-    rows: {
-      style: {
-        fontSize: "18px",
-        width: "100%",
-      },
-    },
-    headCells: {
-      style: {
-        fontSize: "18px",
-        color: "black",
-      },
-    },
-    cells: {
-      style: {
-        color: "black",
-      },
-    },
-  };
-  if (error) return <div>Too many requests. You are being rate limited.</div>;
-  if (!data && !error) return <div></div>;
+  const rerender = React.useReducer(() => ({}), {})[1];
+
+  const table = useReactTable({
+    data: data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+  });
+
+  if (isValidating || !data) {
+    return <div>loading...</div>;
+  }
+  if (error)
+    return (
+      <div>
+        <h1>404</h1>
+        <p>Loading failed...</p>
+      </div>
+    );
+
   return (
-    data.length > 0 && (
-      <>
-        <div className="coinlist">
-          <DataTable
-            columns={columns}
-            data={data}
-            customStyles={customStyles}
-          />
-        </div>
-        <div className="pagination">
-          <Pagination
-            count={100}
-            page={parseFloat(page)}
-            onChange={handlePageChange}
-            renderItem={(item) => (
-              <PaginationItem
-                component={Link}
-                to={`/${item?.page === 1 ? "" : `?pg=${item?.page}`}`}
-                {...item}
-              />
-            )}
-          />
-        </div>
-      </>
-    )
+    <div className="coinrow">
+      <table>
+        <thead>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map((header) => (
+                <th key={header.id}>
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+        <tbody>
+          {table.getRowModel().rows.map((row) => (
+            <tr key={row.id}>
+              {row.getVisibleCells().map((cell) => (
+                <td key={cell.id}>
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+        <tfoot>
+          {table.getFooterGroups().map((footerGroup) => (
+            <tr key={footerGroup.id}>
+              {footerGroup.headers.map((header) => (
+                <th key={header.id}>
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.footer,
+                        header.getContext()
+                      )}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </tfoot>
+      </table>
+      <div className="h-4" />
+      <button onClick={() => rerender()} className="border p-2">
+        Rerender
+      </button>
+    </div>
   );
 }
-
-export default CoinRow;
