@@ -1,11 +1,10 @@
 .market-card {
   background-color: white;
   height: 130px;
+  width: 100%;
   min-width: 170px;
-  width: auto;
   border-radius: 8px;
   font-size: 18px;
-  margin-right: 15px;
   display: flex;
   flex-direction: column;
   padding: 10px;
@@ -14,7 +13,7 @@
 }
 #trending {
   min-width: auto;
-  margin-right: 0px;
+  width: fit-content;
 }
 #trending .market-card-value {
   width: max-content;
