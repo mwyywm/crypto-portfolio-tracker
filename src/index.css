@@ -4,6 +4,7 @@ body {
   margin: 0;
   font-family: Heebo, sans-serif;
 }
+
 @font-face {
   font-family: "Heebo", sans-serif;
   src: url("https://fonts.googleapis.com/css2?family=Heebo&display=swap");
@@ -11,7 +12,6 @@ body {
 * {
   box-sizing: border-box;
 }
-
 p {
   margin: 0;
   padding: 0;
@@ -19,28 +19,28 @@ p {
 /* scrollbar */
 /* width */
 ::-webkit-scrollbar {
-  width: 14px;
+  width: 12px;
 }
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #e7e7e7;
+  background: rgba(0, 0, 0, 0);
 }
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #47494d;
+  background: var(--navbar-button-color-hover);
+  border-radius: 10px;
 }
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: rgb(122, 122, 122);
-}
+
 :root {
-  --text-color: rgb(0, 0, 0);
-  --background-color: #bdcfff; /* #bdcfff */
-  --navbar-color: #ffffff;
-  --navbar-text-color: #000000;
-  --navbar-text-color-hover: #000000;
-  --navbar-button-color: #bdcfff;
-  --navbar-button-color-hover: #99b4ff;
+  --text-color: #ffffff;
+  --text-color-hover: #dfdfdf;
+  --background-color: #0f1214;
+  --background-color-secondary: #1f2124;
+  --navbar-color: #24272c;
+  --navbar-text-color: #ffffff;
+  --navbar-text-color-hover: #dfdfdf;
+  --navbar-button-color: var(--navbar-color);
+  --navbar-button-color-hover: #474f54;
 }
 body {
   margin: 0;

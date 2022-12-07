@@ -2,7 +2,7 @@
   position: fixed;
   top: 50%;
   left: 50%;
-  background-color: rgb(255, 255, 255);
+  background-color: var(--navbar-color);
   transform: translate(-50%, -50%);
   height: 330px;
   width: 500px;
@@ -10,7 +10,7 @@
   max-height: 100%;
   padding: 10px;
   border-radius: 8px;
-  border: 1px solid rgb(126, 126, 126);
+  border: 1px solid var(--background-color);
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
     rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
     rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;

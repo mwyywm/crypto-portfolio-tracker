@@ -7,15 +7,15 @@
   border-radius: 8px;
   margin: 0 auto;
   overflow-y: hidden;
-  background-color: white;
-  box-shadow: 0 1.6px 3.6px 0 rgb(0 0 0 / 13%), 0 0.3px 0.9px 0 rgb(0 0 0 / 11%);
+  background-color: var(--background-color-secondary);
+  color: var(--text-color);
 }
 .coinlist a {
-  color: black;
+  color: var(--text-color);
   text-decoration: none;
 }
 .coinlist a:hover {
-  color: #555555;
+  color: var(--text-color-hover);
 }
 .heading-div {
   height: fit-content;
@@ -42,5 +42,5 @@ td,
 th {
   padding: 12px;
   text-align: left;
-  border: 1px solid #eeeeee;
+  border: 1px solid var(--background-color);
 }

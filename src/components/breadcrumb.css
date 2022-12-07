@@ -29,6 +29,6 @@
   text-decoration: none;
 }
 .breadcrumb-home:hover {
-  color: rgb(22, 22, 22);
+  color: var(--text-color-hover);
   text-decoration: none;
 }

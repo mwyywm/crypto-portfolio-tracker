@@ -20,9 +20,7 @@
 .nav-logo h1 a:hover {
   color: var(--navbar-text-color-hover);
 }
-.nav-logo h1 a:active {
-  color: var(--navbar-text-color-hover);
-}
+
 .nav-wrapper {
   display: flex;
   justify-content: space-between;
@@ -65,7 +63,7 @@
   /* centering text */
   display: flex;
   align-items: center;
-  transition: 0.25s;
+  transition: 0.2s;
   transition-property: background-color;
 }
 .nav-links .link:hover {
@@ -87,23 +85,23 @@
   .mobile-nav-links {
     position: relative;
     z-index: 2;
-    border-top: 1px solid #808080;
+    border-top: 1px solid #000000;
     background-color: var(--navbar-color);
   }
   .mobile-nav-links li {
     display: flex;
     text-decoration: none;
-    transition: 0.25s;
+    transition: 0.2s;
     justify-content: center;
     align-items: center;
     list-style: none;
-    border-bottom: 1px solid #808080;
+    border-bottom: 1px solid hsla(0, 0%, 0%, 0.7);
     height: 80px;
     font-size: 24px;
     color: var(--navbar-text-color);
   }
   .mobile-nav-links li:hover {
-    background-color: #dfdfdf;
+    background-color: var(--navbar-button-color-hover);
   }
   .mobile-nav-links a {
     text-decoration: none;
@@ -122,16 +120,17 @@
     padding: 8px;
     margin-left: 15px;
     border-radius: 8px;
-    transition: background-color 0.25s;
+    transition: background-color 0.2s;
     background-color: #ffffff00;
   }
   .hamburger:hover {
     cursor: pointer;
-    background-color: #dfdfdf;
+    background-color: var(--navbar-button-color-hover);
   }
   .hamburger svg {
     fill: var(--navbar-text-color);
   }
+
   .mobile-search-div {
     display: flex;
     z-index: 5;
@@ -139,21 +138,22 @@
     justify-content: center;
     align-items: center;
     height: auto;
-    border-top: #808080 solid 1px;
-    border-bottom: #808080 solid 1px;
+    border-top: 1px solid rgba(0, 0, 0, 0.7);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.7);
     background-color: var(--navbar-color);
   }
   .search-mobile-icon {
     display: flex;
     justify-content: center;
     align-items: center;
+    fill: var(--navbar-text-color);
     padding: 8px;
     border-radius: 8px;
-    transition: background-color 0.25s;
+    transition: background-color 0.2s;
     background-color: #ffffff00;
   }
   .search-mobile-icon:hover {
     cursor: pointer;
-    background-color: #dfdfdf;
+    background-color: var(--navbar-button-color-hover);
   }
 }

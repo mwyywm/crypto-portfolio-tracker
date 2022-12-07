@@ -1,5 +1,7 @@
 .home {
   margin-top: 40px;
+  overflow: auto;
+  color: var(--text-color);
 }
 .content {
   text-align: center;
