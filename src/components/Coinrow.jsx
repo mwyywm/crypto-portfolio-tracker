@@ -3,6 +3,34 @@ import useSWR, { useSWRConfig } from "swr";
 import "./coinrow.css";
 import formatNumber from "../utils/formatNumber";
 
+function ArrowDown() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      fill="none"
+      viewBox="0 0 20 20"
+    >
+      <path fill="#2E3A59" d="M10 12.083l4.167-4.166H5.833L10 12.083z"></path>
+    </svg>
+  );
+}
+
+function ArrowUp() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      fill="none"
+      viewBox="0 0 20 20"
+    >
+      <path fill="#2E3A59" d="M10 7.917l-4.167 4.166h8.334L10 7.917z"></path>
+    </svg>
+  );
+}
+
 import {
   createColumnHelper,
   flexRender,
@@ -34,24 +62,28 @@ export default function Coinrow() {
       }),
       columnHelper.accessor("current_price", {
         header: () => <span>Price</span>,
+        invertSorting: true,
         cell: (props) => (
           <div className="price-cell">${formatNumber(props.getValue())}</div>
         ),
       }),
       columnHelper.accessor("market_cap", {
         header: () => <span>Market cap</span>,
+        invertSorting: true,
         cell: (props) => (
           <div className="mktcap-cell">${formatNumber(props.getValue())}</div>
         ),
       }),
       columnHelper.accessor("total_volume", {
         header: () => <span>24h volume</span>,
+        invertSorting: true,
         cell: (props) => (
           <div className="volume-cell">${formatNumber(props.getValue())}</div>
         ),
       }),
       columnHelper.accessor("price_change_percentage_24h", {
         header: () => <span>24 Change</span>,
+        invertSorting: true,
         cell: (props) => (
           <div
             className="price-cell"
@@ -75,6 +107,7 @@ export default function Coinrow() {
     state: {
       sorting,
     },
+    sortDescFirst: false,
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -112,10 +145,11 @@ export default function Coinrow() {
                           header.getContext()
                         )}
                         <p className="heading-arrow">
+                          {console.log("h", header.column)}
                           {
                             {
-                              desc: "↑",
-                              asc: "↓",
+                              desc: <ArrowUp />,
+                              asc: <ArrowDown />,
                             }[header.column.getIsSorted()]
                           }
                         </p>
@@ -139,7 +173,7 @@ export default function Coinrow() {
           ))}
         </tbody>
       </table>
-      <button onClick={() => rerenderDebug()}>Rerender 4 debugging</button>
+      {/* <button onClick={() => rerenderDebug()}>Rerender 4 debugging</button> */}
       <button
         onClick={() =>
           setPage((prev) => {
