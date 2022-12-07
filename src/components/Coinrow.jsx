@@ -1,5 +1,6 @@
 import * as React from "react";
 import useSWR, { useSWRConfig } from "swr";
+import "./coinrow.css";
 
 import {
   createColumnHelper,
@@ -36,7 +37,9 @@ const columnHelper = createColumnHelper();
 const columns = [
   columnHelper.accessor("name", {
     header: () => <span>Name</span>,
-    cell: (info) => <a href="">{info.getValue()}</a>,
+    cell: (info) => (
+      <a href={`/coin/${info.row.original.id}`}>{info.getValue()}</a>
+    ),
   }),
   columnHelper.accessor("current_price", {
     header: () => <span>Price</span>,
@@ -47,18 +50,19 @@ const columns = [
     cell: (info) => info.getValue(),
   }),
   columnHelper.accessor("total_volume", {
-    header: () => <span>volume</span>,
+    header: () => <span>24h volume</span>,
     cell: (info) => info.getValue(),
   }),
   columnHelper.accessor("price_change_percentage_24h", {
-    header: "Change",
+    header: "24h Change",
     cell: (info) => info.getValue(),
   }),
 ];
 
 export default function Coinrow() {
+  const [page, setPage] = React.useState(1);
   const { data, error, isValidating } = useSWR(
-    `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=${1}&sparkline=false`,
+    `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=${page}&sparkline=false`,
     {
       revalidateOnFocus: false,
       onSuccess: (res) => {
@@ -66,20 +70,24 @@ export default function Coinrow() {
         res.map((coin) => {
           arr.push(coin);
         });
-        console.log(arr);
       },
     }
   );
-  const rerender = React.useReducer(() => ({}), {})[1];
+  const rerenderDebug = React.useReducer(() => ({}), {})[1];
 
   const table = useReactTable({
     data: data,
     columns,
+    state: {
+      columnVisibility: {
+        id: false,
+      },
+    },
     getCoreRowModel: getCoreRowModel(),
   });
 
   if (isValidating || !data) {
-    return <div>loading...</div>;
+    return <div>loading</div>;
   }
   if (error)
     return (
@@ -90,7 +98,7 @@ export default function Coinrow() {
     );
 
   return (
-    <div className="coinrow">
+    <div className="coinlist">
       <table>
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -136,10 +144,17 @@ export default function Coinrow() {
           ))}
         </tfoot>
       </table>
-      <div className="h-4" />
-      <button onClick={() => rerender()} className="border p-2">
-        Rerender
+      <button onClick={() => rerenderDebug()}>Rerender 4 debugging</button>
+      <button
+        onClick={() =>
+          setPage((prev) => {
+            return prev === 0 ? 0 : prev - 1;
+          })
+        }
+      >
+        prev page
       </button>
+      <button onClick={() => setPage((prev) => prev + 1)}>next page</button>
     </div>
   );
 }
