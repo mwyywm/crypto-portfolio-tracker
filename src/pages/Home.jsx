@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "./Home.css";
 import MarketInfo from "../components/MarketInfo";
-import Coinrow from "../components/Coinrow.jsx";
+import Table from "../components/Table.jsx";
 import { AiOutlineArrowUp } from "react-icons/ai";
 
 function Home() {
@@ -10,11 +10,12 @@ function Home() {
       document.title = "cpt";
     }
   }, []);
+  // TODO: Pagination component under table - use URL search params for page state
   return (
     <div className="home">
       <div className="content" style={{ minHeight: "100vh" }}>
         <MarketInfo />
-        <Coinrow />
+        <Table page={1} />
       </div>
       <div className="scroll-to-top" onClick={() => scrollTo(top)}>
         <AiOutlineArrowUp />

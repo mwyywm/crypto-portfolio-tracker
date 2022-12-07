@@ -1,35 +1,8 @@
 import * as React from "react";
-import useSWR, { useSWRConfig } from "swr";
-import "./coinrow.css";
+import useSWR from "swr";
+import "./table.css";
 import formatNumber from "../utils/formatNumber";
-
-function ArrowDown() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="20"
-      height="20"
-      fill="none"
-      viewBox="0 0 20 20"
-    >
-      <path fill="#2E3A59" d="M10 12.083l4.167-4.166H5.833L10 12.083z"></path>
-    </svg>
-  );
-}
-
-function ArrowUp() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="20"
-      height="20"
-      fill="none"
-      viewBox="0 0 20 20"
-    >
-      <path fill="#2E3A59" d="M10 7.917l-4.167 4.166h8.334L10 7.917z"></path>
-    </svg>
-  );
-}
+import { ArrowDown, ArrowUp } from "../images/Arrow";
 
 import {
   createColumnHelper,
@@ -41,9 +14,10 @@ import {
 
 const columnHelper = createColumnHelper();
 
-export default function Coinrow() {
-  const [page, setPage] = React.useState(1);
-  const [sorting, setSorting] = React.useState([]);
+export default function Coinrow({ page }) {
+  const [sorting, setSorting] = React.useState([
+    { desc: false, id: "market_cap" },
+  ]);
   const { data, error, isValidating } = useSWR(
     `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=${page}&sparkline=false`,
     {
@@ -98,8 +72,6 @@ export default function Coinrow() {
     ],
     []
   );
-
-  const rerenderDebug = React.useReducer(() => ({}), {})[1];
 
   const table = useReactTable({
     data,
@@ -173,17 +145,6 @@ export default function Coinrow() {
           ))}
         </tbody>
       </table>
-      {/* <button onClick={() => rerenderDebug()}>Rerender 4 debugging</button> */}
-      <button
-        onClick={() =>
-          setPage((prev) => {
-            return prev === 0 ? 0 : prev - 1;
-          })
-        }
-      >
-        prev page
-      </button>
-      <button onClick={() => setPage((prev) => prev + 1)}>next page</button>
     </div>
   );
 }
