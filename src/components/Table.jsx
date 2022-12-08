@@ -83,7 +83,6 @@ export default function Coinrow({ page }) {
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    debugTable: true,
   });
 
   if (isValidating || !data) {
@@ -117,7 +116,6 @@ export default function Coinrow({ page }) {
                           header.getContext()
                         )}
                         <p className="heading-arrow">
-                          {console.log("h", header.column)}
                           {
                             {
                               desc: <ArrowUp />,
