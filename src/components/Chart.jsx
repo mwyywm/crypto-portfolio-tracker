@@ -20,8 +20,8 @@ function CustomTooltip({ payload, label, active }) {
           borderRadius: "8px",
         }}
       >
-        <p className="label">{`Date: ${label}`}</p>
-        <p>Price: ${formatNumber(payload[0].value)}</p>
+        {label && <p className="label">{`Date: ${label}`}</p>}
+        {payload[0]?.value && <p>Price: ${formatNumber(payload[0]?.value)}</p>}
       </div>
     );
   }

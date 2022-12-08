@@ -112,7 +112,7 @@ function Coin() {
                       data.market_data.price_change_percentage_24h?.toFixed(2) +
                       "%"
                     ) : (
-                      <span style={{ color: "black" }}>?</span>
+                      <span style={{ color: "white" }}>?</span>
                     )}
                   </span>
                 </p>

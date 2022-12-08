@@ -61,11 +61,18 @@ export default function Coinrow({ page }) {
         cell: (props) => (
           <div
             className="price-cell"
-            style={{ color: props.getValue() > 0 ? "green" : "red" }}
+            style={{
+              color:
+                typeof props.getValue() === "number" && props.getValue() > 0
+                  ? "green"
+                  : typeof props.getValue() === "number" && props.getValue() < 0
+                  ? "red"
+                  : "white",
+            }}
           >
             {typeof props.getValue() === "number" &&
-              props.getValue().toFixed(2)}
-            %
+              `${props.getValue().toFixed(2)}%`}
+            {typeof props.getValue() !== "number" && `?`}
           </div>
         ),
       }),
