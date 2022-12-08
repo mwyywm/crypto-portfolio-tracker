@@ -1,20 +1,20 @@
 .market-card {
-  background-color: white;
+  background-color: var(--background-color-secondary);
+  color: var(--text-color);
   height: 130px;
+  width: 100%;
   min-width: 170px;
-  width: auto;
   border-radius: 8px;
   font-size: 18px;
-  margin-right: 15px;
   display: flex;
   flex-direction: column;
   padding: 10px;
   justify-content: space-between;
-  box-shadow: 0 1.6px 3.6px 0 rgb(0 0 0 / 13%), 0 0.3px 0.9px 0 rgb(0 0 0 / 11%);
 }
+
 #trending {
   min-width: auto;
-  margin-right: 0px;
+  width: fit-content;
 }
 #trending .market-card-value {
   width: max-content;
@@ -46,11 +46,11 @@
 .market-card-value {
   display: flex;
   align-items: center;
-  color: #000;
+  color: var(--text-color);
 }
 .market-card-value:hover {
   cursor: pointer;
-  color: #555555;
+  color: var(--text-color-hover);
 }
 .market-card-value img {
   height: 20px;

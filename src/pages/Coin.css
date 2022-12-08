@@ -3,6 +3,7 @@
   max-width: 97%;
   margin: 0 auto;
   margin-top: 40px;
+  color: var(--text-color);
 }
 .coin {
   flex-direction: column;
@@ -21,7 +22,7 @@
   margin: 40px auto;
   margin-bottom: 50px;
   padding: 40px;
-  background-color: rgba(125, 133, 160, 0.65);
+  background-color: var(--background-color-secondary);
   box-shadow: 0 1.6px 3.6px 0 rgb(0 0 0 / 13%), 0 0.3px 0.9px 0 rgb(0 0 0 / 11%);
   border-radius: 8px;
   align-items: center;
@@ -40,7 +41,8 @@
   border-radius: 8px;
   margin: 0px 0px 5px 0px;
   box-shadow: 0 1.6px 3.6px 0 rgb(0 0 0 / 13%), 0 0.3px 0.9px 0 rgb(0 0 0 / 11%);
-  background-color: white;
+  background-color: var(--black);
+  color: var(--text-color);
   display: flex;
   width: auto;
   align-items: center;
@@ -61,7 +63,8 @@
   font-size: 30px;
 }
 .symbol {
-  background-color: white;
+  background-color: var(--black);
+  color: var(--text-color);
   font-weight: 400;
   margin-left: 5px;
   padding: 6px;
@@ -84,6 +87,37 @@
   width: 600px;
   margin: 0 auto;
 }
+@media screen and (max-width: 1100px) {
+  .coin-chart-box {
+    display: flex;
+    width: auto;
+    max-width: 1100px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 40px auto;
+    margin-bottom: 50px;
+    padding: 40px;
+    background-color: var(--background-color-secondary);
+    box-shadow: 0 1.6px 3.6px 0 rgb(0 0 0 / 13%),
+      0 0.3px 0.9px 0 rgb(0 0 0 / 11%);
+    border-radius: 8px;
+    align-items: center;
+  }
+  .coin {
+    margin-left: 0;
+    min-height: 240px;
+  }
+  .coin-chart-box {
+    padding: 30px;
+    margin-bottom: 50px;
+  }
+  .chart-div {
+    margin-top: 25px;
+    height: auto;
+    margin: 0 auto;
+  }
+}
 @media screen and (max-width: 768px) {
   .coin {
     margin-left: 0;
@@ -101,7 +135,7 @@
 }
 @media screen and (max-width: 500px) {
   .chart-div {
-    width: 95%;
+    width: 100%;
     height: auto;
     margin: 0 auto;
     min-height: 240px;

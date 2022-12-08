@@ -19,14 +19,16 @@ ReactDOM.render(
     >
       <BrowserRouter>
         <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/tracker" element={<Tracker />} />
-          <Route path="/coin">
-            <Route path=":coin" element={<Coin />} />
-          </Route>
-          <Route path="*" element={<NotFound />} /> // 404 page
-        </Routes>
+        <main>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/tracker" element={<Tracker />} />
+            <Route path="/coin">
+              <Route path=":coin" element={<Coin />} />
+            </Route>
+            <Route path="*" element={<NotFound />} /> // 404 page
+          </Routes>
+        </main>
       </BrowserRouter>
     </SWRConfig>
   </React.StrictMode>,

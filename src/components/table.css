@@ -1,0 +1,46 @@
+.coinlist {
+  width: 950px;
+  max-width: 100%;
+  font-size: 18px;
+  height: auto;
+  text-align: left;
+  border-radius: 8px;
+  margin: 0 auto;
+  overflow-y: hidden;
+  background-color: var(--background-color-secondary);
+  color: var(--text-color);
+}
+.coinlist a {
+  color: var(--text-color);
+  text-decoration: none;
+}
+.coinlist a:hover {
+  color: var(--text-color-hover);
+}
+.heading-div {
+  height: fit-content;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.heading-arrow {
+  padding-left: 5px;
+  float: right;
+  display: inline-flex;
+  align-items: center;
+}
+.header-cell {
+  cursor: pointer;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Table cells including header */
+td,
+th {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid var(--background-color);
+}

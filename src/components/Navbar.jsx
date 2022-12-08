@@ -18,8 +18,9 @@ function Navbar() {
 
   const windowWidth = useWindowWidth();
   const navigate = useNavigate();
-  const ref = useRef();
-  useOnClickOutside(ref, () => {
+  const headerRef = useRef();
+
+  useOnClickOutside(headerRef, () => {
     // close both search and menu when clicking outside of them
     setIsOpen(false);
     setShowSearch(false);
@@ -35,7 +36,7 @@ function Navbar() {
   }, [navigate]);
 
   return (
-    <nav className="header" ref={ref}>
+    <nav className="header" ref={headerRef}>
       <div className="nav-wrapper">
         <div className="nav-logo">
           <h1>

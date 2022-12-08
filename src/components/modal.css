@@ -1,8 +1,18 @@
+.outside-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 99;
+}
 .modal {
+  z-index: 199;
   position: fixed;
   top: 50%;
   left: 50%;
-  background-color: rgb(255, 255, 255);
+  background-color: var(--navbar-color);
   transform: translate(-50%, -50%);
   height: 330px;
   width: 500px;
@@ -10,10 +20,7 @@
   max-height: 100%;
   padding: 10px;
   border-radius: 8px;
-  border: 1px solid rgb(126, 126, 126);
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
-    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
-    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  border: 1px solid var(--background-color);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -42,31 +49,36 @@
   max-width: 100%;
 }
 .modal .modal-input {
+  background-color: var(--background-color);
+  color: var(--text-color);
   outline: none;
   margin: 0 auto;
   height: 40px;
   padding-left: 5px;
-  border: 1px solid black;
+  border: none;
   border-radius: 8px;
   width: 200px;
   max-width: 100%;
   font-size: 16px;
 }
+.modal-input:hover {
+  background-color: var(--navbar-button-color-hover);
+}
 .modal-input:focus {
+  background-color: var(--background-color);
   outline: 1px solid black;
 }
 .modal-close {
   cursor: pointer;
-  fill: #4d4d4d;
-  transition: 0.25s;
+  fill: var(--background-color);
+  transition: 0.2s;
   transition-property: fill;
   border-radius: 8px;
 }
 .modal-close:hover {
-  fill: #222222;
+  fill: var(--background-color-secondary);
 }
 .modal-close:focus {
-  fill: #222222;
   outline: 2px solid black;
 }
 
@@ -79,14 +91,14 @@
   outline: none;
   color: #fff;
   font-size: 20px;
-  transition: 0.25s;
+  transition: 0.2s;
   transition-property: background-color, color;
 }
 button:focus {
-  outline: 2px solid black;
+  outline: 1px solid black;
 }
 .modal button:hover {
-  transition: 0.25s;
+  transition: 0.2s;
 }
 
 .modal .cancel {
