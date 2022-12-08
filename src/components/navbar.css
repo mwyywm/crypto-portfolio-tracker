@@ -20,6 +20,11 @@
 .nav-logo h1 a:hover {
   color: var(--navbar-text-color-hover);
 }
+.nav-logo h1 a:focus {
+  color: var(--navbar-text-color-hover);
+  outline: 1px solid gray;
+  outline-offset: 2px;
+}
 
 .nav-wrapper {
   display: flex;
@@ -65,9 +70,15 @@
   align-items: center;
   transition: 0.2s;
   transition-property: background-color;
+  border: none;
 }
 .nav-links .link:hover {
   background-color: var(--navbar-button-color-hover);
+}
+.nav-links .link:focus {
+  background-color: var(--navbar-button-color-hover);
+  border: none;
+  outline: none;
 }
 .hamburger {
   display: none;

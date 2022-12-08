@@ -3,11 +3,10 @@ import "./tracker.css";
 import Breadcrumb from "../components/Breadcrumb";
 import Modal from "../components/Modal";
 import formatNumber from "../utils/formatNumber";
-import { useOnClickOutside } from "../hooks/useOnClickOutside";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import useSWR from "swr";
 import DropdownCombobox from "../components/DropdownCombobox";
-import TrackerChart from "../components/TrackerChart";
+import PieChart from "../components/PieChart";
 import PortfolioCoin from "../components/PortfolioCoin";
 
 function Tracker() {
@@ -29,7 +28,6 @@ function Tracker() {
   const modalRef = useRef();
   const lastModalEl = useRef(null);
   const firstModalEl = useRef(null);
-  useOnClickOutside(modalRef, handleClickOutsideModal); // click outside of modal hook
 
   const { data, error } = useSWR(
     allAPIIDs.length > 0 &&
@@ -107,10 +105,6 @@ function Tracker() {
       setModalError(true);
     }
   }
-  function handleClickOutsideModal() {
-    // hide modal when clicking outside of modal
-    setShowModal(false);
-  }
   useEffect(() => {
     if (document.title !== "cpt - Portfolio tracker") {
       document.title = "cpt - Portfolio tracker";
@@ -128,7 +122,7 @@ function Tracker() {
     }
   }, [modalError]);
   return (
-    <>
+    <React.Fragment>
       <Modal isShowing={showModal} setShowModal={setShowModal} ref={modalRef}>
         <svg
           width="30"
@@ -234,12 +228,12 @@ function Tracker() {
               </>
             )}
             <div className="pie-div">
-              <TrackerChart data={portfolio} />
+              <PieChart data={portfolio} />
             </div>
           </div>
         </section>
       </section>
-    </>
+    </React.Fragment>
   );
 }
 

@@ -17,7 +17,11 @@ function Home() {
         <MarketInfo />
         <Table page={1} />
       </div>
-      <div className="scroll-to-top" onClick={() => scrollTo(top)}>
+      <div
+        className="scroll-to-top"
+        style={{ marginTop: "5px" }}
+        onClick={() => scrollTo(top)}
+      >
         <AiOutlineArrowUp />
         <p>Scroll to top!</p>
       </div>

@@ -34,6 +34,7 @@ p {
 :root {
   --text-color: #ffffff;
   --text-color-hover: #dfdfdf;
+  --black: #000;
   --background-color: #0f1214;
   --background-color-secondary: #1f2124;
   --navbar-color: #24272c;

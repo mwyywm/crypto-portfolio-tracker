@@ -12,24 +12,24 @@
   justify-content: space-between;
 }
 .portfolio-coin button {
+  fill: var(--text-color);
   border: 1px solid black;
   outline: none;
-  background-color: white;
+  background-color: var(--background-color);
   border-radius: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 34px;
   width: 34px;
-  transition: 0.25s;
+  transition: 0.2s;
 }
 .portfolio-coin button:hover {
-  transition: 0.25s;
-  background-color: rgb(228, 228, 228);
+  background-color: var(--navbar-button-color);
+  transition: 0.2s;
 }
 .portfolio-coin button:focus {
-  border: 2px solid black;
-  outline: none;
+  outline: 2px solid white;
   transition: 0s;
 }
 .portfolio-coin-name {
@@ -44,6 +44,7 @@
 .portfolio-coin-holdings {
   padding-left: 5px;
   min-width: 140px;
+  width: auto;
   text-align: right;
   display: flex;
   justify-content: space-between;
@@ -63,20 +64,20 @@
 }
 @media (max-width: 768px) {
   .portfolio-buttons {
-    display: inline-block;
+    display: block;
   }
   .portfolio-coin {
-    margin: 5px auto;
+    margin: 0 auto;
     display: flex;
     height: auto;
     flex-direction: column;
     justify-content: space-between;
-    background-color: rgb(224, 224, 224);
+    background-color: var(--background-color);
     border: 1px solid rgba(0, 0, 0, 0.3);
     border-radius: 8px;
   }
   .portfolio-coin-name {
-    margin: 5px;
+    padding: 5px;
   }
   .portfolio-coin-holdings {
     min-width: auto;
