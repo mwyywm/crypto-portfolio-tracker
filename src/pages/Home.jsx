@@ -8,10 +8,9 @@ import { useSearchParams } from "react-router-dom";
 function Home() {
   const [searchParams] = useSearchParams();
   const [currPage, setCurrPage] = useState();
+
   useEffect(() => {
-    if (document.title !== "cpt") {
-      document.title = "cpt";
-    }
+    document.title = "cpt";
   }, []);
 
   useEffect(() => {

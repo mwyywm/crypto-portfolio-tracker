@@ -106,9 +106,7 @@ function Tracker() {
     }
   }
   useEffect(() => {
-    if (document.title !== "cpt - Portfolio tracker") {
-      document.title = "cpt - Portfolio tracker";
-    }
+    document.title = "cpt - Portfolio tracker";
   }, []);
   useEffect(() => {
     if (modalError) {

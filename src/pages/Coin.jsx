@@ -36,9 +36,8 @@ function Coin() {
     }
   );
 
-  const title = document.title;
   useEffect(() => {
-    document.title = data?.name ? `cpt - ${data.name}` : title;
+    document.title = data?.name ? `cpt - ${data.name}` : document.title;
   }, [data]);
 
   if (error) {
@@ -48,13 +47,12 @@ function Coin() {
       </div>
     );
   }
-  if (!data && !error)
+  if (!data)
     return (
       <div style={{ textAlign: "center", marginTop: "20px" }}>
         <p>loading...</p>
       </div>
     );
-
   return (
     <section className="coinsection">
       <Breadcrumb text={data?.name ? data.name : ""} />

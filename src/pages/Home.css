@@ -11,6 +11,11 @@
   width: 1440px;
   /* table should be centered */
 }
+.pagination-wrapper {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+}
 .scroll-to-top {
   width: 200px;
   height: 50px;

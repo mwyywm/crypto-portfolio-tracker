@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import "./pagination.css";
 
 export const Pagination = () => {
-  // TODO: Store currentPage state in the URL
   // range of buttons to show
   const BUTTON_AMOUNT = 10;
   const totalPages = 100;
@@ -18,22 +18,14 @@ export const Pagination = () => {
   }, [page]);
 
   return (
-    <div
-      className="pagination"
-      style={{
-        display: "flex",
-        width: "400px",
-        margin: "0 auto",
-        justifyContent: "center",
-      }}
-    >
-      {/* Render 'Previous' button */}
-      {page > 0 && (
+    <div className="pagination">
+      {/* Render 'Previous' button, won't render when we are at first page */}
+      {page > 1 && (
         <button
           className="previous-button"
           onClick={() => setPage((state) => state - 1)}
         >
-          Previous
+          {"<"}
         </button>
       )}
       {Array.from({ length: totalPages }).map((_, i) => {
@@ -41,11 +33,7 @@ export const Pagination = () => {
 
         if (pageNumber >= start && pageNumber <= end) {
           return (
-            <button
-              style={{ maxWidth: "40px", maxHeight: "40px" }}
-              key={i}
-              onClick={() => setPage(pageNumber)}
-            >
+            <button key={i} onClick={() => setPage(pageNumber)}>
               {pageNumber}
             </button>
           );
@@ -53,13 +41,13 @@ export const Pagination = () => {
         return null;
       })}
 
-      {/* Render 'Next' button */}
+      {/* Render 'Next' button, won't render when we are at last page */}
       {page < totalPages && (
         <button
           className="next-button"
           onClick={() => setPage((state) => state + 1)}
         >
-          Next
+          {">"}
         </button>
       )}
     </div>
