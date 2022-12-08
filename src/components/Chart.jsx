@@ -40,19 +40,7 @@ export default function Chart({ chartObj }) {
           tickFormatter={(value) => formatNumber(value)}
         />
         <XAxis dataKey="date" stroke="white" />
-        <Tooltip
-          content={<CustomTooltip />}
-          // viewBox={{ x: 0, y: 0, width: 400, height: 400 }}
-          isAnimationActive={false}
-          // contentStyle={{
-          //   background: "black",
-          //   color: "white",
-          //   border: "1px solid black",
-          // }}
-          // itemStyle={{
-          //   color: "white",
-          // }}
-        />
+        <Tooltip content={<CustomTooltip />} isAnimationActive={false} />
         <Line
           type="monotone"
           dataKey="price"

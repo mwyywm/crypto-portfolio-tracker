@@ -24,7 +24,6 @@ function CustomTooltip({ payload, active }) {
   return null;
 }
 export default function TrackerChart({ data }) {
-  // destructure data from props
   const priceData = data?.map((coin) => {
     return {
       name: coin.name,

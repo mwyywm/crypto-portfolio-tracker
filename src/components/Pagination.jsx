@@ -17,6 +17,13 @@ export const Pagination = () => {
     setSearchParams(`pg=${page}`);
   }, [page]);
 
+  useEffect(() => {
+    // resetting the pagination state to 1 when we navigate to the page without '?pg=' params
+    if (!searchParams.has("pg")) {
+      setPage(1);
+    }
+  }, [searchParams]);
+
   return (
     <div className="pagination">
       {/* Render 'Previous' button, won't render when we are at first page */}
