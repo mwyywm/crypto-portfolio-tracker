@@ -7,17 +7,30 @@ import ScrollContainer from "react-indiana-drag-scroll";
 const formatBigNum = Intl.NumberFormat("en", { notation: "compact" });
 
 export default function MarketInfo() {
-  const { data, error } = useSWR("https://api.coingecko.com/api/v3/global", {
-    revalidateOnFocus: false,
-  });
+  const { data, error, isValidating } = useSWR(
+    "https://api.coingecko.com/api/v3/global",
+    {
+      revalidateOnFocus: false,
+    }
+  );
   const { data: trendingData, error: trendingError } = useSWR(
     "https://api.coingecko.com/api/v3/search/trending",
     {
       revalidateOnFocus: false,
     }
   );
+  if (!data || isValidating)
+    // loading skeleton
+    return (
+      <div className="market-info">
+        <div className="market-card"></div>
+        <div className="market-card"></div>
+        <div className="market-card"></div>
+        <div className="market-card"></div>
+        <div className="market-card"></div>
+      </div>
+    );
   if (error || trendingError) return <div>failed to load</div>;
-
   const cardObjects = {
     globalmktcap: {
       title: "Global Market Cap",

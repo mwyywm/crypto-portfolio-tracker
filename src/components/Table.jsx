@@ -56,7 +56,7 @@ export default function Coinrow({ page }) {
         ),
       }),
       columnHelper.accessor("price_change_percentage_24h", {
-        header: () => <span>24 Change</span>,
+        header: () => <span>24h Change</span>,
         invertSorting: true,
         cell: (props) => (
           <div
@@ -93,13 +93,17 @@ export default function Coinrow({ page }) {
   });
 
   if (isValidating || !data) {
-    return <div>loading</div>;
+    // loading skeleton
+    return (
+      <div className="coinlist">
+        <div style={{ width: "100%", height: "100vh" }}></div>
+      </div>
+    );
   }
   if (error)
     return (
       <div>
         <h1>404</h1>
-        <p>Loading failed...</p>
       </div>
     );
 
