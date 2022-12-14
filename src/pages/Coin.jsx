@@ -6,6 +6,7 @@ import Chart from "../components/Chart";
 import CoinConverter from "../components/CoinConverter";
 import Breadcrumb from "../components/Breadcrumb";
 import formatNumber from "../utils/formatNumber";
+import Skeleton from "../components/Skeleton";
 
 function Coin() {
   let params = useParams();
@@ -49,9 +50,12 @@ function Coin() {
   }
   if (!data)
     return (
-      <div style={{ textAlign: "center", marginTop: "20px" }}>
-        <p>loading...</p>
-      </div>
+      <section className="coinsection">
+        <Breadcrumb />
+        <section className="coin-chart-box">
+          <Skeleton height="334.25px" padding="40px" maxWidth={"1100px"} />
+        </section>
+      </section>
     );
   return (
     <section className="coinsection">

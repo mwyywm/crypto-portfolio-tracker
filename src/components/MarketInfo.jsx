@@ -3,6 +3,7 @@ import MrktCard from "./MrktCard";
 import "./marketInfo.css";
 import useSWR from "swr";
 import ScrollContainer from "react-indiana-drag-scroll";
+import Skeleton from "./Skeleton";
 
 const formatBigNum = Intl.NumberFormat("en", { notation: "compact" });
 
@@ -19,18 +20,19 @@ export default function MarketInfo() {
       revalidateOnFocus: false,
     }
   );
+
   if (!data || isValidating)
-    // loading skeleton
     return (
       <div className="market-info">
-        <div className="market-card"></div>
-        <div className="market-card"></div>
-        <div className="market-card"></div>
-        <div className="market-card"></div>
-        <div className="market-card"></div>
+        <Skeleton height={"130px"} />
+        <Skeleton height={"130px"} />
+        <Skeleton height={"130px"} />
+        <Skeleton height={"130px"} />
+        <Skeleton height={"130px"} />
       </div>
     );
   if (error || trendingError) return <div>failed to load</div>;
+
   const cardObjects = {
     globalmktcap: {
       title: "Global Market Cap",
@@ -73,6 +75,7 @@ export default function MarketInfo() {
       },
     },
   };
+
   return (
     <ScrollContainer
       className="market-info"
