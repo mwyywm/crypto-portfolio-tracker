@@ -1,11 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./breadcrumb.css";
+import Skeleton from "./Skeleton";
 
 export default function Breadcrumb({ text }) {
   return (
     <div className="breadcrumb">
-      {text && (
+      {text ? (
         <>
           <Link to="/" className="breadcrumb-home">
             <p className="breadcrumb-home">Home</p>
@@ -26,6 +27,8 @@ export default function Breadcrumb({ text }) {
           </svg>
           <p>{text}</p>
         </>
+      ) : (
+        <Skeleton height="20px" width="120px" />
       )}
     </div>
   );

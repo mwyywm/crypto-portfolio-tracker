@@ -19,7 +19,7 @@ function Home() {
 
   // TODO: Pagination component under table - use URL search params for page state
   return (
-    <div className="home">
+    <section className="home">
       <div className="content" style={{ minHeight: "100vh" }}>
         <MarketInfo />
         <Table page={currPage} />
@@ -27,15 +27,7 @@ function Home() {
       <div className="pagination-wrapper">
         <Pagination currentPage={0} totalPages={100} />
       </div>
-      <div
-        className="scroll-to-top"
-        style={{ marginTop: "5px" }}
-        onClick={() => scrollTo(top)}
-      >
-        <AiOutlineArrowUp />
-        <p>Scroll to top!</p>
-      </div>
-    </div>
+    </section>
   );
 }
 

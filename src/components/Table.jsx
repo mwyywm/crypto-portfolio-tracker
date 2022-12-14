@@ -11,6 +11,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import Skeleton from "./Skeleton";
 
 const columnHelper = createColumnHelper();
 
@@ -93,10 +94,9 @@ export default function Coinrow({ page }) {
   });
 
   if (isValidating || !data) {
-    // loading skeleton
     return (
       <div className="coinlist">
-        <div style={{ width: "100%", height: "100vh" }}></div>
+        <Skeleton height={"100vh"} />
       </div>
     );
   }

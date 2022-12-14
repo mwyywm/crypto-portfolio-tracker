@@ -23,7 +23,7 @@
   color: var(--text-color);
 }
 
-button {
+.pagination button {
   padding: 10px 20px;
   background-color: var(--background-color-secondary);
   border-radius: 8px;
@@ -35,7 +35,7 @@ button {
   text-transform: uppercase;
 }
 
-button:hover {
+.pagination button:hover {
   background-color: var(--navbar-color);
 }
 
@@ -45,7 +45,7 @@ button:hover {
     gap: 5px;
   }
 
-  button {
+  .pagination button {
     margin: 2px 2px;
     padding: 10px;
   }

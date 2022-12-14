@@ -30,7 +30,10 @@ export const Pagination = () => {
       {page > 1 && (
         <button
           className="previous-button"
-          onClick={() => setPage((state) => state - 1)}
+          onClick={() => {
+            setPage((state) => parseInt(state) - 1);
+            scrollTo(top);
+          }}
         >
           {"<"}
         </button>
@@ -40,7 +43,13 @@ export const Pagination = () => {
 
         if (pageNumber >= start && pageNumber <= end) {
           return (
-            <button key={i} onClick={() => setPage(pageNumber)}>
+            <button
+              key={i}
+              onClick={() => {
+                setPage(pageNumber);
+                scrollTo(top);
+              }}
+            >
               {pageNumber}
             </button>
           );
@@ -52,7 +61,10 @@ export const Pagination = () => {
       {page < totalPages && (
         <button
           className="next-button"
-          onClick={() => setPage((state) => state + 1)}
+          onClick={() => {
+            setPage((state) => parseInt(state) + 1);
+            scrollTo(top);
+          }}
         >
           {">"}
         </button>
