@@ -60,7 +60,7 @@ function Coin() {
   return (
     <section className="coinsection">
       <Breadcrumb text={data?.name ? data.name : ""} />
-      <section className="coin-chart-box">
+      <div className="coin-chart-box">
         <div className="coin">
           <div className="coin-heading">
             <img
@@ -145,7 +145,7 @@ function Coin() {
             <Chart coin={params?.coin} chartObj={chartObj} />
           )}
         </div>
-      </section>
+      </div>
       {data?.market_data && (
         <CoinConverter
           priceOfCoin={data.market_data.current_price.usd}

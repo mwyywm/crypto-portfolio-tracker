@@ -15,23 +15,5 @@
   width: 100%;
   max-width: 1440px;
   margin: 0 auto;
-}
-.scroll-to-top {
-  width: 200px;
-  height: 50px;
-  max-width: 100%;
-  margin: 0 auto;
   margin-bottom: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: column;
-}
-.scroll-to-top p {
-  padding: 0;
-  margin: 0;
-}
-.scroll-to-top:hover {
-  cursor: pointer;
-  border-radius: 8px;
 }
