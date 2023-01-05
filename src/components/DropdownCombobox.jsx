@@ -231,16 +231,19 @@ export function NavbarSearch({
   }
 
   function handleKeyDown(e) {
-    // CTRL + K to focus on nav search
-    if (e.ctrlKey && e.key.toLowerCase() === "k") {
+    // CTRL + K / ⌘ + K to focus on nav search
+    if (
+      (e.ctrlKey && e.key.toLowerCase() === "k") ||
+      (e.metaKey && e.key.toLowerCase() === "k")
+    ) {
       e.preventDefault(); // prevent ctrl+k from opening the search bar.
       searchRef.current.focus();
     }
   }
   useEffect(() => {
-    addEventListener("keydown", handleKeyDown);
+    document.addEventListener("keydown", handleKeyDown);
     return () => {
-      removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
   return (
