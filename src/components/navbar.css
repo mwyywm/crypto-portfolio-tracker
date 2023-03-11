@@ -75,7 +75,8 @@
 .nav-links .link:hover {
   background-color: var(--navbar-button-color-hover);
 }
-.nav-links .link:focus {
+
+.nav-links .link:focus-visible {
   background-color: var(--navbar-button-color-hover);
   border: none;
   outline: none;
