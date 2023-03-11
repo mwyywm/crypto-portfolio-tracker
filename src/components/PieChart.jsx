@@ -60,6 +60,7 @@ export default function TrackerChart({ data }) {
         y={y}
         fill="black"
         textAnchor={x > cx ? "start" : "end"}
+        style={{ pointerEvents: "none" }}
         fontSize="20"
       >
         {`${(percent * 100).toFixed(0)}%`}
